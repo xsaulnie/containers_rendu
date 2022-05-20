@@ -17,7 +17,7 @@ void test_RBTree();
 int main()
 {
 	//test_utils();
-	//test_vector();
+	test_vector();
 	//test_stack();
     //test_RBTree();
 	//test_map();

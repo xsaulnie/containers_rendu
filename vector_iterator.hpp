@@ -1,6 +1,6 @@
 #ifndef VEC_ITER
 #define VEC_ITER
-
+#include "vector.hpp"
 namespace ft {template<class T> class const_vector_iterator;}
 #include "const_vector_iterator.hpp"
 
@@ -19,8 +19,8 @@ class vector_iterator
         typedef std::random_access_iterator_tag iterator_category;
 
         vector_iterator();
-        vector_iterator(pointer ptr);
         vector_iterator(const vector_iterator &cpy);
+        vector_iterator(pointer ptr);
         vector_iterator &operator=(const vector_iterator &rhs);
 
         vector_iterator &operator++();
@@ -53,9 +53,8 @@ class vector_iterator
         bool operator<(const ft::const_vector_iterator<T> &rhs) const;
         bool operator>=(const ft::const_vector_iterator<T> &rhs) const;
         bool operator<=(const ft::const_vector_iterator<T> &rhs) const;
-	
-        pointer getptr() const;
 
+        pointer getptr() const;
 };
 }
 

@@ -25,21 +25,6 @@ void display_reverseit(typename ns::vector<T> vec)
 }
 
 template<typename T>
-void display_reverse(typename ns::vector<T> vec)
-{
-	size_t i;
-
-	typename ns::vector<T>::reverse_iterator it;
-	i = vec.size();
-	while (i > 0 )
-	{
-		std::cout << "{" << it[i] << "}";
-		i--;
-	}
-	std::cout << std::endl;
-}
-
-template<typename T>
 void display_vector(typename ns::vector<T> &vec, const std::string &name = "")
 {
 	std::cout << name << " ";
@@ -75,139 +60,12 @@ void test_capacity(bool reserved)
 	}
 }
 
-/*
-void test_awesome()
-{
-	ns::vector<Awesome> test(21, 12);
-	display_vector(test);
-	ns::vector<Awesome> test2;
-	display_vector(test2);
-	test2.push_back(12);
-	test2.push_back(8);
-	test2.push_back(16);
-	
-	display_vector(test2);
-	
-	test.assign(test2.begin(), test2.end());
-	display_vector(test);
-
-	test = test2;
-	
-	display_vector(test);
-
-	test.insert(test.end(), test2.begin(), test2.end());
-	
-	display_vector(test);
-	
-	test.insert(test.begin(), test2.begin(), test2.end());
-	display_vector(test);
-
-
-
-	//ns::vector<Awesome> test2;
-	//display_vector(test2);
-	//test2.push_back(12);
-	//test2.push_back(8);
-	//test2.push_back(16);
-}
-*/
-
 void test_vector()
 {
-	std::cout << std::endl << "REVERSE IT TESTS" << std::endl;
-	ns::vector<int> test;
-	for (size_t i = 0; i < 12; i++) { test.push_back(i); }
-	typename ns::vector<int>::reverse_iterator		revbeg = test.rbegin();
-	for (typename ns::vector<int>::reverse_iterator it = revbeg; it != test.rend(); it++)
-	{
-		std::cout << *it << " (" << revbeg - it << ") ";
-
-		if (!((revbeg - it) % 10) && it != revbeg)
-			std::cout << std::endl;
-	}
-
-	ns::vector<int>::const_reverse_iterator cpyr;
-
-	cpyr = test.rbegin() + 3;
-
-	std::cout << "!!" << cpyr - revbeg << "!!" << std::endl;
-	return ;
-	ns::vector<int> insT;
-
-
-    ns::vector<int> exp;
-	ns::vector<int>::iterator lul;
-	ns::vector<int>::iterator otherlul(lul); //--->classe iterateur
-	exp.push_back(1);exp.push_back(2);exp.push_back(3); exp.push_back(4);
-	lul = exp.begin();
-	otherlul = exp.begin() + 2;
-
-	if (otherlul > lul)
-		std::cout << "it is true";
-	else
-		std::cout << "it is false";
-	std::cout << *(1 + otherlul) << std::endl;
-
-	(void)otherlul;
-	return ;
-
-	ns::vector<int> resiz(12, 12);
-	std::cout << "s: "<< resiz.size() << "c:" << resiz.capacity() << std::endl;
-	resiz.resize(26);
-		std::cout << "s: "<< resiz.size() << "c:" << resiz.capacity() << std::endl;
-	return ;
-
-	resiz.resize(1028);
-	std::cout << "s: "<< resiz.size() << "c:" << resiz.capacity() << std::endl;
-	return ;
-  ns::vector<int> Myvector (3,100);
-  ns::vector<int>::iterator mit;
-
-  mit = Myvector.begin();
-  mit = Myvector.insert ( mit , 200 );
-  std::cout << Myvector.capacity() <<" " << Myvector.size()<<" myvector contains:";
-  for (mit=Myvector.begin(); mit<Myvector.end(); mit++)
-    std::cout << ' ' << *mit;
-  std::cout << '\n';
-	return ;
-
-	ns::vector<int> vct(10);
-	ns::vector<int> vct2;
-
-	for (unsigned long int i = 0 ; i < vct.size() ; ++i)
-		vct[i] = (vct.size() - i) * 3;
-	display_vector(vct, "vct");
-	vct2.insert(vct2.begin(), vct.begin(), vct.end() - 2);
-	display_vector(vct2, "vct2");
-
-	vct.swap(vct2);
-
-	display_vector(vct, "vct");
-	display_vector(vct2, "vct2");
-
-/*
-	ns::vector<int>::iterator ites;
-
-	ites = vct.begin();
-	ns::vector<int>::reverse_iterator rites(ites);
-
-	ns::vector<int>::const_reverse_iterator crites(rites);
-
-	const int * const_it;
-	int * n_it;
-
-	int tab[10];
-	
-	const_it = tab + 6;
-	n_it = tab + 6;
-
-	if (const_it == n_it)
-		std::cout << "OK" << std::endl;
-*/	
-	return ;
-
+	std::cout << "TEST CONSTRUCTORS" << std::endl;
+	std::cout << "Default constructor" << std::endl;
 	ns::vector<int> first;
-	display_vector(first, "default constructor");
+	display_vector(first, "first");
 	first.push_back(12);
 	display_vector(first, "push_back 1");
 	first.push_back(28);
@@ -215,20 +73,23 @@ void test_vector()
 	std::cout << "first ";
 	displayit_vector(first);
 	display_vector(first, "first");
+	std::cout << "n elements constructor" << std::endl;
 	ns::vector<int> second(10, 8);
 	second.push_back(-3);
 	std::cout << "second ";
 	displayit_vector(second);
+	std::cout << "Iterator constructor" << std::endl;
 	ns::vector<int> third(first.begin(), first.end());
 	third.push_back(3);
 	display_vector(third, "third");
+	std::cout << "copy constructor" << std::endl;
 	ns::vector<int> cpy(third);
 	
 	if (cpy == third)
 		std::cout << "cpy and third are equal" << std::endl;
 	
 	display_vector(cpy, "cpy");
-	std::cout << std::endl;
+	std::cout << std::endl << "Affectation operator" << std::endl;
 
 	ns::vector<int> b(20, 3);
 	ns::vector<int> a(10, 8);
@@ -240,13 +101,14 @@ void test_vector()
 	display_vector(a, "a = b");
 	std::cout << "a = b Size and capacity : " << a.size() << " " << a.capacity() << std::endl;
 
+	std::cout << std::endl << "Reverse iterator test" << std::endl;
 	ns::vector<int> order;
 	order.push_back(0); order.push_back(1); order.push_back(2); order.push_back(3); order.push_back(4);
 	display_vector(order, "order");
 	std::cout << "order ";
 	display_reverseit(order);
 
-	//display_reverse(order);
+	std::cout << "Size and Resize test" << std::endl;
 	ns::vector<double> big;
 	std::vector<double> bigc;
 	std::cout << "Maximum size " << big.max_size() << std::endl;
@@ -254,15 +116,19 @@ void test_vector()
 	ns::vector<int> muta(10, 0);
 	display_vector(muta, "muta");
 	muta.resize(15, 1);
+	std::cout << "resize muta to 15" << std::endl;
 	display_vector(muta, "muta");
 
 	ns::vector<int> muto(10, 0);
 	display_vector(muto, "muto");
 	muto.resize(5, 1);
+	std::cout << "resize muto to 5 with value 1" << std::endl
 	display_vector(muto, "muto");
 	muto.resize(7, 2);
+	std::cout << "resize muto to 7 with value 2" << std::endl
 	display_vector(muto, "muto");
 	muto.resize(0);
+	std::cout << "resize muto to 0 " << std::endl
 	display_vector(muto, "muto");
 	if (muto.empty())
 		std::cout << "muto is empty" << std::endl;
@@ -274,8 +140,11 @@ void test_vector()
 	place.reserve(100);
 	display_vector(place, "place reserved 100");
 
+	std::cout << std::endl << "Capazity test" << std::endl;
 	test_capacity(false);
+	std::cout << "capacity test with 50 reserved" << std::endl;
 	test_capacity(true);
+
 
 	ns::vector<int> assigned;
 

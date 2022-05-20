@@ -49,7 +49,6 @@ class vector
 		typedef typename ft::reverse_iterator<iterator> reverse_iterator;
 		typedef typename ft::reverse_iterator<const_iterator> const_reverse_iterator;
 		typedef typename ft::iterator_traits<iterator>::difference_type  difference_type;
-		//typedef typename std::ptrdiff_t difference_type;
 		typedef size_t size_type; //a changer
 
 		// Constructor

@@ -19,9 +19,10 @@ class const_vector_iterator
         typedef std::random_access_iterator_tag iterator_category;
 
         const_vector_iterator();
-        const_vector_iterator(pointer ptr);
+
         const_vector_iterator(const const_vector_iterator &cpy);
 		const_vector_iterator(const ft::vector_iterator<T> &cpy);
+        const_vector_iterator(pointer ptr);
         const_vector_iterator &operator=(const const_vector_iterator &rhs);
 		const_vector_iterator &operator=(const ft::vector_iterator<T> &rhs);
 
@@ -55,9 +56,8 @@ class const_vector_iterator
 		bool operator<(const ft::const_vector_iterator<T> &rhs) const;
         bool operator<=(const ft::const_vector_iterator<T> &rhs) const;
 		bool operator>=(const ft::const_vector_iterator<T> &rhs) const;
-
+    
         pointer getptr() const;
-
 };
 }
 
