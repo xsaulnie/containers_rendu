@@ -114,7 +114,24 @@ void test_awesome()
 
 void test_vector()
 {
-	
+	std::cout << std::endl << "REVERSE IT TESTS" << std::endl;
+	ns::vector<int> test;
+	for (size_t i = 0; i < 12; i++) { test.push_back(i); }
+	typename ns::vector<int>::reverse_iterator		revbeg = test.rbegin();
+	for (typename ns::vector<int>::reverse_iterator it = revbeg; it != test.rend(); it++)
+	{
+		std::cout << *it << " (" << revbeg - it << ") ";
+
+		if (!((revbeg - it) % 10) && it != revbeg)
+			std::cout << std::endl;
+	}
+
+	ns::vector<int>::const_reverse_iterator cpyr;
+
+	cpyr = test.rbegin() + 3;
+
+	std::cout << "!!" << cpyr - revbeg << "!!" << std::endl;
+	return ;
 	ns::vector<int> insT;
 
 

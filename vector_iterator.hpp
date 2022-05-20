@@ -12,7 +12,7 @@ class vector_iterator
     protected:
         T*  ptr;
     public:
-        typedef size_t difference_type;
+        typedef std::ptrdiff_t difference_type;
         typedef T       value_type;
         typedef T*      pointer;
         typedef T&      reference;
@@ -29,6 +29,8 @@ class vector_iterator
         vector_iterator operator--(int);
 
         vector_iterator operator-(difference_type n) const;
+        difference_type operator-(const vector_iterator &rhs) const;
+        difference_type operator-(const const_vector_iterator<T> &rhs) const;
         vector_iterator operator+(difference_type n) const;
 
         vector_iterator &operator+=(difference_type n);
@@ -38,10 +40,19 @@ class vector_iterator
 		pointer operator->() const;
 		reference operator*() const;
 	
-		bool operator==(const ft::const_vector_iterator<T> &rhs) const;
-		bool operator!=(const ft::const_vector_iterator<T> &rhs) const;
 		bool operator==(const ft::vector_iterator<T> &rhs) const;
-		bool operator!=(const ft::vector_iterator<T> &rhs) const;
+        bool operator!=(const ft::vector_iterator<T> &rhs) const;
+        bool operator>(const ft::vector_iterator<T> &rhs) const;
+        bool operator<(const ft::vector_iterator<T> &rhs) const;
+        bool operator>=(const ft::vector_iterator<T> &rhs) const;
+        bool operator<=(const ft::vector_iterator<T> &rhs) const;
+
+		bool operator==(const ft::const_vector_iterator<T> &rhs) const;
+        bool operator!=(const ft::const_vector_iterator<T> &rhs) const;
+        bool operator>(const ft::const_vector_iterator<T> &rhs) const;
+        bool operator<(const ft::const_vector_iterator<T> &rhs) const;
+        bool operator>=(const ft::const_vector_iterator<T> &rhs) const;
+        bool operator<=(const ft::const_vector_iterator<T> &rhs) const;
 	
         pointer getptr() const;
 
@@ -165,33 +176,21 @@ typename ft::vector_iterator<T>::difference_type operator-(const ft::vector_iter
 }
 
 template<class T>
+typename ft::vector_iterator<T>::difference_type ft::vector_iterator<T>::operator-(const ft::vector_iterator<T> &rhs) const
+{
+	return(this->getptr() - rhs.getptr());
+}
+
+template<class T>
+typename ft::vector_iterator<T>::difference_type ft::vector_iterator<T>::operator-(const ft::const_vector_iterator<T> &rhs) const
+{
+	return(this->getptr() - rhs.getptr());
+}
+
+template<class T>
 typename ft::vector_iterator<T> operator+(typename ft::vector_iterator<T>::difference_type n, const ft::vector_iterator<T> &it)
 {
 	return (ft::vector_iterator<T>(it.getptr() + n));
-}
-
-template<class T>
-bool operator==(const ft::vector_iterator<T> &lhs, const ft::vector_iterator<T> &rhs)
-{
-	return (lhs.getptr() == rhs.getptr());
-}
-
-template<class T>
-bool operator!=(const ft::vector_iterator<T> &lhs, const ft::vector_iterator<T> &rhs)
-{
-	return (lhs.getptr() != rhs.getptr());
-}
-
-template<class T>
-bool ft::vector_iterator<T>::operator==(const ft::const_vector_iterator<T> &rhs) const
-{
-	return (this->getptr() == rhs.getptr());
-}
-
-template<class T>
-bool ft::vector_iterator<T>::operator!=(const ft::const_vector_iterator<T> &rhs) const
-{
-	return (this->getptr() != rhs.getptr());
 }
 
 template<class T>
@@ -207,16 +206,63 @@ bool ft::vector_iterator<T>::operator!=(const ft::vector_iterator<T> &rhs) const
 }
 
 template<class T>
-bool operator<(const ft::vector_iterator<T> &lhs, const ft::vector_iterator<T> &rhs)
+bool ft::vector_iterator<T>::operator>(const ft::vector_iterator<T> &rhs) const
 {
-	return (lhs.getptr() < rhs.getptr());
+	return (this->getptr() > rhs.getptr());
 }
 
 template<class T>
-bool operator>(const ft::vector_iterator<T> &lhs, const ft::vector_iterator<T> &rhs)
+bool ft::vector_iterator<T>::operator<(const ft::vector_iterator<T> &rhs) const
 {
-	return (lhs.getptr() > rhs.getptr());
+	return (this->getptr() < rhs.getptr());
 }
 
+template<class T>
+bool ft::vector_iterator<T>::operator>=(const ft::vector_iterator<T> &rhs) const
+{
+	return (this->getptr() >= rhs.getptr());
+}
+
+template<class T>
+bool ft::vector_iterator<T>::operator<=(const ft::vector_iterator<T> &rhs) const
+{
+	return (this->getptr() <= rhs.getptr());
+}
+
+template<class T>
+bool ft::vector_iterator<T>::operator==(const ft::const_vector_iterator<T> &rhs) const
+{
+	return (this->getptr() == rhs.getptr());
+}
+
+template<class T>
+bool ft::vector_iterator<T>::operator!=(const ft::const_vector_iterator<T> &rhs) const
+{
+	return (this->getptr() != rhs.getptr());
+}
+
+template<class T>
+bool ft::vector_iterator<T>::operator>(const ft::const_vector_iterator<T> &rhs) const
+{
+	return (this->getptr() > rhs.getptr());
+}
+
+template<class T>
+bool ft::vector_iterator<T>::operator<(const ft::const_vector_iterator<T> &rhs) const
+{
+	return (this->getptr() < rhs.getptr());
+}
+
+template<class T>
+bool ft::vector_iterator<T>::operator>=(const ft::const_vector_iterator<T> &rhs) const
+{
+	return (this->getptr() >= rhs.getptr());
+}
+
+template<class T>
+bool ft::vector_iterator<T>::operator<=(const ft::const_vector_iterator<T> &rhs) const
+{
+	return (this->getptr() <= rhs.getptr());
+}
 
 #endif
