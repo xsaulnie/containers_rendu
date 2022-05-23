@@ -122,13 +122,13 @@ void test_vector()
 	ns::vector<int> muto(10, 0);
 	display_vector(muto, "muto");
 	muto.resize(5, 1);
-	std::cout << "resize muto to 5 with value 1" << std::endl
+	std::cout << "resize muto to 5 with value 1" << std::endl;
 	display_vector(muto, "muto");
 	muto.resize(7, 2);
-	std::cout << "resize muto to 7 with value 2" << std::endl
+	std::cout << "resize muto to 7 with value 2" << std::endl;
 	display_vector(muto, "muto");
 	muto.resize(0);
-	std::cout << "resize muto to 0 " << std::endl
+	std::cout << "resize muto to 0 " << std::endl;
 	display_vector(muto, "muto");
 	if (muto.empty())
 		std::cout << "muto is empty" << std::endl;

@@ -1,73 +1,72 @@
-#ifndef RBTree_HPP
-#define RBTree_HPP
+#ifndef RBtre_HPP
+#define RBtre_HPP
 #include <iostream>
 #include "stdlib.h"
 #include "pair.hpp"
 
-
 //const T pair
 
-template<class T, class V, class C = std::less<T> >
-class RBtree
+template<class T, class C = std::less<T> >
+class RBtre
 {
 	public:
 
-	typedef typename std::allocator<ft::pair<const T, V> > alloc_t;
+	typedef typename std::allocator<T> alloc_t;
 
-	RBtree          		*left;
-	RBtree          		*right;
-	RBtree          		*parent;
-	bool					color;
-	ft::pair<const T, V> 	*p;
+	RBtre          		*left;
+	RBtre          		*right;
+	RBtre          		*parent;
+	bool				color;
+	const T 	        *p;
 
 	//Constructor
-	RBtree<T, V, C>(alloc_t &Alloc);
-	RBtree<T, V, C>(const T &key, const V &val, alloc_t &Alloc);
+	RBtre<T, C>(alloc_t &Alloc);
+	RBtre<T, C>(const T &val, alloc_t &Alloc);
 	
-		RBtree<T, V, C> *getpar(RBtree<T, V, C> *n);
-		RBtree<T, V, C> *grandparent(RBtree<T, V, C> *n);
-		RBtree<T, V, C> *brother(RBtree<T, V, C> *n);
-		RBtree<T, V, C> *oncle(RBtree<T, V, C> *n);
+		RBtre<T, C> *getpar(RBtre<T, C> *n);
+		RBtre<T, C> *grandparent(RBtre<T, C> *n);
+		RBtre<T, C> *brother(RBtre<T, C> *n);
+		RBtre<T, C> *oncle(RBtre<T, C> *n);
 
-		void rot_left(RBtree<T, V, C> *n);
-		void rot_right(RBtree<T, V, C> *n);
-		RBtree<T, V, C> *search(RBtree<T, V, C> *rac, const T &key, C &comp);
-		RBtree<T, V, C> *search(RBtree<T, V, C> *rac, const T &key, const C &comp) const;
-		void new_element(RBtree<T, V, C> *rac, RBtree<T, V, C> *n, C &comp);
-		void repare(RBtree<T, V, C>  *n);
-		void repareOncleBlack(RBtree<T, V, C> *n);
-		bool blackNephews(RBtree<T, V, C> *n);
-		RBtree<T, V, C> *insert(RBtree<T, V, C> *rac, RBtree<T, V, C> *n, C &comp);
-		RBtree<T, V, C> *vanish(RBtree<T, V, C> *rac, const T &key, bool &erased, C &comp, alloc_t &Alloc);
-		RBtree<T, V, C> *tovanish(RBtree<T, V, C> *start, alloc_t &Alloc);
-		RBtree<T, V, C> *reparevanish(RBtree<T, V, C> *rac, RBtree<T, V, C> *n);
-		RBtree<T, V, C> *getrac(RBtree<T, V, C> *n);
+		void rot_left(RBtre<T, C> *n);
+		void rot_right(RBtre<T, C> *n);
+		RBtre<T, C> *search(RBtre<T, C> *rac, const T &key, C &comp);
+		RBtre<T, C> *search(RBtre<T, C> *rac, const T &key, const C &comp) const;
+		void new_element(RBtre<T, C> *rac, RBtre<T, C> *n, C &comp);
+		void repare(RBtre<T, C>  *n);
+		void repareOncleBlack(RBtre<T, C> *n);
+		bool blackNephews(RBtre<T, C> *n);
+		RBtre<T, C> *insert(RBtre<T, C> *rac, RBtre<T, C> *n, C &comp);
+		RBtre<T, C> *vanish(RBtre<T, C> *rac, const T &key, bool &erased, C &comp, alloc_t &Alloc);
+		RBtre<T, C> *tovanish(RBtre<T, C> *start, alloc_t &Alloc);
+		RBtre<T, C> *reparevanish(RBtre<T, C> *rac, RBtre<T, C> *n);
+		RBtre<T, C> *getrac(RBtre<T, C> *n);
 
-		void supress(RBtree<T, V, C> *n, alloc_t &Alloc);
-		void clear(RBtree<T, V, C> *rac, alloc_t &Alloc);
+		void supress(RBtre<T, C> *n, alloc_t &Alloc);
+		void clear(RBtre<T, C> *rac, alloc_t &Alloc);
 
-		RBtree<T, V, C> *RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V> > &Alloc);
+		RBtre<T, C> *RBval(const T &val, std::allocator<T > &Alloc);
 
 };
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::getrac(RBtree<T, V, C> *n)
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::getrac(RBtre<T, C> *n)
 {
-	RBtree<T, V, C> *res;
+	RBtre<T, C> *res;
 
 	res = n;
 	while (getpar(res) != NULL)
 		res = getpar(res);
 	return (res);
 }
+/*
+template <class T, class C>
+void display_node(RBtre<T, C> *n, std::string name);
 
-template <class T, class V, class C>
-void display_node(RBtree<T, V, C> *n, std::string name);
-
-template<class T, class V, class C>
-void disp_tree(RBtree<T, V, C> *n)
+template<class T, class C>
+void disp_tree(RBtre<T, C> *n)
 {
-	RBtree<T, V, C> *rac;
+	RBtre<T, C> *rac;
 	std::cout << "enter " << std::endl;
 	rac = n;
 	while (n->getpar(rac) != NULL)
@@ -77,8 +76,8 @@ void disp_tree(RBtree<T, V, C> *n)
 	std::cout << "----------------------" << std::endl;
 }
 
-template<class T, class V, class C>
-void display_tree(RBtree<T, V, C> *rac, int sp)
+template<class T, class C>
+void display_tree(RBtre<T, C> *rac, int sp)
 {
 	if (rac == NULL)
 		return ;
@@ -94,72 +93,71 @@ void display_tree(RBtree<T, V, C> *rac, int sp)
 		std::cout << " ";
 	}
 	if (rac->color == 1)
-		std::cout << "|" << rac->p->first << "|" << std::endl;
+		std::cout << "|" << rac->p << "|" << std::endl;
 	else
 	{
-		std::cout << rac->p->first << std::endl;
+		std::cout << rac->p << std::endl;
 	}
 	display_tree(rac->left, sp);
 }
+*/
+template<class T, class C>
+RBtre<T, C> *RBval(const T &val, std::allocator<T> &Alloc);
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V> > &Alloc);
+//template<class T, class C>
+//void display_tree(RBtre<T, C> *rac, int sp);
 
-template<class T, class V, class C>
-void display_tree(RBtree<T, V, C> *rac, int sp);
-
-template<class T, class V, class C>
-RBtree<T, V, C>::RBtree(const T &key, const V &val, alloc_t &Alloc)
+template<class T, class C>
+RBtre<T, C>::RBtre(const T &val, alloc_t &Alloc)
 {
 	this->parent = NULL;
 	this->color = 0;
 	this->left = NULL;
 	this->right = NULL;
 	this->p = Alloc.allocate(1);
-	Alloc.construct(this->p, ft::make_pair<const T, V>(key, val));
-	//std::cout << "()" <<this->p->first << " " << this->p->second << "()" << std::endl;
+	Alloc.construct(this->p, val);
 }
 
-template <class T, class V, class C> 
-RBtree<T, V, C>::RBtree(alloc_t &Alloc)
+template <class T, class C> 
+RBtre<T, C>::RBtre(alloc_t &Alloc)
 {
 	this->color = 0;
 	this->parent = NULL;
 	this->left = NULL;
 	this->right = NULL;
 	this->p = Alloc.allocate(1);
-	Alloc.construct(this->p, ft::make_pair<const T, V>(T(), V()));
+	Alloc.construct(this->p, T());
 }
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V> > &Alloc)
+template<class T, class C>
+RBtre<T, C> *RBval(const T &val, std::allocator<T> &Alloc)
 {
-	return new RBtree<T, V, C>(key, val, Alloc);
+	return new RBtre<T, C>(val, Alloc);
 }
 
-template <class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V> > &Alloc)
+template <class T, class C>
+RBtre<T, C> *RBtre<T, C>::RBval(const T &val, std::allocator<T> &Alloc)
 {
-	return new RBtree<T, V, C>(key, val, Alloc);
+	return new RBtre<T, C>(val, Alloc);
 }
 
 /*
-template<class T, class V, class C>
-RBtree<T, const V, C> *const_RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V>> &Alloc)
+template<class T, class C>
+RBtre<T, const V, C> *const_RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V>> &Alloc)
 {
-	return new RBtree<T, const V, C>(key, val, Alloc);
+	return new RBtre<T, const V, C>(key, val, Alloc);
 }
 */
 
 
-template<class T, class V, class C>
-void RBtree<T, V, C>::clear(RBtree<T, V, C> *rac, alloc_t &Alloc)
+template<class T, class C>
+void RBtre<T, C>::clear(RBtre<T, C> *rac, alloc_t &Alloc)
 {
 	if (rac == NULL)
 		return ;
 	if (rac->left == NULL && rac->right == NULL)
 	{
-		//std::cout << "cleared " << rac->p->first << std::endl;
+		//std::cout << "cleared " << rac->p << std::endl;
 		Alloc.deallocate(rac->p, 1);
 		delete (rac);
 		return ;
@@ -168,14 +166,14 @@ void RBtree<T, V, C>::clear(RBtree<T, V, C> *rac, alloc_t &Alloc)
 		clear(rac->left,  Alloc);
 	if (rac->right != NULL)
 		clear(rac->right, Alloc);
-	//std::cout << "cleared " << rac->p->first << std::endl;
+	//std::cout << "cleared " << rac->p << std::endl;
 	Alloc.deallocate(rac->p, 1);
 	delete (rac);
 	return ;
 }
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::insert(RBtree<T, V, C> *rac, RBtree<T, V, C> *n, C &comp)
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::insert(RBtre<T, C> *rac, RBtre<T, C> *n, C &comp)
 {
 	new_element(rac, n, comp);
 
@@ -191,16 +189,16 @@ RBtree<T, V, C> *RBtree<T, V, C>::insert(RBtree<T, V, C> *rac, RBtree<T, V, C> *
 	return (rac);
 }
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::search(RBtree<T, V, C> *rac, const T &key, C &comp)
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::search(RBtre<T, C> *rac, const T &key, C &comp)
 {
 	while (1)
 	{
 		if (rac == NULL)
 			return (NULL);
-		if (!comp(key, rac->p->first) && !comp(rac->p->first, key))
+		if (!comp(key, *(rac->p)) && !comp(*(rac->p), key))
 			return (rac);
-		if (comp(key, rac->p->first))
+		if (comp(key, *(rac->p)))
 			rac = rac->left;
 		else
 			rac = rac->right;
@@ -208,24 +206,24 @@ RBtree<T, V, C> *RBtree<T, V, C>::search(RBtree<T, V, C> *rac, const T &key, C &
 }
 
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::search(RBtree<T, V, C> *rac, const T &key, const C &comp) const
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::search(RBtre<T, C> *rac, const T &key, const C &comp) const
 {
 	while (1)
 	{
 		if (rac == NULL)
 			return (NULL);
-		if (!comp(key, rac->p->first) && !comp(rac->p->first, key))
+		if (!comp(key, rac->p) && !comp(rac->p, key))
 			return (rac);
-		if (comp(key, rac->p->first))
+		if (comp(key, rac->p))
 			rac = rac->left;
 		else
 			rac = rac->right;
 	}
 }
 
-template<class T,class V, class C>
-bool RBtree<T, V, C>::blackNephews(RBtree<T, V, C> *n)
+template<class T, class C>
+bool RBtre<T, C>::blackNephews(RBtre<T, C> *n)
 {
 	if (brother(n) == NULL)
 		return (true);
@@ -236,8 +234,8 @@ bool RBtree<T, V, C>::blackNephews(RBtree<T, V, C> *n)
 	return (true);
 }
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::reparevanish(RBtree<T, V, C> *rac, RBtree<T, V, C> *n)
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::reparevanish(RBtre<T, C> *rac, RBtre<T, C> *n)
 {
 //	disp_tree(rac);
 	// cas 1
@@ -339,7 +337,7 @@ RBtree<T, V, C> *RBtree<T, V, C>::reparevanish(RBtree<T, V, C> *rac, RBtree<T, V
 		brother(n)->left->color = 0;
 		brother(n)->color = getpar(n)->color;
 		rot_right(brother(n));
-		//std::cout << "turn is" << rac->p->first << std::endl;
+		//std::cout << "turn is" << rac->p << std::endl;
 		//disp_tree(rac);
 		return (rac);
 	}
@@ -347,8 +345,8 @@ RBtree<T, V, C> *RBtree<T, V, C>::reparevanish(RBtree<T, V, C> *rac, RBtree<T, V
 	return (rac);
 }
 
-template <class T, class V, class C>
-void RBtree<T, V, C>::supress(RBtree *n, alloc_t &Alloc)
+template <class T, class C>
+void RBtre<T, C>::supress(RBtre *n, alloc_t &Alloc)
 {
 	if (n->parent && n == n->parent->left)
 	{
@@ -362,24 +360,24 @@ void RBtree<T, V, C>::supress(RBtree *n, alloc_t &Alloc)
 	delete n;
 }
 
-template <class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::tovanish(RBtree<T, V, C> *start, alloc_t &Alloc)
+template <class T, class C>
+RBtre<T, C> *RBtre<T, C>::tovanish(RBtre<T, C> *start, alloc_t &Alloc)
 {
-	RBtree<T, V, C> *cur;
+	RBtre<T, C> *cur;
 
 	cur = start;
 	if (start->right != NULL && start->left == NULL)
 	{
 		Alloc.deallocate(start->p, 1);
 		start->p = Alloc.allocate(1);
-		Alloc.construct(start->p, ft::make_pair<const T, V>(start->right->p->first, start->right->p->second));
+		Alloc.construct(start->p, p);
 		return (start->right);
 	}
 	if (start->right == NULL && start->left != NULL)
 	{
 		Alloc.deallocate(start->p, 1);
 		start->p = Alloc.allocate(1);
-		Alloc.construct(start->p, ft::make_pair<const T, V>(start->left->p->first, start->left->p->second));
+		Alloc.construct(start->p, p);
 		return (start->left);
 	}
 	if (start->right != NULL && start->left != NULL)
@@ -391,16 +389,16 @@ RBtree<T, V, C> *RBtree<T, V, C>::tovanish(RBtree<T, V, C> *start, alloc_t &Allo
 		}
 		Alloc.deallocate(start->p, 1);
 		start->p = Alloc.allocate(1);
-		Alloc.construct(start->p, ft::make_pair<const T, V>(cur->p->first, cur->p->second));
+		Alloc.construct(start->p, p);
 		return (cur);
 	}
 	return (start);
 }
 
-template <class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::vanish(RBtree<T, V, C> *rac, const T &key, bool &erased, C &comp, typename RBtree<T, V, C>::alloc_t &Alloc)
+template <class T, class C>
+RBtre<T, C> *RBtre<T, C>::vanish(RBtre<T, C> *rac, const T &key, bool &erased, C &comp, typename RBtre<T, C>::alloc_t &Alloc)
 {
-	RBtree<T, V, C> *res;
+	RBtre<T, C> *res;
 
 	erased = true;
 	res = rac->search(rac, key, comp);
@@ -425,7 +423,7 @@ RBtree<T, V, C> *RBtree<T, V, C>::vanish(RBtree<T, V, C> *rac, const T &key, boo
 			return (getrac(rac));
 		}
 		rac = reparevanish(rac, res);
-		//std::cout << "after supression " << rac->p->first << std::endl;
+		//std::cout << "after supression " << rac->p << std::endl;
 		rac->supress(res, Alloc);
 		return (getrac(rac));
 	}
@@ -459,104 +457,9 @@ RBtree<T, V, C> *RBtree<T, V, C>::vanish(RBtree<T, V, C> *rac, const T &key, boo
 	}
 	return (getrac(rac));
 }
-/*
-template<class T, class V, class C>
-void RBtree<T, V, C>::rot_left(RBtree<T, V, C> *y) //3-4-6
-{
-	RBtree<T, V, C> *x = getpar(y);
 
-	if (x == NULL)
-	{
-		rot_left(y->right);
-		return ;
-	}
-
-	if (y->left != NULL)
-	{
-		y->left->parent = x;
-		x->right = y->left;
-		y->left = NULL;
-		y->parent = NULL;
-	}
-	else
-	{
-		x->right = NULL;
-	}
-	if (x->parent == NULL)
-	{
-		y->parent = NULL;
-		x->parent = y;
-		y->left = x;
-		return ;
-	}
-	if (x->parent != NULL)
-	{
-		if (x == x->parent->left)
-		{
-			y->parent = x->parent;
-			x->parent->left = y;
-			x->parent = y;
-			y->left = x;
-		}
-		else
-		{
-			y->parent = x->parent;
-			x->parent->right = y;
-			x->parent = y;
-			y->left = x;
-		}
-	}
-}
-
-template<class T, class V, class C>
-void RBtree<T, V, C>::rot_right(RBtree *x)
-{
-	RBtree<T, V, C> *y = getpar(x);
-
-	if (y == NULL)
-	{
-		rot_right(x->left);
-		return ;
-	}
-
-	if (x->right != NULL)
-	{
-		x->right->parent = y;
-		y->left = x->right;
-		x->right = NULL;
-		x->parent = NULL;
-	}
-	else
-	{
-		y->left = NULL;
-	}
-
-	if (y->parent == NULL)
-	{
-		x->parent = NULL;
-		x->right = y;
-		y->parent = x;
-		return ;
-	}
-	if (y == y->parent->right)
-	{
-		x->parent = y->parent;
-		y->parent->right = x;
-		y->parent = x;
-		x->right = y;
-	}
-	else
-	{
-		x->parent = y->parent;
-		y->parent->left = x;
-		y->parent = x;
-		x->right = y;
-	}
-}
-*/
-
-template<class T, class V, class C>
-void RBtree<T, V, C>::rot_left(RBtree<T, V, C> *x) //3-4-6
+template<class T, class C>
+void RBtre<T, C>::rot_left(RBtre<T, C> *x) //3-4-6
 {
 	if (getpar(x) == NULL)
 	{
@@ -565,7 +468,7 @@ void RBtree<T, V, C>::rot_left(RBtree<T, V, C> *x) //3-4-6
 		return ;
 	}
 	x = getpar(x);
-	RBtree<T, V, C> *y = x->right;
+	RBtre<T, C> *y = x->right;
 
 	if (y == NULL)
 		return ;
@@ -607,8 +510,8 @@ void RBtree<T, V, C>::rot_left(RBtree<T, V, C> *x) //3-4-6
 	}
 }
 
-template<class T, class V, class C>
-void RBtree<T, V, C>::rot_right(RBtree *y)
+template<class T, class C>
+void RBtre<T, C>::rot_right(RBtre *y)
 {
 
 	if (getpar(y) == NULL)
@@ -618,7 +521,7 @@ void RBtree<T, V, C>::rot_right(RBtree *y)
 		return ;
 	}
 	y = getpar(y);
-	RBtree<T, V, C> *x = y->left;
+	RBtre<T, C> *x = y->left;
 
 	if (x == NULL)
 		return ;
@@ -658,10 +561,10 @@ void RBtree<T, V, C>::rot_right(RBtree *y)
 	}
 }
 
-template<class T, class V, class C>
-void RBtree<T, V, C>::new_element(RBtree<T, V, C> *rac, RBtree<T, V, C> *n, C &comp)
+template<class T, class C>
+void RBtre<T, C>::new_element(RBtre<T, C> *rac, RBtre<T, C> *n, C &comp)
 {
-	if (rac != NULL && comp(n->p->first, rac->p->first))
+	if (rac != NULL && comp(n->p, *(rac->p)))
 	{
 		if (rac->left != NULL)
 		{
@@ -689,10 +592,10 @@ void RBtree<T, V, C>::new_element(RBtree<T, V, C> *rac, RBtree<T, V, C> *n, C &c
 	
 }
 
-template<class T, class V, class C>
-void RBtree<T, V, C>::repareOncleBlack(RBtree<T, V, C> *n)
+template<class T, class C>
+void RBtre<T, C>::repareOncleBlack(RBtre<T, C> *n)
 {
-	RBtree<T, V, C> *g = grandparent(n); //13
+	RBtre<T, C> *g = grandparent(n); //13
 	bool st = 0;
 
 	if (oncle(n) == NULL)
@@ -709,8 +612,8 @@ void RBtree<T, V, C>::repareOncleBlack(RBtree<T, V, C> *n)
 		n = n->right;
 	}
 
-	RBtree<T, V, C> *np = getpar(n);
-	RBtree<T, V, C> *ng = grandparent(n);
+	RBtre<T, C> *np = getpar(n);
+	RBtre<T, C> *ng = grandparent(n);
 
 	if (n == np->left)
 	{
@@ -734,8 +637,8 @@ void RBtree<T, V, C>::repareOncleBlack(RBtree<T, V, C> *n)
 	ng->color = 1;
 }
 
-template<class T, class V, class C>
-void RBtree<T, V, C>::repare(RBtree<T, V, C> *n)
+template<class T, class C>
+void RBtre<T, C>::repare(RBtre<T, C> *n)
 {
 	if (getpar(n) == NULL)
 	{
@@ -749,7 +652,7 @@ void RBtree<T, V, C>::repare(RBtree<T, V, C> *n)
 	{
 		getpar(n)->color = 0;
 		oncle(n)->color = 0;
-		RBtree<T, V, C> *g = grandparent(n);
+		RBtre<T, C> *g = grandparent(n);
 		if (g != NULL)
 		{ 
 			g->color = 1;
@@ -768,28 +671,28 @@ void RBtree<T, V, C>::repare(RBtree<T, V, C> *n)
 	repareOncleBlack(n);
 }
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::getpar(RBtree *n)
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::getpar(RBtre *n)
 {
 	if (n == NULL)
 		return (NULL);
 	return (n->parent);
 }
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::grandparent(RBtree *n)
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::grandparent(RBtre *n)
 {
-	RBtree<T, V, C> *p = getpar(n);
+	RBtre<T, C> *p = getpar(n);
 
 	if (p == NULL)
 		return (NULL);
 	return(getpar(p));
 }
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::brother(RBtree *n)
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::brother(RBtre *n)
 {
-	RBtree<T, V, C> *p = getpar(n);
+	RBtre<T, C> *p = getpar(n);
 
 	if (p == NULL)
 		return (NULL);
@@ -798,11 +701,11 @@ RBtree<T, V, C> *RBtree<T, V, C>::brother(RBtree *n)
 	return (p->left);
 }
 
-template<class T, class V, class C>
-RBtree<T, V, C> *RBtree<T, V, C>::oncle(RBtree *n)
+template<class T, class C>
+RBtre<T, C> *RBtre<T, C>::oncle(RBtre *n)
 {
-	RBtree<T, V, C> *p = getpar(n);
-	RBtree<T, V, C> *gp = grandparent(n);
+	RBtre<T, C> *p = getpar(n);
+	RBtre<T, C> *gp = grandparent(n);
 
 	if (gp == NULL)
 		return(NULL);

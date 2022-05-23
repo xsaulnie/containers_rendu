@@ -155,11 +155,8 @@ template<class Key, class T, class Compare, class Allocator>
 template<class InputIt>
 ft::map<Key, T, Compare, Allocator>::map(InputIt first, InputIt last, const Compare &comp)
 {
-	size_t cmp;
-
 	this->tree = NULL;
 	this->nb = 0;
-	cmp = 0;
 	while (first != last)
 	{
 		this->insert(*first);
