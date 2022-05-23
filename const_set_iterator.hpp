@@ -1,39 +1,42 @@
-#ifndef SET_ITER
-#define SET_ITER
+#ifndef C_SET_ITER
+#define C_SET_ITER
 
 #include "RBtree.hpp"
 #include "stdlib.h"
-namespace ft {template<class T, class C> class const_set_iterator;}
-#include "const_set_iterator.hpp"
+namespace ft {template<class T, class C> class set_iterator;}
+#include "set_iterator.hpp"
 
 namespace ft
 {
 template<class T, class C>
-class set_iterator
+class const_set_iterator
 {
-	protected:
-		RBtre<T, C>         *cur;
-		bool				sentinel;
+	private:
+		RBtre<T, C>		*cur;
+		bool            sentinel;
 
 	public:
+
 		typedef size_t difference_type;
-		typedef T value_type;
-		typedef T * pointer;
-		typedef T & reference;
+		typedef const T value_type;
+		typedef const T * pointer;
+		typedef const T & reference;
 		typedef std::bidirectional_iterator_tag iterator_category;
 	 
-		set_iterator();
-		set_iterator(RBtre<T, C> *init);
-		set_iterator(RBtre<T, C> *iend, bool sen);
-        set_iterator(const ft::const_set_iterator<T, C> &cpy);
+		const_set_iterator();
+		const_set_iterator(RBtre<T, C> *init);
+		const_set_iterator(const ft::set_iterator<T, C> &cpy);
+		const_set_iterator(RBtre<const T, C> *init);
+		const_set_iterator(RBtre<T, C> *iend, bool sen);
 
-		set_iterator &operator++();
-		set_iterator operator++(int);
-		set_iterator &operator--();
-		set_iterator operator--(int);
-		T &operator*() const;
-		 T *operator->() const;
+		const_set_iterator operator=(const ft::set_iterator<T, C> &rhs);
 
+		const_set_iterator &operator++();
+		const_set_iterator operator++(int);
+		const_set_iterator &operator--();
+		const_set_iterator operator--(int);
+		const T *operator->() const;
+		const T &operator*() const;
 		RBtre<T, C> *getcur() const;
 		bool getsen() const;
 		class Badoperation : public std::exception // le vrai ne segault pas
@@ -44,41 +47,48 @@ class set_iterator
 						return ("Bad operation on set iterator");
 				}
 		};
-		bool operator==(const ft::const_set_iterator<T, C> &rhs) const;
-		bool operator!=(const ft::const_set_iterator<T, C> &rhs) const;
-
+		bool operator==(const ft::set_iterator<T, C> &rhs) const;
+		bool operator!=(const ft::set_iterator<T, C> &rhs) const;
 };
 
 template<class T, class C>
-bool operator==(ft::set_iterator<T, C> &lhs, ft::set_iterator<T, C> &rhs);
+bool operator==(ft::const_set_iterator<T, C> &lhs, ft::const_set_iterator<T, C> &rhs);
 template<class T, class C>
-bool operator==(const ft::set_iterator<T, C> &lhs, const ft::set_iterator<T, C> &rhs);
+bool operator==(const ft::const_set_iterator<T, C> &lhs, const ft::const_set_iterator<T, C> &rhs);
 template<class T, class C>
-bool operator!=(ft::set_iterator<T, C> &lhs, ft::set_iterator<T, C> &rhs);
+bool operator!=(ft::const_set_iterator<T, C> &lhs, ft::const_set_iterator<T, C> &rhs);
 template<class T, class C>
-bool operator!=(const ft::set_iterator<T, C> &lhs, const ft::set_iterator<T, C> &rhs);
+bool operator!=(const ft::const_set_iterator<T, C> &lhs, const ft::const_set_iterator<T, C> &rhs);
 }
 
 template<class T, class C>
-RBtre<T, C> *ft::set_iterator<T, C>::getcur() const
+ft::const_set_iterator<T, C> ft::const_set_iterator<T, C>::operator=(const ft::set_iterator<T, C> &rhs)
+{
+	this->cur = rhs.getcur();
+	this->sentinel = rhs.getsen();
+	return (*this);
+}
+
+template<class T, class C>
+RBtre<T, C> *ft::const_set_iterator<T, C>::getcur() const
 {
 	return (this->cur);
 }
 
 template<class T, class C>
-bool ft::set_iterator<T, C>::getsen() const
+bool ft::const_set_iterator<T, C>::getsen() const
 {
 	return (this->sentinel);
 }
 
 template<class T, class C>
-T *ft::set_iterator<T, C>::operator->() const
+const T *ft::const_set_iterator<T, C>::operator->() const
 {
 	return (std::__addressof(operator*()));
 }
 
 template<class T, class C>
-ft::set_iterator<T, C>::set_iterator(RBtre<T, C> *iend, bool sen)
+ft::const_set_iterator<T, C>::const_set_iterator(RBtre<T, C> *iend, bool sen)
 {
 	if (sen == false)
 	{
@@ -104,28 +114,36 @@ ft::set_iterator<T, C>::set_iterator(RBtre<T, C> *iend, bool sen)
 }
 
 template<class T, class C>
-ft::set_iterator<T, C>::set_iterator()
+ft::const_set_iterator<T, C>::const_set_iterator()
 {
 	this->cur = NULL;
 	this->sentinel = false;
 }
 
 template<class T, class C>
-ft::set_iterator<T, C>::set_iterator(const ft::const_set_iterator<T, C> &cpy)
+ft::const_set_iterator<T, C>::const_set_iterator(const typename ft::set_iterator<T, C> &cpy)
 {
 	this->cur = cpy.getcur();
 	this->sentinel = cpy.getsen();
 }
 
 template<class T, class C>
-ft::set_iterator<T, C>::set_iterator(RBtre<T, C> *init)
+ft::const_set_iterator<T, C>::const_set_iterator(RBtre<T, C> *init)
 {
 	this->cur = init;
 	this->sentinel = false;
 }
 
 template<class T, class C>
- T &ft::set_iterator<T, C>::operator*() const
+ft::const_set_iterator<T, C>::const_set_iterator(RBtre<const T, C> *init)
+{
+	this->cur = init;
+	this->sentinel = false;
+}
+
+
+template<class T, class C>
+const T &ft::const_set_iterator<T, C>::operator*() const
 {
 	if (this->sentinel == true)
 		throw (Badoperation());
@@ -133,7 +151,7 @@ template<class T, class C>
 }
 
 template<class T, class C>
-ft::set_iterator<T, C> &ft::set_iterator<T, C>::operator++()
+ft::const_set_iterator<T, C> &ft::const_set_iterator<T, C>::operator++()
 {
 	RBtre<T, C> *res;
 	C comp;
@@ -172,10 +190,10 @@ ft::set_iterator<T, C> &ft::set_iterator<T, C>::operator++()
 }
 
 template<class T, class C>
-ft::set_iterator<T, C> ft::set_iterator<T, C>::operator++(int)
+ft::const_set_iterator<T, C> ft::const_set_iterator<T, C>::operator++(int)
 {
 	RBtre<T, C> *res;
-	set_iterator tmp;
+	const_set_iterator tmp;
 	C comp;
 
 	if (this->sentinel == true)
@@ -211,10 +229,10 @@ ft::set_iterator<T, C> ft::set_iterator<T, C>::operator++(int)
 }
 
 template<class T, class C>
-ft::set_iterator<T, C> ft::set_iterator<T, C>::operator--(int)
+ft::const_set_iterator<T, C> ft::const_set_iterator<T, C>::operator--(int)
 {
 	RBtre<T, C> *res;
-	set_iterator tmp;
+	const_set_iterator tmp;
 	C comp;
 
 	tmp = *this;
@@ -257,7 +275,7 @@ ft::set_iterator<T, C> ft::set_iterator<T, C>::operator--(int)
 }
 
 template<class T, class C>
-ft::set_iterator<T, C> &ft::set_iterator<T, C>::operator--()
+ft::const_set_iterator<T, C> &ft::const_set_iterator<T, C>::operator--()
 {
 	RBtre<T, C> *res;
 	C comp;
@@ -301,7 +319,7 @@ ft::set_iterator<T, C> &ft::set_iterator<T, C>::operator--()
 }
 
 template<class T, class C>
-bool ft::operator!=(ft::set_iterator<T, C> &lhs, ft::set_iterator<T, C> &rhs)
+bool ft::operator!=(ft::const_set_iterator<T, C> &lhs, ft::const_set_iterator<T, C> &rhs)
 {
 	if (lhs.getsen() != rhs.getsen())
 		return (true);
@@ -313,7 +331,7 @@ bool ft::operator!=(ft::set_iterator<T, C> &lhs, ft::set_iterator<T, C> &rhs)
 }
 
 template<class T, class C>
-bool ft::operator==(ft::set_iterator<T, C> &lhs, ft::set_iterator<T, C> &rhs)
+bool ft::operator==(ft::const_set_iterator<T, C> &lhs, ft::const_set_iterator<T, C> &rhs)
 {
 	if (lhs.getsen() != rhs.getsen())
 		return (false);
@@ -325,7 +343,7 @@ bool ft::operator==(ft::set_iterator<T, C> &lhs, ft::set_iterator<T, C> &rhs)
 }
 
 template<class T, class C>
-bool ft::operator!=(const ft::set_iterator<T, C> &lhs, const ft::set_iterator<T, C> &rhs)
+bool ft::operator!=(const ft::const_set_iterator<T, C> &lhs, const ft::const_set_iterator<T, C> &rhs)
 {
 	if (lhs.getsen() != rhs.getsen())
 		return (true);
@@ -337,7 +355,7 @@ bool ft::operator!=(const ft::set_iterator<T, C> &lhs, const ft::set_iterator<T,
 }
 
 template<class T, class C>
-bool ft::operator==(const ft::set_iterator<T, C> &lhs, const ft::set_iterator<T, C> &rhs)
+bool ft::operator==(const ft::const_set_iterator<T, C> &lhs, const ft::const_set_iterator<T, C> &rhs)
 {
 	if (lhs.getsen() != rhs.getsen())
 		return (false);
@@ -349,7 +367,7 @@ bool ft::operator==(const ft::set_iterator<T, C> &lhs, const ft::set_iterator<T,
 }
 
 template<class T, class C>
-bool ft::set_iterator<T, C>::operator==(const ft::const_set_iterator<T, C> &rhs) const
+bool ft::const_set_iterator<T, C>::operator==(const ft::set_iterator<T, C> &rhs) const
 {
 	if (this->getsen() != rhs.getsen())
 		return (false);
@@ -361,7 +379,7 @@ bool ft::set_iterator<T, C>::operator==(const ft::const_set_iterator<T, C> &rhs)
 }
 
 template<class T, class C>
-bool ft::set_iterator<T, C>::operator!=(const ft::const_set_iterator<T, C> &rhs) const
+bool ft::const_set_iterator<T, C>::operator!=(const ft::set_iterator<T, C> &rhs) const
 {
 	if (this->getsen() != rhs.getsen())
 		return (true);

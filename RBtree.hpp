@@ -4,6 +4,8 @@
 #include "stdlib.h"
 #include "pair.hpp"
 
+
+
 //const T pair
 
 template<class T, class C = std::less<T> >
@@ -17,7 +19,7 @@ class RBtre
 	RBtre          		*right;
 	RBtre          		*parent;
 	bool				color;
-	const T 	        *p;
+	T 	        *p;
 
 	//Constructor
 	RBtre<T, C>(alloc_t &Alloc);
@@ -213,9 +215,9 @@ RBtre<T, C> *RBtre<T, C>::search(RBtre<T, C> *rac, const T &key, const C &comp) 
 	{
 		if (rac == NULL)
 			return (NULL);
-		if (!comp(key, rac->p) && !comp(rac->p, key))
+		if (!comp(key, *(rac->p)) && !comp(*(rac->p), key))
 			return (rac);
-		if (comp(key, rac->p))
+		if (comp(key, *(rac->p)))
 			rac = rac->left;
 		else
 			rac = rac->right;
@@ -370,14 +372,14 @@ RBtre<T, C> *RBtre<T, C>::tovanish(RBtre<T, C> *start, alloc_t &Alloc)
 	{
 		Alloc.deallocate(start->p, 1);
 		start->p = Alloc.allocate(1);
-		Alloc.construct(start->p, p);
+		Alloc.construct(start->p, *(start->right->p));
 		return (start->right);
 	}
 	if (start->right == NULL && start->left != NULL)
 	{
 		Alloc.deallocate(start->p, 1);
 		start->p = Alloc.allocate(1);
-		Alloc.construct(start->p, p);
+		Alloc.construct(start->p, *(start->left->p));
 		return (start->left);
 	}
 	if (start->right != NULL && start->left != NULL)
@@ -389,7 +391,7 @@ RBtre<T, C> *RBtre<T, C>::tovanish(RBtre<T, C> *start, alloc_t &Alloc)
 		}
 		Alloc.deallocate(start->p, 1);
 		start->p = Alloc.allocate(1);
-		Alloc.construct(start->p, p);
+		Alloc.construct(start->p, *(cur->p));
 		return (cur);
 	}
 	return (start);
@@ -564,7 +566,7 @@ void RBtre<T, C>::rot_right(RBtre *y)
 template<class T, class C>
 void RBtre<T, C>::new_element(RBtre<T, C> *rac, RBtre<T, C> *n, C &comp)
 {
-	if (rac != NULL && comp(n->p, *(rac->p)))
+	if (rac != NULL && comp(*(n->p), *(rac->p)))
 	{
 		if (rac->left != NULL)
 		{

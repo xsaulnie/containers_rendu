@@ -314,7 +314,7 @@ typename ft::map<Key, T, Compare, Allocator>::iterator ft::map<Key, T, Compare, 
 	(void)hint;
 	RBtree <Key, T, Compare> *test = this->tree->search(this->tree, value.first, this->comp);
 	if (test != NULL)
-		return (iterator(this->tree, true));
+		return (iterator(test));
 	RBtree <Key, T, Compare> *n = this->tree->RBpair(value.first, value.second, this->Alloc);
 	this->tree = this->tree->insert(this->tree, n, this->comp);
 	this->nb++;
