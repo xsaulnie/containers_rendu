@@ -168,14 +168,4 @@ void test_set()
 
     std::cout << "Set test" << std::endl;
 
-
-    ns::set<int> salut;
-
-    ns::set<int>::iterator ite = salut.begin();
-
-    *ite = 42;
-    
-    
-
-
 }

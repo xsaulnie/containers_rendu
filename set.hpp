@@ -9,12 +9,12 @@
 
 namespace ft
 {
-template<class Key, class Compare = std::less<Key>, class Allocator = std::allocator<Key> >
+template<class T, class Compare = std::less<T>, class Allocator = std::allocator<T> >
 class set
 {
     public:
-        typedef Key key_type;
-        typedef Key value_type;
+        typedef T key_type;
+        typedef T value_type;
         typedef std::size_t size_type;
         typedef std::ptrdiff_t difference_type;
         typedef Compare key_compare;
@@ -24,8 +24,8 @@ class set
         typedef const value_type& const_reference;
         typedef typename Allocator::pointer pointer;
         typedef typename Allocator::const_pointer const_pointer;
-        typedef ft::set_iterator<Key, Compare> iterator;
-        typedef ft::const_set_iterator<Key, Compare> const_iterator;
+        typedef ft::set_iterator<T, Compare> iterator;
+        typedef ft::const_set_iterator<T, Compare> const_iterator;
         typedef ft::reverse_iterator<iterator> reverse_iterator;
         typedef ft::reverse_iterator<const_iterator> const_reverse_iterator;
     
@@ -96,33 +96,33 @@ class set
         allocator_type get_allocator() const;
 
         private:
-            RBtre<Key, Compare> *tree;
+            RBtree<T, Compare> *tree;
             key_compare comp;
             size_t nb;
             allocator_type Alloc;
 
 };
 
-template<class Key, class Compare, class Allocator>
-void swap(ft::set<Key, Compare, Allocator> &lhs, ft::set<Key, Compare, Allocator> &rhs);
-template<class Key, class Compare, class Allocator>
-bool operator==(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs);
-template<class Key, class Compare, class Allocator>
-bool operator!=(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs);
-template<class Key, class Compare, class Allocator>
-bool operator<(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs);
-template<class Key, class Compare, class Allocator>
-bool operator>(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs);
-template<class Key, class Compare, class Allocator>
-bool operator>=(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs);
-template<class Key, class Compare, class Allocator>
-bool operator<=(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs);
+template<class T, class Compare, class Allocator>
+void swap(ft::set<T, Compare, Allocator> &lhs, ft::set<T, Compare, Allocator> &rhs);
+template<class T, class Compare, class Allocator>
+bool operator==(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs);
+template<class T, class Compare, class Allocator>
+bool operator!=(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs);
+template<class T, class Compare, class Allocator>
+bool operator<(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs);
+template<class T, class Compare, class Allocator>
+bool operator>(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs);
+template<class T, class Compare, class Allocator>
+bool operator>=(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs);
+template<class T, class Compare, class Allocator>
+bool operator<=(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs);
 }
 
 //Constructor
 
-template<class Key, class Compare, class Allocator>
-ft::set<Key, Compare, Allocator>::set(const ft::set<Key, Compare, Allocator>::key_compare &comp, const ft::set<Key, Compare, Allocator>::allocator_type &alloc)
+template<class T, class Compare, class Allocator>
+ft::set<T, Compare, Allocator>::set(const ft::set<T, Compare, Allocator>::key_compare &comp, const ft::set<T, Compare, Allocator>::allocator_type &alloc)
 {
 	this->tree = NULL;
 	this->nb = 0;
@@ -130,17 +130,17 @@ ft::set<Key, Compare, Allocator>::set(const ft::set<Key, Compare, Allocator>::ke
     this->comp = comp;
 }
 
-template<class Key, class Compare, class Allocator>
-ft::set<Key, Compare, Allocator>::set(const Allocator &alloc)
+template<class T, class Compare, class Allocator>
+ft::set<T, Compare, Allocator>::set(const Allocator &alloc)
 {
 	this->tree = NULL;
 	this->nb = 0;
     this->Alloc = alloc;
 }
 
-template<class Key, class Compare, class Allocator>
+template<class T, class Compare, class Allocator>
 template<class InputIt>
-ft::set<Key, Compare, Allocator>::set(InputIt first, InputIt last, const ft::set<Key, Compare, Allocator>::key_compare &comp, const ft::set<Key, Compare, Allocator>::allocator_type &alloc)
+ft::set<T, Compare, Allocator>::set(InputIt first, InputIt last, const ft::set<T, Compare, Allocator>::key_compare &comp, const ft::set<T, Compare, Allocator>::allocator_type &alloc)
 {
     this->comp = comp;
     this->Alloc = alloc;
@@ -154,13 +154,13 @@ ft::set<Key, Compare, Allocator>::set(InputIt first, InputIt last, const ft::set
 	}
 }
 
-template<class Key, class Compare, class Allocator>
-ft::set<Key, Compare, Allocator>::set(const set &other)
+template<class T, class Compare, class Allocator>
+ft::set<T, Compare, Allocator>::set(const set &other)
 {
 	size_t cmp;
-	ft::set<Key, Compare, Allocator>::const_iterator st = other.begin();
-	ft::set<Key, Compare, Allocator>::const_iterator en = other.end();
-	Key tmp;
+	ft::set<T, Compare, Allocator>::const_iterator st = other.begin();
+	ft::set<T, Compare, Allocator>::const_iterator en = other.end();
+	T tmp;
 
 	cmp = 0;
 	this->tree = NULL;
@@ -176,18 +176,18 @@ ft::set<Key, Compare, Allocator>::set(const set &other)
 	this->Alloc = other.get_allocator();
 }
 
-template<class Key, class Compare, class Allocator>
-ft::set<Key, Compare, Allocator>::~set()
+template<class T, class Compare, class Allocator>
+ft::set<T, Compare, Allocator>::~set()
 {
 	this->clear();
 }
 
-template<class Key, class Compare, class Allocator>
-ft::set<Key, Compare, Allocator> &ft::set<Key,Compare, Allocator>::operator=(const ft::set<Key, Compare, Allocator> &x)
+template<class T, class Compare, class Allocator>
+ft::set<T, Compare, Allocator> &ft::set<T,Compare, Allocator>::operator=(const ft::set<T, Compare, Allocator> &x)
 {
 	this->clear();
-	ft::set<Key, Compare, Allocator>::const_iterator fs = x.begin();
-	ft::set<Key, Compare, Allocator>::const_iterator ls = x.end();
+	ft::set<T, Compare, Allocator>::const_iterator fs = x.begin();
+	ft::set<T, Compare, Allocator>::const_iterator ls = x.end();
 
 	if (fs == ls)
 	{
@@ -208,10 +208,10 @@ ft::set<Key, Compare, Allocator> &ft::set<Key,Compare, Allocator>::operator=(con
 
 //Iterator
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Allocator>::begin()
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::iterator ft::set<T, Compare, Allocator>::begin()
 {
-	RBtre<Key, Compare> *cur;
+	RBtree<T, Compare> *cur;
 
 	cur = this->tree;
 
@@ -226,10 +226,10 @@ typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Alloca
 }
 
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::const_iterator ft::set<Key, Compare, Allocator>::begin() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::const_iterator ft::set<T, Compare, Allocator>::begin() const
 {
-	RBtre<Key, Compare> *cur;
+	RBtree<T, Compare> *cur;
 
 	cur = this->tree;
 
@@ -245,82 +245,82 @@ typename ft::set<Key, Compare, Allocator>::const_iterator ft::set<Key, Compare, 
 
 
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Allocator>::end()
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::iterator ft::set<T, Compare, Allocator>::end()
 {
 	return(iterator(this->tree, true));
 }
 
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::const_iterator ft::set<Key, Compare, Allocator>::end() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::const_iterator ft::set<T, Compare, Allocator>::end() const
 {
 	return(const_iterator(this->tree, true));
 }
 
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::reverse_iterator ft::set<Key, Compare, Allocator>::rbegin()
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::reverse_iterator ft::set<T, Compare, Allocator>::rbegin()
 {
-	return (ft::reverse_iterator<typename ft::set<Key, Compare, Allocator>::iterator>(this->end()));
+	return (ft::reverse_iterator<typename ft::set<T, Compare, Allocator>::iterator>(this->end()));
 }
 
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::const_reverse_iterator ft::set<Key, Compare, Allocator>::rbegin() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::const_reverse_iterator ft::set<T, Compare, Allocator>::rbegin() const
 {
-	return (ft::reverse_iterator<typename ft::set<Key, Compare, Allocator>::const_iterator>(this->end()));
+	return (ft::reverse_iterator<typename ft::set<T, Compare, Allocator>::const_iterator>(this->end()));
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::reverse_iterator ft::set<Key, Compare, Allocator>::rend()
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::reverse_iterator ft::set<T, Compare, Allocator>::rend()
 {
-	return (ft::reverse_iterator<typename ft::set<Key, Compare, Allocator>::iterator>(this->begin()));
+	return (ft::reverse_iterator<typename ft::set<T, Compare, Allocator>::iterator>(this->begin()));
 }
 
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::const_reverse_iterator ft::set<Key, Compare, Allocator>::rend() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::const_reverse_iterator ft::set<T, Compare, Allocator>::rend() const
 {
-	return (ft::reverse_iterator<typename ft::set<Key, Compare, Allocator>::const_iterator>(this->begin()));
+	return (ft::reverse_iterator<typename ft::set<T, Compare, Allocator>::const_iterator>(this->begin()));
 }
 
 
 //Insert
 
-template<class Key, class Compare, class Allocator>
-typename ft::pair<typename ft::set<Key, Compare, Allocator>::iterator, bool> ft::set<Key, Compare, Allocator>::insert(const ft::set<Key, Compare, Allocator>::value_type &value)
+template<class T, class Compare, class Allocator>
+typename ft::pair<typename ft::set<T, Compare, Allocator>::iterator, bool> ft::set<T, Compare, Allocator>::insert(const ft::set<T, Compare, Allocator>::value_type &value)
 {
 
-	RBtre <Key, Compare> *test = this->tree->search(this->tree, value, this->comp);
+	RBtree <T, Compare> *test = this->tree->search(this->tree, value, this->comp);
 	if (test != NULL)
-		return (ft::pair<typename ft::set<Key, Compare, Allocator>::iterator, bool>(iterator(test), false));
-	RBtre <Key, Compare> *n = this->tree->RBval(value, this->Alloc);
+		return (ft::pair<typename ft::set<T, Compare, Allocator>::iterator, bool>(iterator(test), false));
+	RBtree <T, Compare> *n = this->tree->RBval(value, this->Alloc);
 	this->tree = this->tree->insert(this->tree, n, this->comp);
 	this->nb++;
 
-	RBtre <Key, Compare> *ret = this->tree->search(this->tree, value, this->comp);
-	return (ft::pair<typename ft::set<Key, Compare, Allocator>::iterator, bool>(iterator(ret), true));
+	RBtree <T, Compare> *ret = this->tree->search(this->tree, value, this->comp);
+	return (ft::pair<typename ft::set<T, Compare, Allocator>::iterator, bool>(iterator(ret), true));
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Allocator>::insert(typename ft::set<Key, Compare, Allocator>::iterator hint, const value_type& value)
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::iterator ft::set<T, Compare, Allocator>::insert(typename ft::set<T, Compare, Allocator>::iterator hint, const value_type& value)
 {
 	(void)hint;
-	RBtre <Key, Compare> *test = this->tree->search(this->tree, value, this->comp);
+	RBtree <T, Compare> *test = this->tree->search(this->tree, value, this->comp);
 	if (test != NULL)
 		return (iterator(test));
-	RBtre <Key, Compare> *n = this->tree->RBval(value, this->Alloc);
+	RBtree <T, Compare> *n = this->tree->RBval(value, this->Alloc);
 	this->tree = this->tree->insert(this->tree, n, this->comp);
 	this->nb++;
 
-	RBtre <Key, Compare> *ret = this->tree->search(this->tree, value, this->comp);
+	RBtree <T, Compare> *ret = this->tree->search(this->tree, value, this->comp);
 	return (iterator(ret));
 }
 
-template<class Key, class Compare, class Allocator>
+template<class T, class Compare, class Allocator>
 template <class InputIterator>
-void ft::set<Key, Compare, Allocator>::insert(InputIterator first, InputIterator last)
+void ft::set<T, Compare, Allocator>::insert(InputIterator first, InputIterator last)
 {
 	while (first != last)
 	{
@@ -331,8 +331,8 @@ void ft::set<Key, Compare, Allocator>::insert(InputIterator first, InputIterator
 
 //Clear
 
-template<class Key, class Compare, class Allocator>
-void ft::set<Key, Compare, Allocator>::clear()
+template<class T, class Compare, class Allocator>
+void ft::set<T, Compare, Allocator>::clear()
 {
 	if (this->tree == NULL)
 		return ;
@@ -343,8 +343,8 @@ void ft::set<Key, Compare, Allocator>::clear()
 
 //Erase
 
-template<class Key, class Compare, class Allocator>
-void ft::set<Key, Compare, Allocator>::erase(ft::set<Key, Compare, Allocator>::iterator position)
+template<class T, class Compare, class Allocator>
+void ft::set<T, Compare, Allocator>::erase(ft::set<T, Compare, Allocator>::iterator position)
 {
 	bool erased;
 
@@ -357,8 +357,8 @@ void ft::set<Key, Compare, Allocator>::erase(ft::set<Key, Compare, Allocator>::i
 		this->nb--;
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::size_type ft::set<Key, Compare, Allocator>::erase(const ft::set<Key, Compare, Allocator>::key_type &k)
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::size_type ft::set<T, Compare, Allocator>::erase(const ft::set<T, Compare, Allocator>::key_type &k)
 {
 	bool erased;
 
@@ -375,10 +375,10 @@ typename ft::set<Key, Compare, Allocator>::size_type ft::set<Key, Compare, Alloc
 
 //why cpy ?
 
-template<class Key, class Compare, class Allocator>
-void ft::set<Key, Compare, Allocator>::erase(ft::set<Key, Compare, Allocator>::iterator first, ft::set<Key, Compare, Allocator>::iterator last)
+template<class T, class Compare, class Allocator>
+void ft::set<T, Compare, Allocator>::erase(ft::set<T, Compare, Allocator>::iterator first, ft::set<T, Compare, Allocator>::iterator last)
 {
-	ft::set<Key, Compare, Allocator> cpy;
+	ft::set<T, Compare, Allocator> cpy;
 	bool erased;
 
 	cpy = *this;
@@ -399,10 +399,10 @@ void ft::set<Key, Compare, Allocator>::erase(ft::set<Key, Compare, Allocator>::i
 
 //Swap
 
-template<class Key, class Compare, class Allocator>
-void ft::set<Key, Compare, Allocator>::swap(ft::set<Key, Compare, Allocator> &x)
+template<class T, class Compare, class Allocator>
+void ft::set<T, Compare, Allocator>::swap(ft::set<T, Compare, Allocator> &x)
 {
-	RBtre<Key, Compare> *tree_tmp;
+	RBtree<T, Compare> *tree_tmp;
 	key_compare comp_tmp;
 	size_t nb_tmp;
 	allocator_type Alloc_tmp;
@@ -423,30 +423,30 @@ void ft::set<Key, Compare, Allocator>::swap(ft::set<Key, Compare, Allocator> &x)
 	x.Alloc = Alloc_tmp;
 }
 
-template<class Key, class Compare, class Allocator>
-void ft::swap(ft::set<Key, Compare, Allocator> &lhs, ft::set<Key, Compare, Allocator> &rhs)
+template<class T, class Compare, class Allocator>
+void ft::swap(ft::set<T, Compare, Allocator> &lhs, ft::set<T, Compare, Allocator> &rhs)
 {
 	lhs.swap(rhs);
 }
 
 //Capacity
 
-template<class Key, class Compare, class Allocator>
-bool ft::set<Key, Compare, Allocator>::empty() const
+template<class T, class Compare, class Allocator>
+bool ft::set<T, Compare, Allocator>::empty() const
 {
 	if (this->nb == 0)
 		return (true);
 	return (false);
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::size_type ft::set<Key, Compare, Allocator>::size() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::size_type ft::set<T, Compare, Allocator>::size() const
 {
 	return(this->nb);
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::size_type ft::set<Key, Compare, Allocator>::max_size() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::size_type ft::set<T, Compare, Allocator>::max_size() const
 {
 	size_t res;
 	unsigned long long int p;
@@ -460,52 +460,52 @@ typename ft::set<Key, Compare, Allocator>::size_type ft::set<Key, Compare, Alloc
 		n--;
 	}
 
-	res = ((p / (sizeof(typename ft::set<Key, Compare, Allocator>::value_type))) - 1);
+	res = ((p / (sizeof(typename ft::set<T, Compare, Allocator>::value_type))) - 1);
 	return (res);
 }
 
 //Observeurs
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::key_compare ft::set<Key, Compare, Allocator>::key_comp() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::key_compare ft::set<T, Compare, Allocator>::key_comp() const
 {
 	return (this->comp);	
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::value_compare ft::set<Key, Compare, Allocator>::value_comp() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::value_compare ft::set<T, Compare, Allocator>::value_comp() const
 {
 	return (this->comp);
 }
 
 //Operations
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Allocator>::find(const typename ft::set<Key, Compare, Allocator>::value_type &val) const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::iterator ft::set<T, Compare, Allocator>::find(const typename ft::set<T, Compare, Allocator>::value_type &val) const
 {
-	RBtre<Key, Compare> *test = this->tree->search(this->tree, val, this->comp);
+	RBtree<T, Compare> *test = this->tree->search(this->tree, val, this->comp);
 
 	if (test == NULL)
 		return (iterator(this->tree, true));
 	return (iterator(test));
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::size_type ft::set<Key, Compare, Allocator>::count(const typename ft::set<Key, Compare, Allocator>::value_type &val) const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::size_type ft::set<T, Compare, Allocator>::count(const typename ft::set<T, Compare, Allocator>::value_type &val) const
 {
-	RBtre<Key, Compare> *test = this->tree->search(this->tree, val, this->comp);
+	RBtree<T, Compare> *test = this->tree->search(this->tree, val, this->comp);
 
 	if (test == NULL)
 		return (0);
 	return (1);
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Allocator>::upper_bound(const typename ft::set<Key, Compare, Allocator>::value_type &val) const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::iterator ft::set<T, Compare, Allocator>::upper_bound(const typename ft::set<T, Compare, Allocator>::value_type &val) const
 {
-	typename ft::set<Key, Compare, Allocator>::const_iterator it;
-	typename ft::set<Key, Compare, Allocator>::const_iterator end;
-	typename ft::set<Key, Compare, Allocator>::const_iterator found;
+	typename ft::set<T, Compare, Allocator>::const_iterator it;
+	typename ft::set<T, Compare, Allocator>::const_iterator end;
+	typename ft::set<T, Compare, Allocator>::const_iterator found;
 
 	end = this->end();
 	found = this->find(val);
@@ -521,12 +521,12 @@ typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Alloca
 	return (iterator(this->tree, true));
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Allocator>::lower_bound(const typename ft::set<Key, Compare, Allocator>::value_type &val) const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::iterator ft::set<T, Compare, Allocator>::lower_bound(const typename ft::set<T, Compare, Allocator>::value_type &val) const
 {
-	typename ft::set<Key, Compare, Allocator>::const_iterator it;
-	typename ft::set<Key, Compare, Allocator>::const_iterator end;
-	typename ft::set<Key, Compare, Allocator>::const_iterator found;
+	typename ft::set<T, Compare, Allocator>::const_iterator it;
+	typename ft::set<T, Compare, Allocator>::const_iterator end;
+	typename ft::set<T, Compare, Allocator>::const_iterator found;
 
 	end = this->end();
 	found = this->find(val);
@@ -543,22 +543,22 @@ typename ft::set<Key, Compare, Allocator>::iterator ft::set<Key, Compare, Alloca
 	return (iterator(this->tree, true));
 }
 
-template<class Key, class Compare, class Allocator>
-ft::pair<typename ft::set<Key, Compare, Allocator>::iterator, typename ft::set<Key, Compare, Allocator>::iterator> ft::set<Key, Compare, Allocator>::equal_range(const typename ft::set<Key, Compare, Allocator>::value_type &val) const
+template<class T, class Compare, class Allocator>
+ft::pair<typename ft::set<T, Compare, Allocator>::iterator, typename ft::set<T, Compare, Allocator>::iterator> ft::set<T, Compare, Allocator>::equal_range(const typename ft::set<T, Compare, Allocator>::value_type &val) const
 {
-	return (ft::make_pair<typename ft::set<Key, Compare, Allocator>::iterator, typename ft::set<Key, Compare, Allocator>::iterator>(this->lower_bound(val), this->upper_bound(val)));
+	return (ft::make_pair<typename ft::set<T, Compare, Allocator>::iterator, typename ft::set<T, Compare, Allocator>::iterator>(this->lower_bound(val), this->upper_bound(val)));
 }
 
-template<class Key, class Compare, class Allocator>
-typename ft::set<Key, Compare, Allocator>::allocator_type ft::set<Key, Compare, Allocator>::get_allocator() const
+template<class T, class Compare, class Allocator>
+typename ft::set<T, Compare, Allocator>::allocator_type ft::set<T, Compare, Allocator>::get_allocator() const
 {
 	return (this->Alloc);
 }
 
 //Comparaison Operators
 
-template<class Key, class Compare, class Allocator>
-bool ft::operator==(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs)
+template<class T, class Compare, class Allocator>
+bool ft::operator==(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs)
 {
 	if (lhs.size() != rhs.size())
 		return (false);
@@ -567,24 +567,24 @@ bool ft::operator==(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<K
 	return (false);
 }
 
-template<class Key, class Compare, class Allocator>
-bool ft::operator!=(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs)
+template<class T, class Compare, class Allocator>
+bool ft::operator!=(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs)
 {
 	if (lhs == rhs)
 		return (false);
 	return (true);
 }
 
-template<class Key, class Compare, class Allocator>
-bool ft::operator<(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs)
+template<class T, class Compare, class Allocator>
+bool ft::operator<(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs)
 {
 	if (ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()))
 		return (true);
 	return (false);
 }
 
-template<class Key, class Compare, class Allocator>
-bool ft::operator>(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs)
+template<class T, class Compare, class Allocator>
+bool ft::operator>(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs)
 {
 	if (lhs == rhs)
 		return (false);
@@ -593,8 +593,8 @@ bool ft::operator>(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Ke
 	return (true);
 }
 
-template<class Key, class Compare, class Allocator>
-bool ft::operator>=(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs)
+template<class T, class Compare, class Allocator>
+bool ft::operator>=(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs)
 {
 	if (lhs == rhs)
 		return (true);
@@ -603,8 +603,8 @@ bool ft::operator>=(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<K
 	return (true);
 }
 
-template<class Key, class Compare, class Allocator>
-bool ft::operator<=(const ft::set<Key, Compare, Allocator> &lhs, const ft::set<Key, Compare, Allocator> &rhs)
+template<class T, class Compare, class Allocator>
+bool ft::operator<=(const ft::set<T, Compare, Allocator> &lhs, const ft::set<T, Compare, Allocator> &rhs)
 {
 	if (lhs == rhs)
 		return (true);

@@ -12,7 +12,7 @@ template<class T, class C>
 class const_set_iterator
 {
 	private:
-		RBtre<T, C>		*cur;
+		RBtree<T, C>		*cur;
 		bool            sentinel;
 
 	public:
@@ -24,10 +24,10 @@ class const_set_iterator
 		typedef std::bidirectional_iterator_tag iterator_category;
 	 
 		const_set_iterator();
-		const_set_iterator(RBtre<T, C> *init);
+		const_set_iterator(RBtree<T, C> *init);
 		const_set_iterator(const ft::set_iterator<T, C> &cpy);
-		const_set_iterator(RBtre<const T, C> *init);
-		const_set_iterator(RBtre<T, C> *iend, bool sen);
+		const_set_iterator(RBtree<const T, C> *init);
+		const_set_iterator(RBtree<T, C> *iend, bool sen);
 
 		const_set_iterator operator=(const ft::set_iterator<T, C> &rhs);
 
@@ -37,7 +37,7 @@ class const_set_iterator
 		const_set_iterator operator--(int);
 		const T *operator->() const;
 		const T &operator*() const;
-		RBtre<T, C> *getcur() const;
+		RBtree<T, C> *getcur() const;
 		bool getsen() const;
 		class Badoperation : public std::exception // le vrai ne segault pas
 		{
@@ -70,7 +70,7 @@ ft::const_set_iterator<T, C> ft::const_set_iterator<T, C>::operator=(const ft::s
 }
 
 template<class T, class C>
-RBtre<T, C> *ft::const_set_iterator<T, C>::getcur() const
+RBtree<T, C> *ft::const_set_iterator<T, C>::getcur() const
 {
 	return (this->cur);
 }
@@ -88,7 +88,7 @@ const T *ft::const_set_iterator<T, C>::operator->() const
 }
 
 template<class T, class C>
-ft::const_set_iterator<T, C>::const_set_iterator(RBtre<T, C> *iend, bool sen)
+ft::const_set_iterator<T, C>::const_set_iterator(RBtree<T, C> *iend, bool sen)
 {
 	if (sen == false)
 	{
@@ -128,14 +128,14 @@ ft::const_set_iterator<T, C>::const_set_iterator(const typename ft::set_iterator
 }
 
 template<class T, class C>
-ft::const_set_iterator<T, C>::const_set_iterator(RBtre<T, C> *init)
+ft::const_set_iterator<T, C>::const_set_iterator(RBtree<T, C> *init)
 {
 	this->cur = init;
 	this->sentinel = false;
 }
 
 template<class T, class C>
-ft::const_set_iterator<T, C>::const_set_iterator(RBtre<const T, C> *init)
+ft::const_set_iterator<T, C>::const_set_iterator(RBtree<const T, C> *init)
 {
 	this->cur = init;
 	this->sentinel = false;
@@ -153,7 +153,7 @@ const T &ft::const_set_iterator<T, C>::operator*() const
 template<class T, class C>
 ft::const_set_iterator<T, C> &ft::const_set_iterator<T, C>::operator++()
 {
-	RBtre<T, C> *res;
+	RBtree<T, C> *res;
 	C comp;
 
 	if (this->sentinel == true)
@@ -192,7 +192,7 @@ ft::const_set_iterator<T, C> &ft::const_set_iterator<T, C>::operator++()
 template<class T, class C>
 ft::const_set_iterator<T, C> ft::const_set_iterator<T, C>::operator++(int)
 {
-	RBtre<T, C> *res;
+	RBtree<T, C> *res;
 	const_set_iterator tmp;
 	C comp;
 
@@ -231,7 +231,7 @@ ft::const_set_iterator<T, C> ft::const_set_iterator<T, C>::operator++(int)
 template<class T, class C>
 ft::const_set_iterator<T, C> ft::const_set_iterator<T, C>::operator--(int)
 {
-	RBtre<T, C> *res;
+	RBtree<T, C> *res;
 	const_set_iterator tmp;
 	C comp;
 
@@ -277,7 +277,7 @@ ft::const_set_iterator<T, C> ft::const_set_iterator<T, C>::operator--(int)
 template<class T, class C>
 ft::const_set_iterator<T, C> &ft::const_set_iterator<T, C>::operator--()
 {
-	RBtre<T, C> *res;
+	RBtree<T, C> *res;
 	C comp;
 
 	if (this->sentinel == true)

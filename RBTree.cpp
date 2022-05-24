@@ -1,7 +1,7 @@
 #include "RBTree.hpp"
 
 template <class T, class V>
-void display_node(RBtree<T, V> *n, std::string name)
+void display_node(RBTree<T, V> *n, std::string name)
 {
 	std::cout << "node " << name << " ";
 	std::cout << n->p->first;
@@ -34,7 +34,7 @@ void display_node(RBtree<T, V> *n, std::string name)
 }
 
 template <class T, class V, class C>
-RBtree<T, V, C> *stepadd(RBtree<T, V, C> *n, std::allocator<ft::pair<const int, int> > allo)
+RBTree<T, V, C> *stepadd(RBTree<T, V, C> *n, std::allocator<ft::pair<const int, int> > allo)
 {
 
 	std::less<int> comp;
@@ -77,14 +77,14 @@ void test_RBTree()
 
 
 
-	//RBtree<int, const int> *cst = NULL;
+	//RBTree<int, const int> *cst = NULL;
 
 	//cst = cst->insert(cst, const_RBpair(3, 8, allo), comp);
 
 
 	/*
 
-	RBtree<int, int> *test = NULL;
+	RBTree<int, int> *test = NULL;
 	bool er;
 
 	test = test->insert(test, RBpair(8, 0, allo), comp);
@@ -111,9 +111,9 @@ void test_RBTree()
 	disp_tree(test);
 	test->clear(test, allo);
 
-	RBtree<int, int> *mytree;
-	RBtree<int, int> *rac;
-	mytree = new RBtree<int, int>(10, 0, allo);
+	RBTree<int, int> *mytree;
+	RBTree<int, int> *rac;
+	mytree = new RBTree<int, int>(10, 0, allo);
 
 	rac = mytree;
 
@@ -160,7 +160,7 @@ void test_RBTree()
 	//disp_tree(rac);
 	
 	srand(time(NULL));
-	RBtree<int, int> *truc = NULL;
+	RBTree<int, int> *truc = NULL;
 
 	for (int i = 0 ; i < 5 ; i++)
 	{

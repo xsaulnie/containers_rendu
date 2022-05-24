@@ -13,7 +13,7 @@ template<class T, class V, class C>
 class map_iterator
 {
 	protected:
-		RBtree<T, V, C>		*cur;
+		RBTree<T, V, C>		*cur;
 		bool				sentinel;
 
 	public:
@@ -24,8 +24,8 @@ class map_iterator
 		typedef std::bidirectional_iterator_tag iterator_category;
 	 
 		map_iterator();
-		map_iterator(RBtree<T, V, C> *init);
-		map_iterator(RBtree<T, V, C> *iend, bool sen);
+		map_iterator(RBTree<T, V, C> *init);
+		map_iterator(RBTree<T, V, C> *iend, bool sen);
 
 		map_iterator &operator++();
 		map_iterator operator++(int);
@@ -34,7 +34,7 @@ class map_iterator
 		ft::pair<const T, V> &operator*() const;
 		ft::pair<const T, V> *operator->() const;
 
-		RBtree<T, V, C> *getcur() const;
+		RBTree<T, V, C> *getcur() const;
 		bool getsen() const;
 		class Badoperation : public std::exception // le vrai ne segault pas
 		{
@@ -60,7 +60,7 @@ bool operator!=(const ft::map_iterator<T, V, C> &lhs, const ft::map_iterator<T, 
 }
 
 template<class T, class V, class C>
-RBtree<T, V, C> *ft::map_iterator<T, V, C>::getcur() const
+RBTree<T, V, C> *ft::map_iterator<T, V, C>::getcur() const
 {
 	return (this->cur);
 }
@@ -78,7 +78,7 @@ ft::pair<const T, V> *ft::map_iterator<T, V, C>::operator->() const
 }
 
 template<class T, class V, class C>
-ft::map_iterator<T, V, C>::map_iterator(RBtree<T, V, C> *iend, bool sen)
+ft::map_iterator<T, V, C>::map_iterator(RBTree<T, V, C> *iend, bool sen)
 {
 	if (sen == false)
 	{
@@ -111,7 +111,7 @@ ft::map_iterator<T, V, C>::map_iterator()
 }
 
 template<class T, class V, class C>
-ft::map_iterator<T, V, C>::map_iterator(RBtree<T, V, C> *init)
+ft::map_iterator<T, V, C>::map_iterator(RBTree<T, V, C> *init)
 {
 	this->cur = init;
 	this->sentinel = false;
@@ -128,7 +128,7 @@ ft::pair<const T, V> &ft::map_iterator<T, V, C>::operator*() const
 template<class T, class V, class C>
 ft::map_iterator<T, V, C> &ft::map_iterator<T, V, C>::operator++()
 {
-	RBtree<T, V, C> *res;
+	RBTree<T, V, C> *res;
 	C comp;
 
 	if (this->sentinel == true)
@@ -167,7 +167,7 @@ ft::map_iterator<T, V, C> &ft::map_iterator<T, V, C>::operator++()
 template<class T, class V, class C>
 ft::map_iterator<T, V, C> ft::map_iterator<T, V, C>::operator++(int)
 {
-	RBtree<T, V, C> *res;
+	RBTree<T, V, C> *res;
 	map_iterator tmp;
 	C comp;
 
@@ -206,7 +206,7 @@ ft::map_iterator<T, V, C> ft::map_iterator<T, V, C>::operator++(int)
 template<class T, class V, class C>
 ft::map_iterator<T, V, C> ft::map_iterator<T, V, C>::operator--(int)
 {
-	RBtree<T, V, C> *res;
+	RBTree<T, V, C> *res;
 	map_iterator tmp;
 	C comp;
 
@@ -252,7 +252,7 @@ ft::map_iterator<T, V, C> ft::map_iterator<T, V, C>::operator--(int)
 template<class T, class V, class C>
 ft::map_iterator<T, V, C> &ft::map_iterator<T, V, C>::operator--()
 {
-	RBtree<T, V, C> *res;
+	RBTree<T, V, C> *res;
 	C comp;
 
 	if (this->sentinel == true)
