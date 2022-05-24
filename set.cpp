@@ -166,7 +166,14 @@ void test_set()
     std::cout << triple.count(33) << " is the count of 33" << std::endl;
     std::cout << triple.count(39) << " is the count of 39" << std::endl;
 
+    std::cout << "Set test" << std::endl;
 
+
+    ns::set<int> salut;
+
+    ns::set<int>::iterator ite = salut.begin();
+
+    *ite = 42;
     
     
 

@@ -18,8 +18,8 @@ class set_iterator
 	public:
 		typedef size_t difference_type;
 		typedef T value_type;
-		typedef T * pointer;
-		typedef T & reference;
+		typedef const T * pointer;
+		typedef const T & reference;
 		typedef std::bidirectional_iterator_tag iterator_category;
 	 
 		set_iterator();
@@ -31,8 +31,8 @@ class set_iterator
 		set_iterator operator++(int);
 		set_iterator &operator--();
 		set_iterator operator--(int);
-		T &operator*() const;
-		 T *operator->() const;
+		const T &operator*() const;
+		const  T*operator->() const;
 
 		RBtre<T, C> *getcur() const;
 		bool getsen() const;
@@ -72,7 +72,7 @@ bool ft::set_iterator<T, C>::getsen() const
 }
 
 template<class T, class C>
-T *ft::set_iterator<T, C>::operator->() const
+const T *ft::set_iterator<T, C>::operator->() const
 {
 	return (std::__addressof(operator*()));
 }
@@ -125,7 +125,7 @@ ft::set_iterator<T, C>::set_iterator(RBtre<T, C> *init)
 }
 
 template<class T, class C>
- T &ft::set_iterator<T, C>::operator*() const
+const T &ft::set_iterator<T, C>::operator*() const
 {
 	if (this->sentinel == true)
 		throw (Badoperation());
