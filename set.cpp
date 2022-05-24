@@ -141,7 +141,7 @@ void test_set()
 
     ns::set<int>triple;
     ns::set<int>::iterator ret_found;
-    size_t  count_ret;
+    //size_t  count_ret;
 
     for (int i = 0 ; i < 12 ; i++)
     {
@@ -166,6 +166,50 @@ void test_set()
     std::cout << triple.count(33) << " is the count of 33" << std::endl;
     std::cout << triple.count(39) << " is the count of 39" << std::endl;
 
-    std::cout << "Set test" << std::endl;
+    std::cout << "\nBound test\n" << std::endl;
+
+    ns::set<int>::iterator bond;
+
+    bond = triple.lower_bound(12); std::cout << "Lower bound of 12 "<< *bond << std::endl;
+    bond = triple.upper_bound(12); std::cout << "Upper bound of 12 " << *bond << std::endl;
+
+    bond = triple.lower_bound(18); std::cout << "Lower bound of 18 "<< *bond << std::endl;
+    bond = triple.upper_bound(18); std::cout << "Upper bound of 18 " << *bond << std::endl;
+
+    bond = triple.lower_bound(33); std::cout << "Lower bound of 33 " << *bond << std::endl;
+    bond = triple.upper_bound(33);
+    if (triple.end() == bond)
+    {
+        std::cout << "Upper bound of 33 : end iterator" << std::endl;
+    }
+
+    std::cout << "\nComparaison operator\n";
+
+    ns::set<char> dic1; dic1.insert('a'); dic1.insert('b'); dic1.insert('c');
+    ns::set<char> dic2; dic2.insert('a'); dic2.insert('b'); dic2.insert('e');
+
+    display_set(dic1);
+    display_set(dic2);
+
+    if (dic1 >= dic1)
+        std::cout << "dic1 >= dic1\n";
+    if (dic1 == dic1)
+        std::cout << "dic1 == dic1\n";
+    if (dic1 != dic1)
+        std::cout << "dic1 != dic1\n";
+
+    if (dic1 <= dic2)
+        std::cout << "dic1 <= dic2\n";
+    if (dic1 < dic2)
+        std::cout << "dic1 < dic2\n";
+    if (dic1 != dic2)
+        std::cout << "dic1 != dic2\n";
+
+    if (dic2 >= dic1)
+        std::cout << "dic2 >= dic1\n";
+    if (dic2 > dic1)
+        std::cout << "dic2 > dic1\n";
+    if (dic2 != dic1)
+        std::cout << "dic2 != dic1\n";
 
 }

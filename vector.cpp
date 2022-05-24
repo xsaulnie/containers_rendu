@@ -1,7 +1,5 @@
 #include "vector.hpp"
-//#define ns ft
 
-//std::ostream & operator<<( std::ostream & o, Awesome const & rhs ) { o << rhs.get(); return o; }
 template<typename T>
 void displayit_vector(typename ns::vector<T> vec)
 {
@@ -50,7 +48,6 @@ void test_capacity(bool reserved)
 	std::cout << std::endl;
 	for (int i = 0 ; i < 50 ; i++)
 	{
-		//std::cout << "{" << i << "-" << foo.size() << "-" << foo.capacity() << "}" << std::endl;
 		foo.push_back(i);
 		if (cap != foo.capacity())
 		{
@@ -62,7 +59,7 @@ void test_capacity(bool reserved)
 
 void test_vector()
 {
-	std::cout << "TEST CONSTRUCTORS" << std::endl;
+	std::cout << "\nTEST CONSTRUCTORS\n" << std::endl;
 	std::cout << "Default constructor" << std::endl;
 	ns::vector<int> first;
 	display_vector(first, "first");
@@ -101,14 +98,42 @@ void test_vector()
 	display_vector(a, "a = b");
 	std::cout << "a = b Size and capacity : " << a.size() << " " << a.capacity() << std::endl;
 
-	std::cout << std::endl << "Reverse iterator test" << std::endl;
+	std::cout << std::endl << "\nREVERSE ITERATOR TEST\n" << std::endl;
 	ns::vector<int> order;
 	order.push_back(0); order.push_back(1); order.push_back(2); order.push_back(3); order.push_back(4);
 	display_vector(order, "order");
 	std::cout << "order ";
 	display_reverseit(order);
 
-	std::cout << "Size and Resize test" << std::endl;
+	std::cout << "order through const iterator : ";
+	ns::vector<int>::const_iterator cit;
+
+	cit = order.begin();
+
+	while (cit != order.end())
+	{
+		std::cout << "|" << *cit << "|";
+		cit++;
+	}
+	std::cout << std::endl;
+	std::cout << "\nACCESS OPERATOR TEST\n" << std::endl;
+	ns::vector<int> accessible;
+	accessible.push_back(2);accessible.push_back(4);accessible.push_back(6);accessible.push_back(8);accessible.push_back(10);accessible.push_back(12);
+	std::cout << "accessible display with [] : ";
+	for (int i = 0 ; i < accessible.size() ; i++)
+	{
+		std::cout << "-" << accessible[i] << "-";
+	}
+	std::cout << "\nadding 1 to accessible :     ";
+	for (int i = 0 ; i < accessible.size() ; i++)
+	{
+		accessible[i]++;
+		std::cout << "-" << accessible[i] << "-";
+	}
+	std::cout << std::endl;
+	std::cout << "front is : " << accessible.front() << " back is " << accessible.back() << " at 2 is " << accessible.at(2) << std::endl;
+
+	std::cout << "\nSIZE AND RESIZE TEST\n" << std::endl;
 	ns::vector<double> big;
 	std::vector<double> bigc;
 	std::cout << "Maximum size " << big.max_size() << std::endl;
@@ -145,7 +170,7 @@ void test_vector()
 	std::cout << "capacity test with 50 reserved" << std::endl;
 	test_capacity(true);
 
-
+	std::cout << "\nASSIGNED TEST\n\n";
 	ns::vector<int> assigned;
 
 	assigned.assign(10, 3);
@@ -159,6 +184,8 @@ void test_vector()
 	assigned.pop_back();
 	assigned.pop_back();
 	display_vector(assigned, "assigned double pop_back");
+
+	std::cout << "\nERASE TEST\n";
 
 	ns::vector<int> erased;
 	order.push_back(5);order.push_back(6);order.push_back(7);order.push_back(8);order.push_back(9);
@@ -185,6 +212,8 @@ void test_vector()
 	erased.erase(erased.begin() + 2, erased.end() - 2);
 	display_vector(erased, "last 2, first 2, not  erased");
 
+	std::cout << "\nINSER TEST\n"; 
+
 	std::cout << std::endl;
 	ns::vector<int> inserted;
 	inserted.assign(order.begin(), order.end());
@@ -193,9 +222,12 @@ void test_vector()
 	display_vector(inserted, "0 inserted at pos 2");
 	inserted.insert(inserted.end() - 1, 0);
 	display_vector(inserted, "0 inserted before last");
+	inserted.insert(inserted.begin(), -1);
+	display_vector(inserted, "-1 inserted at begining");
 
 	ns::vector<int> minserted;
 
+	std::cout << "Multiple insertion\n";
 	minserted.assign(order.begin(), order.end());
 	minserted.insert(minserted.begin() + 2, 5, 0);
 	display_vector(minserted, "5 0 inserted at pos 2");
@@ -207,9 +239,11 @@ void test_vector()
 	minserted.insert(minserted.end() - 2, 10, -2);
 	display_vector(minserted, "10 -2 inserted before the 10");
 
-	std::cout<< std::endl;
+
+	std::cout<< "Iterator insetion\n";
 
 	ns::vector<int> iterinserted(8);
+	display_vector(iterinserted, "vector of 8 0");
 	ns::vector<int> little1;
 	little1.push_back(1); little1.push_back(2); little1.push_back(3);
 	iterinserted.insert(iterinserted.begin() + 2, little1.begin(), little1.end());
@@ -225,15 +259,38 @@ void test_vector()
 	iterinserted.insert(iterinserted.begin() + 5, little1.begin(), little1.end());
 	display_vector(iterinserted, "123 pos 5");
 
-	ns::vector<int>::const_iterator cit;
+	std::cout << "\nSWAP TEST\n";
 
-	cit = minserted.begin();
+	ns::vector<int> sw1; ns::vector<int> sw2; ns::vector<int> sw3;
 
-	while (cit != minserted.end())
+	sw1.push_back(7); sw1.push_back(8); sw1.push_back(9); sw1.push_back(10);
+
+	for (ns::vector<int>::const_iterator it = sw1.begin() ; it != sw1.end() ; it++)
 	{
-		std::cout << "|" << *cit << "|";
-		cit++;
+		sw2.insert(sw2.end(), 2 * (*it) - 6);
 	}
-	std::cout << std::endl;
+
+	display_vector(sw1, "sw1 : ");
+	display_vector(sw2, "sw2 : ");
+	display_vector(sw3, "sw3 : ");
+
+	sw1.swap(sw2); std::cout << "swap 1 with 2 member fonction\n"; 
+	display_vector(sw1, "sw1 : ");
+	display_vector(sw2, "sw2 : ");
+	ns::swap(sw2, sw1); std::cout << "swap 2 with 1 externe fonction\n";
+	display_vector(sw1, "sw1 : ");
+	display_vector(sw2, "sw2 : ");
+
+	sw3.swap(sw1); std::cout << "swap 3 with 1 member fonction\n";
+	display_vector(sw1, "sw1 : ");
+	display_vector(sw3, "sw3 : ");
+
+	sw3.clear(); std::cout << "clear tested on 3\n";
+
+	display_vector(sw1, "sw1 : ");
+	display_vector(sw2, "sw2 : ");
+	display_vector(sw3, "sw3 : ");
+
+
 	return ;
 }
