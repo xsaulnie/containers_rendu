@@ -19,10 +19,10 @@ void test_set();
 int main()
 {
 	//test_utils();
-	test_vector();
+	//test_vector();
 	//test_stack();
     //test_RBTree();
-	//test_map();
+	test_map();
 	//test_set();
 	return (0);
 }

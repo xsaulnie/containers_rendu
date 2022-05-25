@@ -291,6 +291,69 @@ void test_vector()
 	display_vector(sw2, "sw2 : ");
 	display_vector(sw3, "sw3 : ");
 
+	std::cout << "\nCOMPARAISON OPERATOR TEST\n";
+
+	ns::vector<char> one;
+	ns::vector<char> two;
+	ns::vector<char> the;
+
+	one.push_back('a'); one.push_back('e');
+	ns::vector<char> cone(one);
+	two.push_back('a'); two.push_back('e'); two.push_back('b');
+	the.push_back('a'), the.push_back('r');
+
+	if (one == one)
+		std::cout << "one == one\n";
+	if (one >= one)
+		std::cout << "one >= one\n";
+	if (one != one)
+		std::cout << "one != one\n";
+	if (one <= one)
+		std::cout << "one <= one\n";
+	if (one < one)
+		std::cout << "one < one\n";
+	if (one > one)
+		std::cout << "one > one\n";
+
+	if (one == two)
+		std::cout << "one == two\n";
+	if (one >= two)
+		std::cout << "one >= two\n";
+	if (one != two)
+		std::cout << "one != two\n";
+	if (one <= two)
+		std::cout << "one <= two\n";
+	if (one < two)
+		std::cout << "one < two\n";
+	if (one > one)
+		std::cout << "one > two\n";
+
+	if (one == cone)
+		std::cout << "one == cone\n";
+	if (one >= cone)
+		std::cout << "one >= cone\n";
+	if (one != cone)
+		std::cout << "one != cone\n";
+	if (one <= cone)
+		std::cout << "one <= cone\n";
+	if (one < cone)
+		std::cout << "one < cone\n";
+	if (one > cone)
+		std::cout << "one > cone\n";
+	
+	if (one == the)
+		std::cout << "one == the\n";
+	if (one >= the)
+		std::cout << "one >= the\n";
+	if (one != the)
+		std::cout << "one != the\n";
+	if (one <= the)
+		std::cout << "one <= the\n";
+	if (one < the)
+		std::cout << "one < the\n";
+	if (one > the)
+		std::cout << "one > the\n";
+	
 
 	return ;
 }

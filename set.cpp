@@ -17,7 +17,7 @@ void test_set()
 
     ns::set<int> defau;
 
-    std::cout << "Constructor test\n";
+    std::cout << "CONSTRUCTOR TEST\n";
 
     if (defau.empty())
         std::cout << "default constructor empty construction" << std::endl;
