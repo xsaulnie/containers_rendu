@@ -45,6 +45,25 @@ void display_mapm(ns::map<Key, T, Compare> &m, const std::string &msg)
 	display_map(m);
 }
 
+
+template<class Key, class T, class Compare>
+void compmap(ns::map<Key, T, Compare> &m1, ns::map<Key, T, Compare> &m2, const std::string &n1, const std::string &n2)
+{
+	if (m1 == m2)
+		std::cout << n1 << " == " << n2 << std::endl;
+	if (m1 != m2)
+		std::cout << n1 << " != " << n2 << std::endl;
+	if (m1 > m2)
+		std::cout << n1 << " > " << n2 << std::endl;
+	if (m1 >= m2)
+		std::cout << n1 << " >= " << n2 << std::endl;
+	if (m1 < m2)
+		std::cout << n1 << " < " << n2 << std::endl;
+	if (m1 <= m2)
+		std::cout << n1 << " <= " << n2 << std::endl;
+	std::cout << std::endl;
+}
+
 void test_map()
 {
 	ns::map<int, int> test;
@@ -158,140 +177,170 @@ void test_map()
 	display_mapm(ins2, "ins2 : ");
 	if (ins1 == ins2)
 		std::cout << "insertion completed" << std::endl;
-	
-	
-	return ;
 
+	std::cout << "\nERASE TEST\n";
 
-	ns::map <int, int> iteinser;
+	size_t ret_erase;
 
-	ns::map <int, int> citer(test.begin(), test.end());
+	std::cout << "erasing iterator\n" << std::endl;
+	std::cout << "erase ins first position ";
+	ins1.erase(ins1.begin()); display_mapm(ins1, "ins1 : ");
 
-	display_map(citer);
+	std::cout << "erase ins last position ";
+	ins1.erase(--ins1.end()); display_mapm(ins1, "ins1 : ");
 
-	iteinser.insert(++test.begin(), --test.end());
+	std::cout << "erase ins second position ";
+	ins1.erase(++ins1.begin()); display_mapm(ins1, "ins1 : ");
 
-	display_map(iteinser);
+	std::cout << "erase ins before last position ";
+	ins1.erase(--(--ins1.end())); display_mapm(ins1, "ins1 : ");
 
-	display_map(citer);
+	std::cout << "erasing key\n" << std::endl;
 
+	std::cout << "try to erase 3\n"; 
+	ret_erase = ins2.erase(3); display_mapm(ins2, "ins2 : "); std::cout << "ret : " << ret_erase << std::endl;
+	std::cout << "try to erase 11\n"; 
+	ret_erase = ins2.erase(11); display_mapm(ins2, "ins2 : "); std::cout << "ret : " << ret_erase << std::endl;
+	std::cout << "try to erase 6\n"; 
+	ret_erase = ins2.erase(6); display_mapm(ins2, "ins2 : "); std::cout << "ret : " << ret_erase << std::endl;
+	std::cout << "try to erase 100\n"; 
+	ret_erase = ins2.erase(100); display_mapm(ins2, "ins2 : "); std::cout << "ret : " << ret_erase << std::endl;
 
-	std::cout << " value of citer[30] : " << citer[30] << std::endl;
+	std::cout << "erasing range\n";
 
-	std::cout << " value of citer[47] : " << citer[47] << std::endl;
+	std::cout << "Erasing all exepted first\n";
+	ins1.erase(++ins1.begin(), ins1.end()); display_mapm(ins1, "ins1 : ");
+	std::cout << "Erasing all exepted last\n"; display_mapm(ins2, "ins2 : ");
+	ins2.erase(ins2.begin(), --ins2.end());
 
-	citer[47] =  47;
-	std::cout << " value of citer[47] : " << citer[47] << std::endl;
+	std::cout << "\nSWAP TEST\n";
 
-	//disp_m(citer);
-	citer.insert(ns::pair<int, int>(27, 8));
-	//disp_m(citer);
+	ns::map<int, char> sw1;
+	ns::map<int, char> sw2;
+	ns::map<int, char> sw3;
 
-	std::cout << "affecting test at citer" << std::endl;
-	citer = test;
-	//disp_m(citer);
+	sw1.insert(ns::pair<int, char>(8, 'h'));
+	sw1.insert(ns::pair<int, char>(19, 's'));
 
-	std::cout << "erasing element 6 and element 30" << std::endl;
+	sw2.insert(ns::pair<int, char>(13, 'm'));
+	sw2.insert(ns::pair<int, char>(11, 'k'));
 
-	citer.erase(++citer.begin());
+	display_mapm(sw1, "sw1 : ");
+	display_mapm(sw2, "sw2 : ");
+	display_mapm(sw3, "sw3 : ");
 
-	citer.erase(--(--citer.end()));
+	std::cout << "sw1 swap with sw2\n";
+	sw1.swap(sw2);
+	display_mapm(sw1, "sw1 : ");
+	display_mapm(sw2, "sw2 : ");
 
-	//disp_m(citer);
+	std::cout << "sw2 swap with sw3\n";
+	ns::swap(sw2, sw3);
+	display_mapm(sw2, "sw2 : ");
+	display_mapm(sw3, "sw3 : ");
 
-	std::cout << "erasing all exepted first and last" << std::endl;
+	std::cout << "sw3 swap with sw1\n";
+	sw3.swap(sw1);
+	display_mapm(sw1, "sw1 : ");
+	display_mapm(sw2, "sw2 : ");
+	display_mapm(sw3, "sw3 : ");
 
-	citer.erase(++citer.begin(), --citer.end());
-	//disp_m(citer);
+	std::cout << "All clear" << std::endl;
+	sw1.clear();
+	sw3.clear();
+	display_mapm(sw1, "sw1 : ");
+	display_mapm(sw2, "sw2 : ");
+	display_mapm(sw3, "sw3 : ");
 
-	ns::map<int, int> mini;
+	std::cout << "\nFIND AND COUNT TEST\n";
 
-	mini.insert(ns::pair<int, int>(8, 0));
-	mini.insert(ns::pair<int, int>(60, 0));
+	size_t ret_c;
 
-	std::cout << "mini map" << std::endl;
+	ns::map<int, std::string> prime;
 
-	//disp_m(mini);
+	ns::map<int, std::string>::iterator ret_f;
 
-	ns::swap(citer, mini);
+	prime.insert(ns::pair<int, std::string>(2, "two"));
+	prime.insert(ns::pair<int, std::string>(3, "three"));
+	prime.insert(ns::pair<int, std::string>(5, "five"));
+	prime.insert(ns::pair<int, std::string>(7, "seven"));
+	prime.insert(ns::pair<int, std::string>(11, "eleven"));
 
-	std::cout << "mini map after swap" << std::endl;
+	display_mapm(prime, "short list of prime : ");
 
-	//disp_m(mini);
-
-	std::cout << "citer after swap" << std::endl;
-
-	//disp_m(citer);
-
-	ns::map<int, int> map(test.begin(), test.end());
-
-    ns::map<int, int> map_copy(map);
-
-	std::cout << "Copy constryctor of test" << std::endl;
-	//disp_m(map_copy);
-
-	if (citer.begin() != citer.end())
-		std::cout << "They are differents" << std::endl;
-
-	if (citer == mini)
-		std::cout << "citer and mini are equal" << std::endl;
+	ret_f = prime.find(2);
+	ret_c = prime.count(2);
+	if (ret_f == prime.end())
+		std::cout << "prime not found " << ret_c << " counted\n";
 	else
-		std::cout << "citer and mini are not equal" << std::endl;
-	if (citer != mini)
-		std::cout << "citer and mini are differents" << std::endl;
+		std::cout << ret_f->second << " is prime " << ret_c << " counted\n";
+
+	ret_f = prime.find(11);
+	ret_c = prime.count(11);
+	if (ret_f == prime.end())
+		std::cout << "prime not found " << ret_c << " counted\n";
 	else
-		std::cout << "citer and mini are not differents" << std::endl;
+		std::cout << ret_f->second << " is prime " << ret_c << " counted\n";
 
-	if (mini == mini)
-		std::cout << "mini is mini" << std::endl;
+	ret_f = prime.find(28);
+	ret_c = prime.count(28);
+	if (ret_f == prime.end())
+		std::cout << "prime not found " << ret_c << " counted\n";
 	else
-		std::cout << "mini is not mini" << std::endl;
+		std::cout << ret_f->second << " is prime " << ret_c << " counted\n";
 
-	ns::map<int, std::string> dico1;
-	ns::map<int, std::string> dico2;
+	std::cout << "\nBOUND TEST\n";
 
-	dico1.insert(ns::pair<int, std::string>(1, "base"));
-	dico1.insert(ns::pair<int, std::string>(2, "bonjour"));
+	ns::map<int, int> map;
 
-	dico2.insert(ns::pair<int, std::string>(1, "base"));
-	dico2.insert(ns::pair<int, std::string>(2, "ca va"));
+	map.insert(ns::pair<int, int>(30, 30));
+	map.insert(ns::pair<int, int>(12, 12));
+	map.insert(ns::pair<int, int>(16, 16));
+	map.insert(ns::pair<int, int>(50, 50));
 
-
-	if (dico1 > dico2)
-		std::cout << "dico1 is inferior" << std::endl;
-	else
-		std::cout << "dico1 is not inferior" << std::endl;
-	
-	std::cout << "Test bound" << std::endl;
+	display_mapm(map, "map to test bounds :");
 
 	std::cout << "Lower bound of 15 : " << (map.lower_bound(15))->first << std::endl;
 	std::cout << "Lower bound of 30 : " << (map.lower_bound(30))->first << std::endl;
+
 	std::cout << "Upper bound of 15 : " << (map.upper_bound(15))->first << std::endl;
 	std::cout << "Upper bound of 30 : " << (map.upper_bound(30))->first << std::endl;
 
 	if (map.upper_bound(100) == map.end())
 		std::cout << "Upper bound of 100 return end iterator" << std::endl;
+	if (map.upper_bound(100) == map.end())
+		std::cout << "Lower bound of 100 return end iterator" << std::endl;
 
 	ns::pair<ns::map<int, int>::iterator, ns::map<int, int>::iterator> prange;
 
 	prange = map.equal_range(28);
 	std::cout << "equal range 28 : "<< (prange.first)->first << "-" <<(prange.second)->first << std::endl;
 
-	ns::map<int, int>::const_iterator cit = map.begin();
-	cit++;
-	std::cout << cit->second << std::endl;
+
+	ns::map<int, int> cmp1;
+	ns::map<int, int> cmp2;
+	ns::map<int, int> cmp3;
+	ns::map<int, int> cmp4;
+
+	cmp1.insert(ns::pair<int, int>(1, 8));
+	cmp2.insert(ns::pair<int, int>(1, 12));
+	cmp3.insert(ns::pair<int, int>(-3, 1));
+	cmp4.insert(ns::pair<int, int>(1, 8)); 	cmp4.insert(ns::pair<int, int>(7, 9));
+	display_mapm(cmp1, "cmp1 : ");
+	display_mapm(cmp2, "cmp2 : ");
+	display_mapm(cmp3, "cmp3 : ");
+	std::cout << std::endl;
+
+	compmap(cmp1, cmp1, "cmp1", "cmp1");
+	compmap(cmp1, cmp2, "cmp1", "cmp2");
+	compmap(cmp1, cmp3, "cmp1", "cmp3");
+
+	cmp1.insert(ns::pair<int, int>(7, 6));
+	display_mapm(cmp1, "cmp1 : ");
+	display_mapm(cmp4, "cmp4 : ");
+	std::cout << std::endl;
+	compmap(cmp1, cmp4, "cmp1", "cmp4");
 
 	return ;
-/*
-	ns::map <int, int> test;
-
-	test.insert(ns::pair<int, int>(42, 42));
-	ns::map<int, int>::const_iterator cti = test.begin();
-	ns::map<int, int>::iterator ti = test.begin();
-
-	if (ti == cti)
-		std::cout << "OK" << std::endl;
-	return ;
-	*/
 
 }
