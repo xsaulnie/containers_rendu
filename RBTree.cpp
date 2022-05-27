@@ -11,7 +11,7 @@ void display_node(RBTree<T, V> *n, std::string name)
 	}
 	else
 	{
-		std::cout << " right " << n->right->key;
+		std::cout << " right " << n->right->p->first;
 	}
 	if (n->left == NULL)
 	{
@@ -19,7 +19,7 @@ void display_node(RBTree<T, V> *n, std::string name)
 	}
 	else
 	{
-		std::cout << " left " << n->left->key;
+		std::cout << " left " << n->left->p->first;
 	}
 
 	if (n->parent == NULL)
@@ -28,7 +28,7 @@ void display_node(RBTree<T, V> *n, std::string name)
 	}
 	else
 	{
-		std::cout << " parent " << n->parent->key;
+		std::cout << " parent " << n->parent->p->first;
 	}
 	std::cout << std::endl;
 }
@@ -86,9 +86,9 @@ RBTree<T, V, C> *stepadd(RBTree<T, V, C> *n, std::allocator<ft::pair<const int, 
 void test_RBTree()
 {
 	std::allocator<ft::pair<const int, int> > allo;
-	
+
 	srand(time(NULL));
-		std::less<int> comp;
+
 	RBTree<int, int> *truc = NULL;
 
 	for (int i = 0 ; i < 5 ; i++)
@@ -97,16 +97,42 @@ void test_RBTree()
 		disp_tree(truc);
 	}
 
+
 	RBTree<int, int> *wr = NULL;
-	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(7, 0, allo), comp);
-	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(8, 0, allo), comp);
-	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(9, 0, allo), comp);
-	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(10, 0, allo), comp);
-	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(27, 0, allo), comp);
 
-	wr->right->color = 1;
-
+	std::less<int> comp;
+	bool res;
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(37, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(34, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(31, 2, allo), comp);
+	wr = wr->vanish(wr, 31, res, comp, allo);
 	disp_tree(wr);
+
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(7, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(63, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(86, 2, allo), comp);
+	wr = wr->vanish(wr, 86, res, comp, allo);
+	disp_tree(wr);
+
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(48, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(46, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(78, 2, allo), comp);
+		disp_tree(wr);
+	wr = wr->vanish(wr, 48, res, comp, allo);
+	disp_tree(wr);
+/*
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(75, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(3, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(85, 2, allo), comp);
+	wr = wr->vanish(wr, 85, res, comp, allo);
+	disp_tree(wr);
+
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(5, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(2, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int>>(78, 2, allo), comp);
+	wr = wr->vanish(wr, 5, res, comp, allo);
+	disp_tree(wr);
+*/
 	return ;
 
 }
