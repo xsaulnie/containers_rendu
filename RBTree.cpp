@@ -33,6 +33,8 @@ void display_node(RBTree<T, V> *n, std::string name)
 	std::cout << std::endl;
 }
 
+
+
 template <class T, class V, class C>
 RBTree<T, V, C> *stepadd(RBTree<T, V, C> *n, std::allocator<ft::pair<const int, int> > allo)
 {
@@ -42,12 +44,23 @@ RBTree<T, V, C> *stepadd(RBTree<T, V, C> *n, std::allocator<ft::pair<const int, 
 	bool err;
 
 	num1 = rand() % 100;
-	num2 = rand() % 100;
-	num3 = rand() % 100;
-	n = n->insert(n, RBpair<T, V, C>(num1, 0, allo), comp);
-	n = n->insert(n, RBpair<T, V, C>(num2, 0, allo), comp);
-	n = n->insert(n, RBpair<T, V, C>(num3, 0, allo), comp);
-	std::cout << "+" << num1 << " "<<num2 << " " << num3<< "-"<< std::endl;
+	do
+	{
+		num2 = rand() % 100;
+	} while (num2 == num1);
+	
+	do
+	{
+		num3 = rand() % 100;
+	} while (num3 == num1 || num3 == num2);
+	
+	if (n->search(n, num1, comp) == NULL)
+		n = n->insert(n, RBpair<T, V, C>(num1, 0, allo), comp);
+	if (n->search(n, num2, comp) == NULL)
+		n = n->insert(n, RBpair<T, V, C>(num2, 0, allo), comp);
+	if (n->search(n, num3, comp) == NULL)
+		n = n->insert(n, RBpair<T, V, C>(num3, 0, allo), comp);
+	std::cout << "+" << num1 << " "<<num2 << " " << num3<< "\n-";
 	
 	int choice = rand() % 3;
 
@@ -73,93 +86,9 @@ RBTree<T, V, C> *stepadd(RBTree<T, V, C> *n, std::allocator<ft::pair<const int, 
 void test_RBTree()
 {
 	std::allocator<ft::pair<const int, int> > allo;
-	//std::less<int> comp;
-
-
-
-	//RBTree<int, const int> *cst = NULL;
-
-	//cst = cst->insert(cst, const_RBpair(3, 8, allo), comp);
-
-
-	/*
-
-	RBTree<int, int> *test = NULL;
-	bool er;
-
-	test = test->insert(test, RBpair(8, 0, allo), comp);
-	test = test->insert(test, RBpair(12, 1, allo), comp);
-	test = test->insert(test, RBpair(13, 6, allo), comp);
-	test = test->insert(test, RBpair(14, 6, allo), comp);
-	test = test->insert(test, RBpair(18, 6, allo), comp);
-	disp_tree(test);
-	test->rot_right(test->right);
-	disp_tree(test);
-	return ;
-	test = test->insert(test, RBpair(8, 0, allo), comp);
-
-	test = test->insert(test, RBpair(12, 1, allo), comp);
-	test = test->insert(test, RBpair(13, 6, allo), comp);
-	test = test->insert(test, RBpair(20, 6, allo), comp);
-	test = test->insert(test, RBpair(28, 1, allo), comp);
-	test = test->insert(test, RBpair(24, 6, allo), comp);
-	test = test->insert(test, RBpair(30, 6, allo), comp);
-	test = test->insert(test, RBpair(1, 1, allo), comp);
-	test = test->insert(test, RBpair(11, 6, allo), comp);
-	test = test->insert(test, RBpair(6, 6, allo), comp);
-	test = test->insert(test, RBpair(50, 6, allo), comp);
-	disp_tree(test);
-	test->clear(test, allo);
-
-	RBTree<int, int> *mytree;
-	RBTree<int, int> *rac;
-	mytree = new RBTree<int, int>(10, 0, allo);
-
-	rac = mytree;
-
-	rac = mytree->insert(rac, RBpair(50, 0, allo), comp);
-	disp_tree(rac);
-
-	rac = mytree->insert(rac, RBpair(12, 0, allo), comp);
-	disp_tree(rac);
-
-	rac = mytree->insert(rac, RBpair(58, 0, allo), comp);
-	disp_tree(rac);
-
-	rac = mytree->insert(rac, RBpair(20, 0, allo), comp);
-	disp_tree(rac);
-
-	rac = mytree->insert(rac, RBpair(54, 0, allo), comp);
-	disp_tree(rac);
-
-	rac = mytree->insert(rac, RBpair(14, 0, allo), comp);
-	disp_tree(rac);
-
-	rac = mytree->insert(rac, RBpair(60, 0, allo), comp);
-	disp_tree(rac);
-
-	rac = mytree->insert(rac, RBpair(68, 0, allo), comp);
-	disp_tree(rac);
-
-	rac = mytree->vanish(rac, 20, er, comp, allo);
-	disp_tree(rac);
-
-	rac = mytree->vanish(rac, 54, er, comp, allo);
-	disp_tree(rac);
-
-	rac = mytree->vanish(rac, 12, er, comp, allo);
-	disp_tree(rac);
-
-	rac = mytree->vanish(rac, 60, er, comp, allo);
-	disp_tree(rac);
-
-	*/
-
-	//std::cout << "vanish" << std::endl;
-	//rac = mytree->vanish(rac, 60);
-	//disp_tree(rac);
 	
 	srand(time(NULL));
+		std::less<int> comp;
 	RBTree<int, int> *truc = NULL;
 
 	for (int i = 0 ; i < 5 ; i++)
@@ -167,38 +96,17 @@ void test_RBTree()
 		truc = stepadd(truc, allo);
 		disp_tree(truc);
 	}
+
+	RBTree<int, int> *wr = NULL;
+	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(7, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(8, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(9, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(10, 0, allo), comp);
+	wr = wr->insert(wr, RBpair<int, int, std::less<int> >(27, 0, allo), comp);
+
+	wr->right->color = 1;
+
+	disp_tree(wr);
 	return ;
 
-
- 
-
-
-
-	
-/*
-	mytree->rot_right(rac->left->left->left);
-
-	while (mytree->getpar(rac) != NULL)
-		rac = mytree->getpar(rac);
-		*/
-
-/*
-	display_node(rac, "rac");
-
-	display_node(rac->right, "rac right");
-	display_node(rac->left, "rac left");
-	*/
-	
-	
-/*
-	rac = mytree->insert(rac, RBpair(1, 0));
-
-	rac = mytree->insert(rac, RBpair(2, 0));
-	rac = mytree->insert(rac, RBpair(-1, 0));
-
-	
-	rac = mytree->insert(rac, RBpair(5, 0));
-
-*/
-	//rac->clear(rac, allo);
 }

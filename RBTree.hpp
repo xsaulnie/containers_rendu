@@ -61,6 +61,40 @@ RBTree<T, V, C> *RBTree<T, V, C>::getrac(RBTree<T, V, C> *n)
 	return (res);
 }
 
+template <class T, class V>
+bool double_red(RBTree<T, V> *rac, bool *res)
+{
+
+	if (rac == NULL)
+	{
+		return (true);
+	}
+	if (rac->color == 1)
+	{
+		if (rac->left != NULL && rac->left->color == 1)
+		{
+			*res = false;
+			return (double_red(rac->left, res) && double_red(rac->right, res));
+		}
+		if (rac->right != NULL && rac->right->color == 1)
+		{
+			*res = false;
+			return (double_red(rac->left, res) && double_red(rac->right, res));
+		}
+	}
+	return (true);
+}
+
+template <class T, class V>
+bool check_double_red(RBTree<T, V> *rac)
+{
+	bool res = true;
+
+	double_red(rac->left, &res);
+	double_red(rac->right, &res);
+	return (res);
+}
+
 template <class T, class V, class C>
 void display_node(RBTree<T, V, C> *n, std::string name);
 
@@ -68,12 +102,15 @@ template<class T, class V, class C>
 void disp_tree(RBTree<T, V, C> *n)
 {
 	RBTree<T, V, C> *rac;
-	std::cout << "enter " << std::endl;
 	rac = n;
 	while (n->getpar(rac) != NULL)
 		rac = n->getpar(rac);
 	std::cout << "----------------------";
 	display_tree(rac, 0);
+	if (check_double_red(rac))
+		std::cout << "ok" <<std::endl;
+	else
+		std::cout << "Wrong tree" << std::endl;
 	std::cout << "----------------------" << std::endl;
 }
 
@@ -117,7 +154,6 @@ RBTree<T, V, C>::RBTree(const T &key, const V &val, alloc_t &Alloc)
 	this->right = NULL;
 	this->p = Alloc.allocate(1);
 	Alloc.construct(this->p, ft::make_pair<const T, V>(key, val));
-	//std::cout << "()" <<this->p->first << " " << this->p->second << "()" << std::endl;
 }
 
 template <class T, class V, class C> 
@@ -143,15 +179,6 @@ RBTree<T, V, C> *RBTree<T, V, C>::RBpair(const T &key, const V &val, std::alloca
 	return new RBTree<T, V, C>(key, val, Alloc);
 }
 
-/*
-template<class T, class V, class C>
-RBTree<T, const V, C> *const_RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V>> &Alloc)
-{
-	return new RBTree<T, const V, C>(key, val, Alloc);
-}
-*/
-
-
 template<class T, class V, class C>
 void RBTree<T, V, C>::clear(RBTree<T, V, C> *rac, alloc_t &Alloc)
 {
@@ -159,7 +186,6 @@ void RBTree<T, V, C>::clear(RBTree<T, V, C> *rac, alloc_t &Alloc)
 		return ;
 	if (rac->left == NULL && rac->right == NULL)
 	{
-		//std::cout << "cleared " << rac->p->first << std::endl;
 		Alloc.deallocate(rac->p, 1);
 		delete (rac);
 		return ;
@@ -168,7 +194,6 @@ void RBTree<T, V, C>::clear(RBTree<T, V, C> *rac, alloc_t &Alloc)
 		clear(rac->left,  Alloc);
 	if (rac->right != NULL)
 		clear(rac->right, Alloc);
-	//std::cout << "cleared " << rac->p->first << std::endl;
 	Alloc.deallocate(rac->p, 1);
 	delete (rac);
 	return ;
@@ -179,10 +204,6 @@ RBTree<T, V, C> *RBTree<T, V, C>::insert(RBTree<T, V, C> *rac, RBTree<T, V, C> *
 {
 	new_element(rac, n, comp);
 
-	//std::cout << "hello" << std::endl;
-	//std::cout << "new element inserted" << std::endl;
-	//disp_tree(rac);
-	
 	repare(n);
 	
 	rac = n;
@@ -239,12 +260,10 @@ bool RBTree<T, V, C>::blackNephews(RBTree<T, V, C> *n)
 template<class T, class V, class C>
 RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V, C> *n)
 {
-//	disp_tree(rac);
 	// cas 1
 
 	if (n == rac)
 	{
-//		std::cout << "case 1" << std::endl;
 		n->color = 0;
 		return (rac);
 	}
@@ -253,7 +272,6 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 
 	if (brother(n) && brother(n)->color == 1 && getpar(n)->color == 0 && blackNephews(n))
 	{
-//		std::cout << "case 2" << std::endl;
 		if (rac == getpar(n))
 			rac = brother(n);
 		brother(n)->color = 0;
@@ -269,7 +287,6 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 
 	if (brother(n) && brother(n)->color == 0 && getpar(n)->color == 0 && blackNephews(n))
 	{
-//		std::cout << "case 3" << std::endl;
 		brother(n)->color = 1;
 		reparevanish(rac, getpar(n));
 	}
@@ -278,7 +295,6 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 
 	if (brother(n) && brother(n)->color == 0 && getpar(n)->color == 1 && blackNephews(n))
 	{
-//		std::cout << "case 4" << std::endl;
 		getpar(n)->color = 0;
 		brother(n)->color = 1;
 		return (rac);
@@ -289,8 +305,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 	if (n == getpar(n)->left)
 	{
 	if (brother(n) && brother(n)->color == 0 && brother(n)->left && brother(n)->left->color == 1 && (brother(n)->right == NULL || brother(n)->right->color == 0))
-	{
-//		std::cout << "case 5 left" << std::endl;
+	{;
 		brother(n)->left->color = 0;
 		brother(n)->color = 1;
 		if (brother(n) == rac)
@@ -303,7 +318,6 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 	{
 	if (brother(n) && brother(n)->color == 0 && brother(n)->right && brother(n)->right->color == 1 && (brother(n)->left == NULL || brother(n)->left->color == 0))
 	{
-//		std::cout << "case 5 right" << std::endl;
 		brother(n)->right->color = 0;
 		brother(n)->color = 1;
 		if (brother(n) == rac)
@@ -318,7 +332,6 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 	{
 	if (brother(n) && brother(n)->color == 0 && brother(n)->right && brother(n)->right->color == 1)
 	{
-//		std::cout << "case 6 left" << std::endl;
 		if (rac == getpar(n))
 			rac = brother(n);
 		brother(n)->right->color = 0;
@@ -332,15 +345,12 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 	{
 	if (brother(n) && brother(n)->color == 0 && brother(n)->left && brother(n)->left->color == 1)
 	{
-//		std::cout << "case 6 right" << std::endl;
 		if (rac == getpar(n))
 			rac = brother(n);
 
 		brother(n)->left->color = 0;
 		brother(n)->color = getpar(n)->color;
 		rot_right(brother(n));
-		//std::cout << "turn is" << rac->p->first << std::endl;
-		//disp_tree(rac);
 		return (rac);
 	}
 	}
@@ -420,12 +430,10 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 	{
 		if (res->color == 1)
 		{
-			//std::cout << "final red case" << std::endl;
 			rac->supress(res, Alloc);
 			return (getrac(rac));
 		}
 		rac = reparevanish(rac, res);
-		//std::cout << "after supression " << rac->p->first << std::endl;
 		rac->supress(res, Alloc);
 		return (getrac(rac));
 	}
@@ -459,101 +467,6 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 	}
 	return (getrac(rac));
 }
-/*
-template<class T, class V, class C>
-void RBTree<T, V, C>::rot_left(RBTree<T, V, C> *y) //3-4-6
-{
-	RBTree<T, V, C> *x = getpar(y);
-
-	if (x == NULL)
-	{
-		rot_left(y->right);
-		return ;
-	}
-
-	if (y->left != NULL)
-	{
-		y->left->parent = x;
-		x->right = y->left;
-		y->left = NULL;
-		y->parent = NULL;
-	}
-	else
-	{
-		x->right = NULL;
-	}
-	if (x->parent == NULL)
-	{
-		y->parent = NULL;
-		x->parent = y;
-		y->left = x;
-		return ;
-	}
-	if (x->parent != NULL)
-	{
-		if (x == x->parent->left)
-		{
-			y->parent = x->parent;
-			x->parent->left = y;
-			x->parent = y;
-			y->left = x;
-		}
-		else
-		{
-			y->parent = x->parent;
-			x->parent->right = y;
-			x->parent = y;
-			y->left = x;
-		}
-	}
-}
-
-template<class T, class V, class C>
-void RBTree<T, V, C>::rot_right(RBTree *x)
-{
-	RBTree<T, V, C> *y = getpar(x);
-
-	if (y == NULL)
-	{
-		rot_right(x->left);
-		return ;
-	}
-
-	if (x->right != NULL)
-	{
-		x->right->parent = y;
-		y->left = x->right;
-		x->right = NULL;
-		x->parent = NULL;
-	}
-	else
-	{
-		y->left = NULL;
-	}
-
-	if (y->parent == NULL)
-	{
-		x->parent = NULL;
-		x->right = y;
-		y->parent = x;
-		return ;
-	}
-	if (y == y->parent->right)
-	{
-		x->parent = y->parent;
-		y->parent->right = x;
-		y->parent = x;
-		x->right = y;
-	}
-	else
-	{
-		x->parent = y->parent;
-		y->parent->left = x;
-		y->parent = x;
-		x->right = y;
-	}
-}
-*/
 
 template<class T, class V, class C>
 void RBTree<T, V, C>::rot_left(RBTree<T, V, C> *x) //3-4-6
@@ -692,7 +605,7 @@ void RBTree<T, V, C>::new_element(RBTree<T, V, C> *rac, RBTree<T, V, C> *n, C &c
 template<class T, class V, class C>
 void RBTree<T, V, C>::repareOncleBlack(RBTree<T, V, C> *n)
 {
-	RBTree<T, V, C> *g = grandparent(n); //13
+	RBTree<T, V, C> *g = grandparent(n);
 	bool st = 0;
 
 	if (oncle(n) == NULL)
@@ -727,7 +640,7 @@ void RBTree<T, V, C>::repareOncleBlack(RBTree<T, V, C> *n)
 		}
 		else
 		{
-			rot_left(np); // p or g
+			rot_left(np);
 		}
 	}
 	np->color = 0;
@@ -758,13 +671,10 @@ void RBTree<T, V, C>::repare(RBTree<T, V, C> *n)
 				g->color = 0;
 				return ;
 			}
-			//std::cout << "ok" << std::endl;
-			//disp_tree(g);
 			repare(g);
 		}
 		return ;
 	}
-	//std::cout << "black" << std::endl;
 	repareOncleBlack(n);
 }
 
@@ -808,6 +718,5 @@ RBTree<T, V, C> *RBTree<T, V, C>::oncle(RBTree *n)
 		return(NULL);
 	return (brother(p));
 }
-
 
 #endif
