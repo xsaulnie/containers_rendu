@@ -96,37 +96,20 @@ bool check_double_red(RBTree<T, V> *rac)
 }
 
 template<class T, class V>
-void hight(RBTree<T, V> *rac, int *highl, int *highr, int *dep)
+bool hight(RBTree<T, V> *rac, int &lvl)
 {
 	if (rac == NULL)
+		return (true);
+	int leftM = 0;
+	int rightM = 0;
+
+	if (hight(rac->left, leftM) && hight(rac->right, rightM))
 	{
-		std::cout << "(" << *dep << ")" <<std::endl;
-		return ;
+		int allmin = (leftM < rightM) ? leftM + 1 : rightM + 1;
+		int allmax = (leftM > rightM) ? leftM + 1 : rightM + 1;
+		return (allmax <= 2 * allmin);
 	}
-	* dep +=1;
-	int savedep = *dep;
-
-	if (rac->parent->left == rac)
-		(*highl) += 1;
-	if (rac->parent->right == rac)
-		*(highr) += 1;
-	hight(rac->left, highl, highr, dep);
-	*dep = savedep;
-	hight(rac->right, highl, highr, dep);
-	*dep = savedep;
-	return ;
-}
-
-template<class T, class V>
-bool check_hight(RBTree<T, V> *rac)
-{
-	int hl = 1, hr = 1, d = 0;
-
-	hight(rac->left, &hl, &hr, &d);
-	hl = 0;
-	hr = 0;
-	hight(rac->right, &hl, &hr, &d);
-	return (true);
+	return false;
 }
 
 template <class T, class V, class C>
@@ -137,16 +120,23 @@ void disp_tree(RBTree<T, V, C> *n)
 {
 	RBTree<T, V, C> *rac;
 	rac = n;
+	int nb = 0;
 	while (n->getpar(rac) != NULL)
 		rac = n->getpar(rac);
 	std::cout << "----------------------";
-	display_tree(rac, 0);
-	if (check_double_red(rac))
+	if (rac != NULL)
+	{
+		display_tree(rac, 0);
+	if (check_double_red(rac) && hight(rac, nb))
 		std::cout << "ok" <<std::endl;
 	else
+	{
 		std::cout << "Wrong tree" << std::endl;
-	//check_hight(rac);
-	
+		//exit(1);
+	}
+	}
+	if (rac == NULL)
+		std::cout << "\nempty \n";
 	std::cout << "----------------------" << std::endl;
 }
 
@@ -343,6 +333,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 
 	//cas 5
 
+
 	if (n == getpar(n)->left)
 	{
 				std::cout << "cas 5a" << std::endl;
@@ -385,6 +376,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 			rac = brother(n);
 		brother(n)->right->color = 0;
 		brother(n)->color = getpar(n)->color;
+		getpar(n)->color = 0;
 		rot_left(brother(n));
 		getpar(n)->color = 0;
 		return (rac);
@@ -400,7 +392,9 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 
 		brother(n)->left->color = 0;
 		brother(n)->color = getpar(n)->color;
+		getpar(n)->color = 0;
 		rot_right(brother(n));
+	//	disp_tree(rac);
 		return (rac);
 	}
 	}
@@ -465,6 +459,7 @@ template <class T, class V, class C>
 RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, bool &erased, C &comp, typename RBTree<T, V, C>::alloc_t &Alloc)
 {
 	RBTree<T, V, C> *res;
+	RBTree<T, V, C> *red = NULL;
 
 	erased = true;
 	res = rac->search(rac, key, comp);
@@ -479,6 +474,9 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 		rac->supress(res, Alloc);
 		return (NULL);
 	}
+
+	if (res->color == 1)
+		red = res;
 /*
 	if (res->color == 1)
 	{
@@ -528,14 +526,45 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 		rac->supress(res, Alloc);
 		return (getrac(rac));
 	}
+
+	if (red != NULL)
+	{
+		if (res->right != NULL)
+		{
+			if (getpar(res)->color == 1 && res->right->color == 1)
+				res->right->color = 0;
+			if (res == getpar(res)->right)
+				getpar(res)->right = res->right;
+			else
+				getpar(res)->left = res->right;
+			res->right->parent = getpar(res);
+			Alloc.deallocate(res->p, 1);
+			delete res;
+			return (getrac(rac));
+		}
+		if (res->left != NULL)
+		{
+			if (getpar(res)->color == 1 && res->left->color == 1)
+				res->left->color = 0;
+			if (res == getpar(res)->right)
+				getpar(res)->right = res->left;
+			else
+				getpar(res)->left = res->left;
+			res->left->parent = getpar(res);
+			Alloc.deallocate(res->p, 1);
+			delete res;
+			return (getrac(rac));
+		}
+	}
+
 	if (res->right != NULL)
 	{
 
 		if (res->color == 0)
 		{
-				std::cout << "(" <<res->p->first << ")" <<std::endl;
+			//	std::cout << "(" <<res->p->first << ")" <<std::endl;
 			rac = reparevanish(rac, res);
-				std::cout << "(" <<res->p->first << ")" <<std::endl;
+			//	std::cout << "(" <<res->p->first << ")" <<std::endl;
 		}
 		if (res == getpar(res)->right)
 			getpar(res)->right = res->right;
