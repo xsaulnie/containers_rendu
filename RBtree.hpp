@@ -174,6 +174,8 @@ bool RBtree<T, C>::blackNephews(RBtree<T, C> *n)
 		return (false);
 	if (brother(n)->right != NULL && brother(n)->right->color == 1)
 		return (false);
+	if (brother(n)->right == NULL && brother(n)->left == NULL)
+		return (false);
 	return (true);
 }
 
@@ -222,6 +224,8 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 
 	//cas 5
 
+	if (getpar(n)->color == 0)
+	{
 	if (n == getpar(n)->left)
 	{
 	if (brother(n) && brother(n)->color == 0 && brother(n)->left && brother(n)->left->color == 1 && (brother(n)->right == NULL || brother(n)->right->color == 0))
@@ -231,7 +235,9 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 		if (brother(n) == rac)
 			rac = brother(n)->left;
 		rot_right(brother(n)->left);
-		reparevanish(rac, n);
+		if (getpar(n)->color != 1)
+			reparevanish(rac, n);
+		return (rac);
 	}
 	}
 	else
@@ -243,7 +249,10 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 		if (brother(n) == rac)
 			rac = brother(n)->right;
 		rot_left(brother(n)->right);
-		reparevanish(rac, n);
+		if (getpar(n)->color != 1)
+			reparevanish(rac, n);
+		return (rac);
+	}
 	}
 	}
 
@@ -257,6 +266,7 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 			rac = brother(n);
 		brother(n)->right->color = 0;
 		brother(n)->color = getpar(n)->color;
+		getpar(n)->color = 0;
 		rot_left(brother(n));
 		getpar(n)->color = 0;
 		return (rac);
@@ -271,10 +281,15 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 
 		brother(n)->left->color = 0;
 		brother(n)->color = getpar(n)->color;
+		getpar(n)->color = 0;
 		rot_right(brother(n));
 		return (rac);
 	}
 	}
+	if (n->left != NULL)
+		n->left->color = 0;
+	if (n->right != NULL)
+		n->right->color = 0;
 	return (rac);
 }
 
@@ -332,6 +347,7 @@ template <class T, class C>
 RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased, C &comp, typename RBtree<T, C>::alloc_t &Alloc)
 {
 	RBtree<T, C> *res;
+	RBtree<T, C> *red = NULL;
 
 	erased = true;
 	res = rac->search(rac, key, comp);
@@ -340,7 +356,41 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 		erased = false;
 		return (rac);
 	}
+
+	if (getpar(res) == NULL)
+	{
+		RBtree<T, C> *ret;
+		if (res->left == NULL && res->right == NULL)
+		{
+			rac->supress(res, Alloc);
+			return (NULL);
+		}
+		if (res->right == NULL && res->left != NULL)
+		{
+			Alloc.deallocate(res->p, 1);
+			res->left->parent = NULL;
+			res->left->color = 0;
+			ret = res->left;
+			delete res;
+			return (ret);
+		}
+		if (res->left == NULL && res->right != NULL)
+		{
+			Alloc.deallocate(res->p, 1);
+			res->right->parent = NULL;
+			res->right->color = 0;
+			ret = res->right;
+			delete res;
+			return (ret);
+		}
+	}
+
+	if (res->color == 1)
+		red = res;
+
 	res = rac->tovanish(res, Alloc);
+
+	
 	if (res == rac)
 	{
 		rac->supress(res, Alloc);
@@ -357,6 +407,36 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 		rac = reparevanish(rac, res);
 		rac->supress(res, Alloc);
 		return (getrac(rac));
+	}
+
+	if (red != NULL)
+	{
+		if (res->right != NULL)
+		{
+			if (getpar(res)->color == 1 && res->right->color == 1)
+				res->right->color = 0;
+			if (res == getpar(res)->right)
+				getpar(res)->right = res->right;
+			else
+				getpar(res)->left = res->right;
+			res->right->parent = getpar(res);
+			Alloc.deallocate(res->p, 1);
+			delete res;
+			return (getrac(rac));
+		}
+		if (res->left != NULL)
+		{
+			if (getpar(res)->color == 1 && res->left->color == 1)
+				res->left->color = 0;
+			if (res == getpar(res)->right)
+				getpar(res)->right = res->left;
+			else
+				getpar(res)->left = res->left;
+			res->left->parent = getpar(res);
+			Alloc.deallocate(res->p, 1);
+			delete res;
+			return (getrac(rac));
+		}
 	}
 
 	if (res->right != NULL)
