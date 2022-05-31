@@ -5,22 +5,6 @@
 #include <string>
 #include <complex>
 
-/*
-unsigned long long int pow2(int n)
-{
-	unsigned long long int res;
-
-	res = 1;
-
-	while (n)
-	{
-		res *=2;
-		n--;
-	}
-	return (res);
-}
-*/
-
 class A
 {
 	private:
@@ -40,7 +24,7 @@ bool comparestr(char c1, char c2)
 typedef std::vector<int>::iterator iter;
 void test_utils()
 {
-	std::cout << "ok" << std::endl;
+	std::cout << "---is integral test---" << std::endl;
 	if (ft::is_integral<A>::value)
 	{
 		std::cout << "A is integral" << std::endl;
@@ -67,6 +51,10 @@ void test_utils()
 	std::vector<int>::iterator it2 = vec.end();
 	std::vector<int>::iterator it3 = vec.begin();
 
+	std::cout << std::endl;
+
+	std::cout << "--equal and lexicographical_compare test--" << std::endl;
+
 	if (ft::equal<iter, iter>(it1, it2, it3))
 	{
 		std::cout << "egality of iterators" << std::endl;
@@ -77,6 +65,7 @@ void test_utils()
 		std::cout << "egality of iterators throught predicate" << std::endl;
 	}
 
+	std::cout << std::endl;
 	std::string mot1("Teleportation");
 	std::string mot2("Cheval");
 
@@ -104,13 +93,14 @@ void test_utils()
 
 	int a[] = {1, 2, 3, 4};
 	
-	ns::reverse_iterator<int *> rev2(std::end(a));
+	ns::reverse_iterator<int *> rev2(a + 4);
 	for (int i = 0; i < 4 ; i++)
 	{
 		std::cout << "a[i] = " << a[i] << " rev[i] = " << rev2[i] << " *(rev + i) = " << *(rev2 + i) << std::endl;
 	}
 
-	std::vector<std::complex<double>> vc { {1,2}, {3,4}, {5,6}, {7,8} };
+	std::vector<std::complex<double> > vc;
+	vc.push_back(std::complex<double>(1, 2));vc.push_back(std::complex<double>(3, 4));vc.push_back(std::complex<double>(5, 6)); vc.push_back(std::complex<double>(7, 8));
     ns::reverse_iterator<std::vector<std::complex<double> >::iterator> r2 (vc.end() - 1);
     std::cout << "vc[2] = " << "(" << r2->real() << "," << r2->imag() << ")\n";
 

@@ -120,12 +120,12 @@ void test_vector()
 	ns::vector<int> accessible;
 	accessible.push_back(2);accessible.push_back(4);accessible.push_back(6);accessible.push_back(8);accessible.push_back(10);accessible.push_back(12);
 	std::cout << "accessible display with [] : ";
-	for (int i = 0 ; i < accessible.size() ; i++)
+	for (size_t i = 0 ; i < accessible.size() ; i++)
 	{
 		std::cout << "-" << accessible[i] << "-";
 	}
 	std::cout << "\nadding 1 to accessible :     ";
-	for (int i = 0 ; i < accessible.size() ; i++)
+	for (size_t i = 0 ; i < accessible.size() ; i++)
 	{
 		accessible[i]++;
 		std::cout << "-" << accessible[i] << "-";

@@ -40,7 +40,6 @@ void test_big()
 	std::less<int> comp;
 	RBTree<int, int, std::less<int> > *ins = NULL;
 	int nb;
-	int tot;
 	bool err;
 	int ini;
 	int rm = 0;
@@ -51,8 +50,7 @@ void test_big()
 		nb = rand() % 1000;
 		if (ins->search(ins, nb, comp) == NULL)
 		{
-			ins = ins->insert(ins, RBpair<int, int, std::less<int>>(nb, 0, allo), comp);
-			tot++;
+			ins = ins->insert(ins, RBpair<int, int, std::less<int> >(nb, 0, allo), comp);
 		}
 		if (ins && (!(check_double_red(ins) && hight(ins, nb))))
 			std::cout << "Wrong Tree" << std::endl;
@@ -71,7 +69,7 @@ void test_big()
 	}
 	std::cout << rm << " nodes removed" << std::endl;
 	disp_tree(ins);
-
+	ins->clear(ins, allo);
 }
 
 template <class T, class V, class C>
@@ -133,34 +131,32 @@ void test_RBTree()
 
 	RBTree<int, int> *ins = NULL;
 
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(3, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(3, 0, allo), comp);
 	disp_tree(ins); std::cout << "3 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(6, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(6, 0, allo), comp);
 	disp_tree(ins); std::cout << "6 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(9, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(9, 0, allo), comp);
 	disp_tree(ins); std::cout << "9 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(12, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(12, 0, allo), comp);
 	disp_tree(ins); std::cout << "12 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(2, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(2, 0, allo), comp);
 	disp_tree(ins); std::cout << "2 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(8, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(8, 0, allo), comp);
 	disp_tree(ins); std::cout << "8 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(4, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(4, 0, allo), comp);
 	disp_tree(ins); std::cout << "4 inserted" << std::endl;
-
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(1, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(1, 0, allo), comp);
 	disp_tree(ins); std::cout << "1 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(7, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(7, 0, allo), comp);
 	disp_tree(ins); std::cout << "7 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(10, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(10, 0, allo), comp);
 	disp_tree(ins); std::cout << "10 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(0, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(0, 0, allo), comp);
 	disp_tree(ins); std::cout << "0 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(11, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(11, 0, allo), comp);
 	disp_tree(ins); std::cout << "11 inserted" << std::endl;
-	ins = ins->insert(ins, RBpair<int, int, std::less<int>>(5, 0, allo), comp);
+	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(5, 0, allo), comp);
 	disp_tree(ins); std::cout << "5 inserted" << std::endl;
-
 	
 	std::cout << "Test delete\n";
 
@@ -179,6 +175,7 @@ void test_RBTree()
 		elem.erase(elem.begin() + nb);
 		disp_tree(ins);
 	}
+	ins->clear(ins, allo);
 	
 	std::cout << "Mixed test" << std::endl;
 
@@ -189,6 +186,7 @@ void test_RBTree()
 		mix = stepadd(mix, allo);
 		disp_tree(mix);
 	}
+	mix->clear(mix, allo);
 
 	std::cout << "Big test" << std::endl;
 	test_big();

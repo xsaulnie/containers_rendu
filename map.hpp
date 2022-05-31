@@ -95,9 +95,6 @@ class map
 		//Allocator
 		allocator_type get_allocator() const;
 
-
-	void disp_map(const map<Key, T, Compare, Allocator> &m);
-
 	private:
 		RBTree<Key, T, Compare> *tree;
 		key_compare comp;
@@ -119,19 +116,6 @@ template<class Key, class T, class Compare, class Allocator>
 bool operator>=(const ft::map<Key, T, Compare, Allocator> &lhs, const ft::map<Key, T, Compare, Allocator> &rhs);
 template<class Key, class T, class Compare, class Allocator>
 bool operator<=(const ft::map<Key, T, Compare, Allocator> &lhs, const ft::map<Key, T, Compare, Allocator> &rhs);
-}
-
-template<class Key, class T, class Compare, class Allocator>
-void ft::map<Key, T, Compare, Allocator>::disp_map(const ft::map<Key, T, Compare, Allocator> &m)
-{
-	RBTree<Key, T, Compare> *rac;
-
-	rac = m.tree;
-	while (rac->getpar(rac) != NULL)
-		rac = rac->getpar(rac);
-	std::cout << "----------------------";
-	display_tree(rac, 0);
-	std::cout << "----------------------" << std::endl;
 }
 
 //Constructor
@@ -526,7 +510,6 @@ typename ft::map<Key, T, Compare, Allocator>::iterator ft::map<Key, T, Compare, 
 template<class Key, class T, class Compare, class Allocator>
 typename ft::map<Key, T, Compare, Allocator>::const_iterator ft::map<Key, T, Compare, Allocator>::find(const typename ft::map<Key, T, Compare, Allocator>::key_type &k) const
 {
-	//const Compare c_comp;
 	RBTree<Key, T, Compare> *test = this->tree->search(this->tree, k, this->comp);
 
 	if (test == NULL)

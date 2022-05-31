@@ -142,8 +142,8 @@ void test_map()
 	ns::map<int, int> ins2;
 
 	ns::map<int, int>::iterator ret_ins;
-	ns::map<int, int>::const_iterator cbins1 = ins1.begin();
-	ns::map<int, int>::const_iterator cbins2 = ins2.end();
+	ns::map<int, int>::iterator cbins1 = ins1.begin();
+	ns::map<int, int>::iterator cbins2 = ins2.end();
 
 
 	std::cout << "try to insert 16 at 8" << std::endl;

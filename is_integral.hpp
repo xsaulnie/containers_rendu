@@ -1,8 +1,5 @@
 #ifndef IS_ITEG
 #define IS_ITEG
-//#include <stdint.h>
-//typedef uint_least16_t char16_t;
-//typedef uint_least32_t char32_t;
 
 namespace ft
 {
@@ -30,23 +27,7 @@ struct ft::is_integral<char>
 
 	typedef bool value_type;
 };
-/*
-template<>
-struct ft::is_integral<char16_t>
-{
-	const static bool value = true;
 
-	typedef bool value_type;
-};
-
-template<>
-struct ft::is_integral<char32_t>
-{
-	const static bool value = true;
-
-	typedef bool value_type;
-};
-*/
 template<>
 struct ft::is_integral<wchar_t>
 {
@@ -110,7 +91,6 @@ struct ft::is_integral<unsigned long int>
 
 	typedef bool value_type;
 };
-
 
 template<>
 struct ft::is_integral<unsigned long long int>

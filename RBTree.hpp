@@ -4,7 +4,6 @@
 #include "stdlib.h"
 #include "pair.hpp"
 
-
 //const T pair
 
 template<class T, class V, class C = std::less<T> >
@@ -100,6 +99,7 @@ bool hight(RBTree<T, V> *rac, int &lvl)
 {
 	if (rac == NULL)
 		return (true);
+	(void)lvl;
 	int leftM = 0;
 	int rightM = 0;
 
@@ -361,6 +361,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 	}
 	}
 	}
+
 	//cas 6
 
 	if (n == getpar(n)->left)
@@ -492,39 +493,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 
 	if (res->color == 1)
 		red = res;
-/*
-	if (res->color == 1)
-	{
-		if (res->left == NULL && res->right == NULL)
-		{
-			rac->supress(res, Alloc);
-			return (rac);
-		}
-		if (res->right != NULL && res->left == NULL)
-		{
-			if (res == getpar(res)->right)
-				getpar(res)->right = res->right;
-			else
-				getpar(res)->left = res->right;
-			res->right->parent = getpar(res);
-			rac->supress(res, Alloc);
-			return (rac);
-		}
-		if (res->right == NULL && res->left != NULL)
-		{
-			if (res == getpar(res)->right)
-				getpar(res)->right = res->left;
-			else
-				getpar(res)->left = res->left;
-			res->left->parent = getpar(res);
-			rac->supress(res, Alloc);
-			return (rac);
-		}
-	}
-*/
 	res = rac->tovanish(res, Alloc);
-	//std::cout << "(" <<res->p->first << ")" <<std::endl;
-
 	if (res == rac)
 	{
 		rac->supress(res, Alloc);
@@ -605,7 +574,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 }
 
 template<class T, class V, class C>
-void RBTree<T, V, C>::rot_left(RBTree<T, V, C> *x) //3-4-6
+void RBTree<T, V, C>::rot_left(RBTree<T, V, C> *x) 
 {
 	if (getpar(x) == NULL)
 	{

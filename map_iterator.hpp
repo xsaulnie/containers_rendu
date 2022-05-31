@@ -26,7 +26,7 @@ class map_iterator
 		map_iterator();
 		map_iterator(RBTree<T, V, C> *init);
 		map_iterator(RBTree<T, V, C> *iend, bool sen);
-		map_iterator(const ft::const_map_iterator<T, V, C> &cpy);
+		//map_iterator(const ft::const_map_iterator<T, V, C> &cpy);
 		map_iterator &operator=(const ft::const_map_iterator<T, V, C> &rhs);
 	
 		map_iterator &operator++();
@@ -79,6 +79,7 @@ ft::pair<const T, V> *ft::map_iterator<T, V, C>::operator->() const
 	return (std::__addressof(operator*()));
 }
 
+
 template<class T, class V, class C>
 ft::map_iterator<T, V, C> &ft::map_iterator<T, V, C>::operator=(const ft::const_map_iterator<T, V, C> &rhs)
 {
@@ -111,13 +112,14 @@ ft::map_iterator<T, V, C>::map_iterator(RBTree<T, V, C> *iend, bool sen)
 		this->sentinel = true;
 	}
 }
-
+/*
 template<class T, class V, class C>
 ft::map_iterator<T, V, C>::map_iterator(const ft::const_map_iterator<T, V, C> &cpy)
 {
 	this->cur = cpy.getcur();
 	this->sentinel = cpy.getsen();
 }
+*/
 
 template<class T, class V, class C>
 ft::map_iterator<T, V, C>::map_iterator()

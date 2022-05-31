@@ -97,7 +97,7 @@ bool ft::operator>(const ft::stack<T, Container> &lhs, const ft::stack<T, Contai
 template<class T, class Container>
 ft::stack<T, Container>::stack(const Container &cont) : c(cont)
 {
-	//this->c = cont;
+
 }
 
 template<class T, class Container>
