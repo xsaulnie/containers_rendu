@@ -1,6 +1,7 @@
 #ifndef RBtest_HPP
 #define RBtest_HPP
 #include <iostream>
+#include <vector>
 #include "RBTree.hpp"
 
 template <class T, class V>
@@ -38,6 +39,52 @@ bool check_double_red(RBTree<T, V> *rac)
 }
 
 template<class T, class V>
+void load_count(std::vector<int> &res, RBTree<T, V> *rac, int lvl)
+{
+    int add;
+
+    add = 0;
+    if (rac == NULL)
+    {
+        res.push_back(lvl);
+    //    std::cout << lvl<< " pushed"<<std::endl;
+        return ;
+    }
+    //std::cout << rac->p->first << std::endl;
+    if (rac->color == 0)
+        add = 1;
+    load_count(res, rac->left, lvl + add);
+    load_count(res, rac->right, lvl + add);
+}
+
+template<class T, class V>
+bool disp_count(RBTree<T, V> *rac)
+{
+    int black_level;
+    if (rac == NULL)
+        return (true);
+    std::vector<int> res;
+    load_count(res, rac, 0);
+
+    if (res.empty() == true)
+        return (true);
+
+    black_level = res[0]; 
+    for (size_t i = 0 ; i < res.size() ; i++)
+    {
+        if (black_level != res[i])
+        {
+            for (size_t i = 0 ; i < res.size() ; i++)
+            {
+                std::cout << "-" <<res[i] << "-" << std::endl;
+            }
+            return (false);
+        }
+    }
+    return (true);
+}
+
+template<class T, class V>
 bool hight(RBTree<T, V> *rac, int &lvl)
 {
 	if (rac == NULL)
@@ -60,14 +107,13 @@ void disp_tree(RBTree<T, V, C> *n)
 {
 	RBTree<T, V, C> *rac;
 	rac = n;
-	int nb = 0;
 	while (n->getpar(rac) != NULL)
 		rac = n->getpar(rac);
 	std::cout << "----------------------";
 	if (rac != NULL)
 	{
 		display_tree(rac, 0);
-	if (check_double_red(rac) && hight(rac, nb))
+	if (check_double_red(rac) && disp_count(rac))
 		std::cout << "ok" <<std::endl;
 	else
 	{
