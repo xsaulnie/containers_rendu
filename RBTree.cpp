@@ -20,8 +20,11 @@ void test_big()
 		{
 			ins = ins->insert(ins, RBpair<int, int, std::less<int> >(nb, 0, allo), comp);
 		}
-		if (ins && (!(check_double_red(ins) && hight(ins, nb))))
+		if (ins && !((check_double_red(ins) && disp_count(ins))))
+		{
 			std::cout << "Wrong Tree" << std::endl;
+			exit(1);
+		}
 	}
 	disp_tree(ins);
 
@@ -34,8 +37,11 @@ void test_big()
 		ins = ins->vanish(ins, nb, err, comp, allo);
 		if (err == true)
 			rm++;
-		if (ins && !(check_double_red(ins) && hight(ins, ini)))
+		if (ins && !((check_double_red(ins) && disp_count(ins))))
+		{
 			std::cout << "Wrong Tree" << std::endl;
+			exit(1);
+		}
 	}
 	std::cout << rm << " nodes removed" << std::endl;
 	disp_tree(ins);
@@ -102,6 +108,21 @@ void test_RBTree()
 
 
 /*
+		MTWO
+		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(3, 0, allo), comp);
+		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(5, 0, allo), comp);
+		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(0, 0, allo), comp);
+		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(8, 0, allo), comp);
+		disp_tree(ins);
+		ins = ins->vanish(ins, 3, res, comp, allo);
+		disp_tree(ins);
+		ins->clear(ins, allo);
+		return ;
+*/
+
+/*
+
+
 		// MONE
 		RBTree<int, int> *ins1 = NULL;
 		ins1 = ins->insert(ins1, RBpair<int, int, std::less<int> >(6, 0, allo), comp);
@@ -124,8 +145,8 @@ void test_RBTree()
 		ins = ins->vanish(ins, 6, res, comp, allo);
 		disp_tree(ins);
 		ins->clear(ins, allo);
-		return ;
-*/
+*/	
+
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(3, 0, allo), comp);
 	disp_tree(ins); std::cout << "3 inserted" << std::endl;
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(6, 0, allo), comp);
@@ -185,25 +206,22 @@ void test_RBTree()
 	return ;
 	*/
 
+	/*
+	//THREE
 	ins = ins->vanish(ins, 3, res, comp, allo);
-
 	ins = ins->vanish(ins, 8, res, comp, allo);
-	
 	ins = ins->vanish(ins, 7, res, comp, allo);
 	ins = ins->vanish(ins, 11, res, comp, allo);
-	
 	ins = ins->vanish(ins, 9, res, comp, allo);
-
 	disp_tree(ins);
-
 	ins = ins->vanish(ins, 6, res, comp, allo);
 	disp_tree(ins);
-	
+
 	ins->clear(ins, allo);
 
 
 	return ;
-	
+	*/
 	std::cout << "Test delete\n";
 
 	std::vector<int> elem;
@@ -222,7 +240,6 @@ void test_RBTree()
 		disp_tree(ins);
 	}
 	ins->clear(ins, allo);
-	return ;
 	std::cout << "Mixed test" << std::endl;
 
 	RBTree<int, int> *mix = NULL;
@@ -233,7 +250,6 @@ void test_RBTree()
 		disp_tree(mix);
 	}
 	mix->clear(mix, allo);
-
 	std::cout << "Big test" << std::endl;
 	test_big();
 	return ;

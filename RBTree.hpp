@@ -196,8 +196,8 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 	if (brother(n) && brother(n)->color == 1 && getpar(n)->color == 0 && blackNephews(n))
 	{
 		std::cout << "cas 2 "<<std::endl;
-		if (n->p->first == 10 && n->right)
-			std::cout << "2dcolor " << n->right->color << std::endl;
+		//if (n->p->first == 10 && n->right)
+		//	std::cout << "2dcolor " << n->right->color << std::endl;
 		if (rac == getpar(n))
 			rac = brother(n);
 		brother(n)->color = 0;
@@ -206,8 +206,8 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 			rot_left(brother(n));
 		else
 			rot_right(brother(n));
-		if (n->p->first == 10 && n->right)
-			std::cout << "2fcolor " << n->right->color << std::endl;
+		//if (n->p->first == 10 && n->right)
+		//	std::cout << "2fcolor " << n->right->color << std::endl;
 		reparevanish(rac, n);
 	}
 
@@ -238,12 +238,12 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 	if (brother(n) && brother(n)->color == 0 && getpar(n)->color == 1 && blackNephews(n))
 	{
 			std::cout << "cas 4 " << std::endl;
-		if (n->p->first == 10 && n->right)
-			std::cout << "4dcolor " << n->right->color << std::endl;
+		//if (n->p->first == 10 && n->right)
+		//	std::cout << "4dcolor " << n->right->color << std::endl;
 		getpar(n)->color = 0;
 		brother(n)->color = 1;
-		if (n->p->first == 10 && n->right)
-			std::cout << "4fcolor " << n->right->color << std::endl;
+		//if (n->p->first == 10 && n->right)
+		//	std::cout << "4fcolor " << n->right->color << std::endl;
 		return (rac);
 	}
 
@@ -469,14 +469,28 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 		}
 	}
 
+	int tmp1;
+	int tmp2;
 	if (res->right != NULL)
 	{
 
 		if (res->color == 0)
 		{
-			std::cout << "(" <<res->p->first << ") " <<res->right->color <<std::endl;
+			if (res->right == NULL)
+				tmp1 = 3;
+			else
+				tmp1 = res->right->color;
+			if (res->left == NULL)
+				tmp2 = 3;
+			else
+				tmp2 = res->left->color;
+			//std::cout << "(" <<res->p->first << ") " <<res->right->color <<std::endl;
 			rac = reparevanish(rac, res);
-			std::cout << "(" <<res->p->first << ") " << res->right->color <<std::endl;
+			if (tmp1 != 3)
+				res->right->color = tmp1;
+			if (tmp2 != 3)
+				res->left->color = tmp2;
+			//std::cout << "(" <<res->p->first << ") " << res->right->color <<std::endl;
 		}
 
 		if (res == getpar(res)->right)
