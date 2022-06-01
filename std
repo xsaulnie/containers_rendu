@@ -1,0 +1,379 @@
+
+
+
+------------------------------------------------------
+|                      TEST UTILS                    |
+------------------------------------------------------
+
+
+---is integral test---
+A is not integral
+int is integral
+
+--equal and lexicographical_compare test--
+egality of iterators
+egality of iterators throught predicate
+
+0
+1
+0
+1
+
+---reverse iterator test---
+*it = 1 *rev = 4 *rev.base() = 4
+*it = 2 *rev = 3 *rev.base() = 4
+*it = 3 *rev = 2 *rev.base() = 3
+*it = 4 *rev = 1 *rev.base() = 2
+a[i] = 1 rev[i] = 4 *(rev + i) = 4
+a[i] = 2 rev[i] = 3 *(rev + i) = 3
+a[i] = 3 rev[i] = 2 *(rev + i) = 2
+a[i] = 4 rev[i] = 1 *(rev + i) = 1
+vc[2] = (5,6)
+revcp is different than revunder
+revcp is greater than revunder
+
+-----pair test-----
+3 is trois in french
+7 is sept in french
+sept is lower than seven
+
+
+
+------------------------------------------------------
+|                     TEST VECTOR                    |
+------------------------------------------------------
+
+
+
+TEST CONSTRUCTORS
+
+Default constructor
+first  0 0
+push_back 1 [12] 1 1
+push_back 2 [12][28] 2 2
+first |12||28|
+first [12][28] 2 2
+n elements constructor
+second |8||8||8||8||8||8||8||8||8||8||-3|
+Iterator constructor
+third [12][28][3] 3 4
+copy constructor
+cpy and third are equal
+cpy [12][28][3] 3 3
+
+Affectation operator
+b [3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][10] 21 40
+a [8][8][8][8][8][8][8][8][8][8] 10 10
+a = b [3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][3][10] 21 21
+a = b Size and capacity : 21 21
+
+
+REVERSE ITERATOR TEST
+
+order [0][1][2][3][4] 5 8
+order /4//3//2//1//0/
+order through const iterator : |0||1||2||3||4|
+
+ACCESS OPERATOR TEST
+
+accessible display with [] : -2--4--6--8--10--12-
+adding 1 to accessible :     -3--5--7--9--11--13-
+front is : 3 back is 13 at 2 is 7
+
+SIZE AND RESIZE TEST
+
+Maximum size 1152921504606846975
+muta [0][0][0][0][0][0][0][0][0][0] 10 10
+resize muta to 15
+muta [0][0][0][0][0][0][0][0][0][0][1][1][1][1][1] 15 20
+muto [0][0][0][0][0][0][0][0][0][0] 10 10
+resize muto to 5 with value 1
+muto [0][0][0][0][0] 5 10
+resize muto to 7 with value 2
+muto [0][0][0][0][0][2][2] 7 10
+resize muto to 0 
+muto  0 10
+muto is empty
+place reserved 15 [0][0][0][0][0][0][0][0][0][0][0][0] 12 15
+place reserved 100 [0][0][0][0][0][0][0][0][0][0][0][0] 12 100
+
+Capazity test
+Capacity test 50 push_back 
+capacity changed: 1
+capacity changed: 2
+capacity changed: 4
+capacity changed: 8
+capacity changed: 16
+capacity changed: 32
+capacity changed: 64
+capacity test with 50 reserved
+Capacity test 50 push_back reserved
+capacity changed: 50
+
+ASSIGNED TEST
+
+10 3 assigned [3][3][3][3][3][3][3][3][3][3] 10 10
+6 1 assigned [1][1][1][1][1][1] 6 10
+assigned as muta [0][0][0][0][0][0][0][0][0][0][1][1][1][1][1] 15 15
+assigned as order [0][1][2][3][4] 5 15
+assigned double pop_back [0][1][2] 3 15
+
+ERASE TEST
+
+erased [0][1][2][3][4][5][6][7][8][9] 10 10
+5 erased [0][1][2][3][4][6][7][8][9] 9 10
+last erased [0][1][2][3][4][6][7][8] 8 10
+first erased [1][2][3][4][6][7][8] 7 10
+last 2 erased [0][1][2][3][4][5][6][7] 8 10
+first 2 erased [2][3][4][5][6][7][8][9] 8 10
+last 2, first 2, not  erased [0][1][8][9] 4 10
+
+INSER TEST
+
+test [0][1][2][3][4][5][6][7][8][9] 10 10
+0 inserted at pos 2 [0][1][0][2][3][4][5][6][7][8][9] 11 20
+0 inserted before last [0][1][0][2][3][4][5][6][7][8][0][9] 12 20
+-1 inserted at begining [-1][0][1][0][2][3][4][5][6][7][8][0][9] 13 20
+Multiple insertion
+5 0 inserted at pos 2 [0][1][0][0][0][0][0][2][3][4][5][6][7][8][9] 15 20
+3 7 inserted at pos 8 [0][1][0][0][0][0][0][2][7][7][7][3][4][5][6][7][8][9] 18 20
+2 10 inserted last pos [0][1][0][0][0][0][0][2][7][7][7][3][4][5][6][7][8][9][10][10] 20 20
+10 -2 inserted before the 10 [0][1][0][0][0][0][0][2][7][7][7][3][4][5][6][7][8][9][-2][-2][-2][-2][-2][-2][-2][-2][-2][-2][10][10] 30 40
+Iterator insetion
+vector of 8 0 [0][0][0][0][0][0][0][0] 8 8
+little at pos 2 [0][0][1][2][3][0][0][0][0][0][0] 11 16
+little before the end [0][0][1][2][3][0][0][0][0][0][1][2][3][0] 14 16
+10 11 at the end [0][0][1][2][3][0][0][0][0][0][1][2][3][0][10][11] 16 16
+123 pos 5 [0][0][1][2][3][1][2][3][0][0][0][0][0][1][2][3][0][10][11] 19 32
+
+SWAP TEST
+sw1 :  [7][8][9][10] 4 4
+sw2 :  [8][10][12][14] 4 4
+sw3 :   0 0
+swap 1 with 2 member fonction
+sw1 :  [8][10][12][14] 4 4
+sw2 :  [7][8][9][10] 4 4
+swap 2 with 1 externe fonction
+sw1 :  [7][8][9][10] 4 4
+sw2 :  [8][10][12][14] 4 4
+swap 3 with 1 member fonction
+sw1 :   0 0
+sw3 :  [7][8][9][10] 4 4
+clear tested on 3
+sw1 :   0 0
+sw2 :  [8][10][12][14] 4 4
+sw3 :   0 4
+
+COMPARAISON OPERATOR TEST
+one == one
+one >= one
+one <= one
+one != two
+one <= two
+one < two
+one == cone
+one >= cone
+one <= cone
+one != the
+one <= the
+one < the
+
+
+
+------------------------------------------------------
+|                      TEST STACK                    |
+------------------------------------------------------
+
+
+pushed 5 on c1
+c1 size : 1 c1 top 5
+c2 copied from c1
+c2 size : 1 c2 top 5
+pop on c1
+pushed 6 on c2
+c1 size : 0
+c1 is empty
+c2 size : 2 c2 top 6
+c3 copied from c2
+c3 and c2 are equal
+
+
+
+------------------------------------------------------
+|                       TEST MAP                     |
+------------------------------------------------------
+
+
+test is empty
+SIMPLE INSERT TEST 
+(8-8) s: 1
+ret : 8 1
+(8-8)(12-12) s: 2
+ret : 12 1
+(8-8)(12-12)(13-13) s: 3
+ret : 13 1
+(8-8)(12-12)(13-13)(20-20) s: 4
+ret : 20 1
+(8-8)(12-12)(13-13)(20-20)(28-28) s: 5
+ret : 28 1
+(8-8)(12-12)(13-13)(20-20)(24-24)(28-28) s: 6
+ret : 24 1
+(8-8)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30) s: 7
+ret : 30 1
+(1-1)(8-8)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30) s: 8
+ret : 1 1
+(1-1)(8-8)(11-11)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30) s: 9
+ret : 11 1
+(1-1)(6-6)(8-8)(11-11)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30) s: 10
+ret : 6 1
+(1-1)(6-6)(8-8)(11-11)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30)(50-50) s: 11
+ret : 50 1
+(1-1)(6-6)(8-8)(11-11)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30)(50-50) s: 11
+ret : 50 0
+print with reverse iteration
+------------------------------
+(50) (50)
+(30) (30)
+(28) (28)
+(24) (24)
+(20) (20)
+(13) (13)
+(12) (12)
+(11) (11)
+(8) (8)
+(6) (6)
+(1) (1)
+------------------------------
+CONSTRUCTOR TEST
+Default constructor
+ s: 0
+range constructor
+rantest constructed over test :  (1-1)(6-6)(8-8)(11-11)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30)(50-50) s: 11
+copy constructor
+cpyrantest constructed by copy of rantest :  (1-1)(6-6)(8-8)(11-11)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30)(50-50) s: 11
+affectation operator
+new_map = test :  (1-1)(6-6)(8-8)(11-11)(12-12)(13-13)(20-20)(24-24)(28-28)(30-30)(50-50) s: 11
+BRACKET OPERATOR TEST
+(1-1) s: 1
+(1-1)(6-0) s: 2
+(1-1)(6-0)(12-3) s: 3
+display through bracket
+-1--0--3-multiply by 2 adding one
+-3--1--7-
+INSERT TEST
+Insert with hint
+try to insert 16 at 8
+ins1 :  (8-16) s: 1
+ret : 8 16
+try to insert 9 at 3
+ins2 :  (3-9) s: 1
+ret : 3 9
+try to insert 8 at 4
+ins1 :  (4-8)(8-16) s: 2
+ret : 4 8
+try to insert 22 at 11
+ins2 :  (3-9)(11-22) s: 2
+ret : 11 22
+try to insert 12 at 6
+ins1 :  (4-8)(6-12)(8-16) s: 3
+ret : 6 12
+try to insert 10 at 5
+ins2 :  (4-8)(6-12)(8-16) s: 3
+ret : 5 10
+try to insert 8 at 8
+ins1 :  (4-8)(6-12)(8-16) s: 3
+ret : 8 16
+try to insert 56 at 11
+ins2 :  (3-9)(5-10)(11-22) s: 3
+ret : 11 22
+Insert a range
+insert ins2 on ins1
+ins1 :  (3-9)(4-8)(5-10)(6-12)(8-16)(11-22) s: 6
+insert ins1 on ins2
+ins2 :  (3-9)(4-8)(5-10)(6-12)(8-16)(11-22) s: 6
+insertion completed
+
+ERASE TEST
+erasing iterator
+
+erase ins first position ins1 :  (4-8)(5-10)(6-12)(8-16)(11-22) s: 5
+erase ins last position ins1 :  (4-8)(5-10)(6-12)(8-16) s: 4
+erase ins second position ins1 :  (4-8)(6-12)(8-16) s: 3
+erase ins before last position ins1 :  (4-8)(8-16) s: 2
+erasing key
+
+try to erase 3
+ins2 :  (4-8)(5-10)(6-12)(8-16)(11-22) s: 5
+ret : 1
+try to erase 11
+ins2 :  (4-8)(5-10)(6-12)(8-16) s: 4
+ret : 1
+try to erase 6
+ins2 :  (4-8)(5-10)(8-16) s: 3
+ret : 1
+try to erase 100
+ins2 :  (4-8)(5-10)(8-16) s: 3
+ret : 0
+erasing range
+Erasing all exepted first
+ins1 :  (4-8) s: 1
+Erasing all exepted last
+ins2 :  (4-8)(5-10)(8-16) s: 3
+
+SWAP TEST
+sw1 :  (8-h)(19-s) s: 2
+sw2 :  (11-k)(13-m) s: 2
+sw3 :   s: 0
+sw1 swap with sw2
+sw1 :  (11-k)(13-m) s: 2
+sw2 :  (8-h)(19-s) s: 2
+sw2 swap with sw3
+sw2 :   s: 0
+sw3 :  (8-h)(19-s) s: 2
+sw3 swap with sw1
+sw1 :  (8-h)(19-s) s: 2
+sw2 :   s: 0
+sw3 :  (11-k)(13-m) s: 2
+All clear
+sw1 :   s: 0
+sw2 :   s: 0
+sw3 :   s: 0
+
+FIND AND COUNT TEST
+short list of prime :  (2-two)(3-three)(5-five)(7-seven)(11-eleven) s: 5
+two is prime 1 counted
+eleven is prime 1 counted
+prime not found 0 counted
+
+BOUND TEST
+map to test bounds : (12-12)(16-16)(30-30)(50-50) s: 4
+Lower bound of 15 : 16
+Lower bound of 30 : 30
+Upper bound of 15 : 16
+Upper bound of 30 : 50
+Upper bound of 100 return end iterator
+Lower bound of 100 return end iterator
+equal range 28 : 30-30
+cmp1 :  (1-8) s: 1
+cmp2 :  (1-12) s: 1
+cmp3 :  (-3-1) s: 1
+
+cmp1 == cmp1
+cmp1 >= cmp1
+cmp1 <= cmp1
+
+cmp1 != cmp2
+cmp1 < cmp2
+cmp1 <= cmp2
+
+cmp1 != cmp3
+cmp1 > cmp3
+cmp1 >= cmp3
+
+cmp1 :  (1-8)(7-6) s: 2
+cmp4 :  (1-8)(7-9) s: 2
+
+cmp1 != cmp4
+cmp1 < cmp4
+cmp1 <= cmp4
+

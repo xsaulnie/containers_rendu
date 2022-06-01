@@ -31,7 +31,6 @@ class set
     
         //Constructor
     
-        //set();
         explicit set (const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
         explicit set (const Allocator &alloc);
         template<class InputIt>
@@ -285,7 +284,6 @@ typename ft::set<T, Compare, Allocator>::const_reverse_iterator ft::set<T, Compa
 	return (ft::reverse_iterator<typename ft::set<T, Compare, Allocator>::const_iterator>(this->begin()));
 }
 
-
 //Insert
 
 template<class T, class Compare, class Allocator>
@@ -306,8 +304,10 @@ typename ft::pair<typename ft::set<T, Compare, Allocator>::iterator, bool> ft::s
 template<class T, class Compare, class Allocator>
 typename ft::set<T, Compare, Allocator>::iterator ft::set<T, Compare, Allocator>::insert(typename ft::set<T, Compare, Allocator>::iterator hint, const value_type& value)
 {
-	(void)hint;
-	RBtree <T, Compare> *test = this->tree->search(this->tree, value, this->comp);
+	RBtree <T, Compare> *test = this->tree->search(hint.getcur(), value, this->comp);
+	if (test != NULL)
+		return (iterator(test));
+	test = this->tree->search(this->tree, value, this->comp);
 	if (test != NULL)
 		return (iterator(test));
 	RBtree <T, Compare> *n = this->tree->RBval(value, this->Alloc);

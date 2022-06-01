@@ -49,17 +49,6 @@ class RBTree
 
 };
 
-template<class T, class V, class C>
-RBTree<T, V, C> *RBTree<T, V, C>::getrac(RBTree<T, V, C> *n)
-{
-	RBTree<T, V, C> *res;
-
-	res = n;
-	while (getpar(res) != NULL)
-		res = getpar(res);
-	return (res);
-}
-
 template <class T, class V>
 bool double_red(RBTree<T, V> *rac, bool *res)
 {
@@ -112,9 +101,6 @@ bool hight(RBTree<T, V> *rac, int &lvl)
 	return false;
 }
 
-template <class T, class V, class C>
-void display_node(RBTree<T, V, C> *n, std::string name);
-
 template<class T, class V, class C>
 void disp_tree(RBTree<T, V, C> *n)
 {
@@ -166,10 +152,19 @@ void display_tree(RBTree<T, V, C> *rac, int sp)
 }
 
 template<class T, class V, class C>
-RBTree<T, V, C> *RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V> > &Alloc);
+RBTree<T, V, C> *RBTree<T, V, C>::getrac(RBTree<T, V, C> *n)
+{
+	RBTree<T, V, C> *res;
+
+	res = n;
+	while (getpar(res) != NULL)
+		res = getpar(res);
+	return (res);
+}
 
 template<class T, class V, class C>
-void display_tree(RBTree<T, V, C> *rac, int sp);
+RBTree<T, V, C> *RBpair(const T &key, const V &val, std::allocator<ft::pair<const T, V> > &Alloc);
+
 
 template<class T, class V, class C>
 RBTree<T, V, C>::RBTree(const T &key, const V &val, alloc_t &Alloc)

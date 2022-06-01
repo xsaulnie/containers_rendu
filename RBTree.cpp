@@ -1,39 +1,6 @@
 #include "RBTree.hpp"
 #include <vector>
 
-template <class T, class V>
-void display_node(RBTree<T, V> *n, std::string name)
-{
-	std::cout << "node " << name << " ";
-	std::cout << n->p->first;
-	if (n->right == NULL)
-	{
-		std::cout << " right NULL ";
-	}
-	else
-	{
-		std::cout << " right " << n->right->p->first;
-	}
-	if (n->left == NULL)
-	{
-		std::cout << " left NULL ";
-	}
-	else
-	{
-		std::cout << " left " << n->left->p->first;
-	}
-
-	if (n->parent == NULL)
-	{
-		std::cout << " parent NULL ";
-	}
-	else
-	{
-		std::cout << " parent " << n->parent->p->first;
-	}
-	std::cout << std::endl;
-}
-
 void test_big()
 {
 	std::allocator<ft::pair<const int, int> > allo;
@@ -119,7 +86,6 @@ RBTree<T, V, C> *stepadd(RBTree<T, V, C> *n, std::allocator<ft::pair<const int, 
 	return (n);
 }
 
-
 void test_RBTree()
 {
 	std::allocator<ft::pair<const int, int> > allo;
@@ -127,7 +93,7 @@ void test_RBTree()
 	bool res;
 	srand(time(NULL));
 
-	std::cout << "Test insertion" << std::endl; //0 5 11
+	std::cout << "Test insertion" << std::endl;
 
 	RBTree<int, int> *ins = NULL;
 

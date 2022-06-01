@@ -295,8 +295,10 @@ typename ft::pair<typename ft::map<Key, T, Compare, Allocator>::iterator, bool> 
 template<class Key, class T, class Compare, class Allocator>
 typename ft::map<Key, T, Compare, Allocator>::iterator ft::map<Key, T, Compare, Allocator>::insert(typename ft::map<Key, T, Compare, Allocator>::iterator hint, const value_type& value)
 {
-	(void)hint;
-	RBTree <Key, T, Compare> *test = this->tree->search(this->tree, value.first, this->comp);
+	RBTree <Key, T, Compare> *test = this->tree->search(hint.getcur(), value.first, this->comp);
+	if (test != NULL)
+		return (iterator(test));
+	test = this->tree->search(this->tree, value.first, this->comp);
 	if (test != NULL)
 		return (iterator(test));
 	RBTree <Key, T, Compare> *n = this->tree->RBpair(value.first, value.second, this->Alloc);

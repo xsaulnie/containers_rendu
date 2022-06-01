@@ -1,15 +1,7 @@
-#include "utils.hpp"
-#include "reverse_iterator.hpp"
-#include "vector.hpp"
-#include "stack.hpp"
-#include "map.hpp"
-#include <string>
-#include <vector>
+#include <iostream>
+#include "RBTree.hpp"
 
-void test_utils();
-void test_vector();
-void test_stack();
-void test_map();
+void test_RBTree();
 
 void print_title(std::string msg)
 {
@@ -30,13 +22,8 @@ void print_title(std::string msg)
 
 int main()
 {
-	print_title("TEST UTILS");
-	test_utils();
-	print_title("TEST VECTOR");
-	test_vector();
-	print_title("TEST STACK");
-	test_stack();
-	print_title("TEST MAP");
-	test_map();
+    print_title("RBTREE TEST");
+	test_RBTree();
+
 	return (0);
 }
