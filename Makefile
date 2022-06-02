@@ -10,7 +10,7 @@ OBJB = ${SRCB:.cpp=.o}
 
 RBOBJ = ${RBSRC:.cpp=.o}
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 CC = clang++ -std=c++98
 

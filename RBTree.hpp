@@ -208,7 +208,8 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 			rot_right(brother(n));
 		//if (n->p->first == 10 && n->right)
 		//	std::cout << "2fcolor " << n->right->color << std::endl;
-		reparevanish(rac, n);
+		return (reparevanish(rac, n));
+		
 	}
 
 	//cas 3
@@ -221,16 +222,22 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 		{
 			if (n == getpar(n)->right)
 			{
-				if (n->right != NULL)
+				if (n->right != NULL && n->left == NULL && brother(n)->left == NULL && brother(n)->right == NULL)
+				{
 					brother(n)->color = 0;
+					n->right->color = 0;
+				}
 			}
 			else
 			{
-				if (n->left != NULL)
-					brother(n)->color = 0;			
+				if (n->left != NULL && n->right == NULL && brother(n)->left == NULL && brother(n)->right == NULL)
+				{
+					brother(n)->color = 0;
+					n->left->color = 0;
+				}			
 			}
 		}
-		reparevanish(rac, getpar(n));
+		return(reparevanish(rac, getpar(n)));
 	}
 
 	//cas 4
@@ -263,8 +270,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 			rac = brother(n)->left;
 		rot_right(brother(n)->left);
 		//if (getpar(n)->color != 1)
-			reparevanish(rac, n);
-		return (rac);
+			return(reparevanish(rac, n));
 	}
 	}
 	else
@@ -278,8 +284,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 			rac = brother(n)->right;
 		rot_left(brother(n)->right);
 		//if (getpar(n)->color != 1)
-			reparevanish(rac, n);
-		return(rac);
+		return (reparevanish(rac, n));
 	}
 	}
 	//}
@@ -288,39 +293,39 @@ RBTree<T, V, C> *RBTree<T, V, C>::reparevanish(RBTree<T, V, C> *rac, RBTree<T, V
 
 	if (n == getpar(n)->left)
 	{
-
-
-	if (brother(n) && brother(n)->color == 0 && brother(n)->right && brother(n)->right->color == 1)
-	{
+		if (brother(n) && brother(n)->color == 0 && brother(n)->right && brother(n)->right->color == 1)
+		{
 					std::cout << "cas 6a" << std::endl;
-		if (rac == getpar(n))
-			rac = brother(n);
-		brother(n)->right->color = 0;
-		brother(n)->color = getpar(n)->color;
-		getpar(n)->color = 0;
-		rot_left(brother(n));
-		getpar(n)->color = 0;
-		return (rac);
-	}
+			if (rac == getpar(n))
+				rac = brother(n);
+			brother(n)->right->color = 0;
+			brother(n)->color = getpar(n)->color;
+			getpar(n)->color = 0;
+			rot_left(brother(n));
+			getpar(n)->color = 0;
+			return (rac);
+		}
 	}
 	else
 	{
-	if (brother(n) && brother(n)->color == 0 && brother(n)->left && brother(n)->left->color == 1)
-	{
-					std::cout << "cas 6b" << std::endl;
-		if (rac == getpar(n))
-			rac = brother(n);
-		brother(n)->left->color = 0;
-		brother(n)->color = getpar(n)->color;
-		getpar(n)->color = 0;
-		rot_right(brother(n));
-		return (rac);
+		if (brother(n) && brother(n)->color == 0 && brother(n)->left && brother(n)->left->color == 1)
+		{
+						std::cout << "cas 6b" << std::endl;
+			if (rac == getpar(n))
+				rac = brother(n);
+			brother(n)->left->color = 0;
+			brother(n)->color = getpar(n)->color;
+			getpar(n)->color = 0;
+			rot_right(brother(n));
+			return (rac);
+		}
 	}
-	}
+	
 	if (n->left != NULL)
 		n->left->color = 0;
 	if (n->right != NULL)
 		n->right->color = 0;
+	
 	return (rac);
 }
 
@@ -441,7 +446,12 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 
 	if (red != NULL)
 	{
-		if (res->right != NULL)
+		std::cout << "red " << res->p->first << std::endl;
+		if (res->left)
+			std::cout << "left " << res->left->p->first << std::endl;
+		if (res->right)
+			std::cout << "right " << res->right->p->first << std::endl;
+		if (res->parent == red && res->right != NULL)
 		{
 			if (getpar(res)->color == 1 && res->right->color == 1)
 				res->right->color = 0;
@@ -454,7 +464,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 			delete res;
 			return (getrac(rac));
 		}
-		if (res->left != NULL)
+		if (res->parent == red && res->left != NULL)
 		{
 			if (getpar(res)->color == 1 && res->left->color == 1)
 				res->left->color = 0;
@@ -469,13 +479,14 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 		}
 	}
 
-	int tmp1;
-	int tmp2;
+	//int tmp1;
+	//int tmp2;
 	if (res->right != NULL)
 	{
 
 		if (res->color == 0)
 		{
+		/*
 			if (res->right == NULL)
 				tmp1 = 3;
 			else
@@ -484,13 +495,16 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 				tmp2 = 3;
 			else
 				tmp2 = res->left->color;
-			//std::cout << "(" <<res->p->first << ") " <<res->right->color <<std::endl;
+			*/	
+			std::cout << "(" <<res->p->first << ") " <<res->right->color <<std::endl;
 			rac = reparevanish(rac, res);
+			/*
 			if (tmp1 != 3)
 				res->right->color = tmp1;
 			if (tmp2 != 3)
 				res->left->color = tmp2;
-			//std::cout << "(" <<res->p->first << ") " << res->right->color <<std::endl;
+			*/
+			std::cout << "(" <<res->p->first << ") " << res->right->color <<std::endl;
 		}
 
 		if (res == getpar(res)->right)
