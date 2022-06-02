@@ -37,10 +37,6 @@ class reverse_iterator
 		reverse_iterator& operator+=(difference_type n);
 		reverse_iterator& operator-=(difference_type n);
 
-		//friend reverse_iterator<Iter> operator+(difference_type n, const reverse_iterator<Iter> &it);
-		//template <class Iterator1, class Iterator2>
-		//friend difference_type operator-(const reverse_iterator<Iterator1> &lhs, const reverse_iterator<Iterator2> &rhs); //V2
-		//friend difference_type operator-(const reverse_iterator<Iter> &lhs, const reverse_iterator<Iter> &rhs); //V1
 };
 }
 

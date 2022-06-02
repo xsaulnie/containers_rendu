@@ -4,8 +4,6 @@
 #include "stdlib.h"
 #include "pair.hpp"
 
-
-
 //const T pair
 
 template<class T, class C = std::less<T> >
@@ -40,6 +38,9 @@ class RBtree
 		bool blackNephews(RBtree<T, C> *n);
 		RBtree<T, C> *insert(RBtree<T, C> *rac, RBtree<T, C> *n, C &comp);
 		RBtree<T, C> *vanish(RBtree<T, C> *rac, const T &key, bool &erased, C &comp, alloc_t &Alloc);
+		RBtree<T, C> *vanishRoot(RBtree<T, C> *res, alloc_t &Alloc);	
+		RBtree<T, C> *vanishRed(RBtree<T, C> *rac, RBtree<T, C> *res, alloc_t &Alloc);
+		RBtree<T, C> *vanishDefault(RBtree<T, C> *rac, RBtree<T, C> *res, alloc_t &Alloc);
 		RBtree<T, C> *tovanish(RBtree<T, C> *start, alloc_t &Alloc);
 		RBtree<T, C> *reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n);
 		RBtree<T, C> *getrac(RBtree<T, C> *n);
@@ -355,26 +356,13 @@ RBtree<T, C> *RBtree<T, C>::tovanish(RBtree<T, C> *start, alloc_t &Alloc)
 	return (start);
 }
 
-template <class T, class C>
-RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased, C &comp, typename RBtree<T, C>::alloc_t &Alloc)
+template<class T, class C>
+RBtree<T, C> *RBtree<T, C>::vanishRoot(RBtree<T, C> *res, typename RBtree<T, C>::alloc_t &Alloc)
 {
-	RBtree<T, C> *res;
-	RBtree<T, C> *red = NULL;
-
-	erased = true;
-	res = rac->search(rac, key, comp);
-	if (res == NULL)
-	{
-		erased = false;
-		return (rac);
-	}
-
-	if (getpar(res) == NULL)
-	{
 		RBtree<T, C> *ret;
 		if (res->left == NULL && res->right == NULL)
 		{
-			rac->supress(res, Alloc);
+			res->supress(res, Alloc);
 			return (NULL);
 		}
 		if (res->right == NULL && res->left != NULL)
@@ -395,29 +383,13 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 			delete res;
 			return (ret);
 		}
-	}
+		return (NULL);
+}
 
-	if (res->color == 1)
-		red = res;
-
-	res = rac->tovanish(res, Alloc);
-
-
-	if (res->left == NULL && res->right == NULL)
-	{
-		if (res->color == 1)
-		{
-			rac->supress(res, Alloc);
-			return (getrac(rac));
-		}
-		rac = reparevanish(rac, res);
-		rac->supress(res, Alloc);
-		return (getrac(rac));
-	}
-
-	if (red != NULL)
-	{
-		if (res->parent == red && res->right != NULL)
+template<class T, class C>
+RBtree<T, C> *RBtree<T, C>::vanishRed(RBtree<T, C> *rac, RBtree<T, C> *res, typename RBtree<T, C>::alloc_t &Alloc)
+{
+		if (res->right != NULL)
 		{
 			if (getpar(res)->color == 1 && res->right->color == 1)
 				res->right->color = 0;
@@ -430,7 +402,7 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 			delete res;
 			return (getrac(rac));
 		}
-		if (res->parent == red && res->left != NULL)
+		if (res->left != NULL)
 		{
 			if (getpar(res)->color == 1 && res->left->color == 1)
 				res->left->color = 0;
@@ -443,8 +415,12 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 			delete res;
 			return (getrac(rac));
 		}
-	}
+		return (NULL);
+}
 
+template<class T, class C>
+RBtree<T, C> *RBtree<T, C>::vanishDefault(RBtree<T, C> *rac, RBtree<T, C> *res, typename RBtree<T, C>::alloc_t &Alloc)
+{
 	if (res->right != NULL)
 	{
 		if (res->color == 0)
@@ -458,7 +434,6 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 		delete res;
 		return (getrac(rac));
 	}
-
 	if (res->left != NULL)
 	{
 		if (res->color == 0)
@@ -473,6 +448,45 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 		return (getrac(rac));
 	}
 	return (getrac(rac));
+}
+
+template <class T, class C>
+RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased, C &comp, typename RBtree<T, C>::alloc_t &Alloc)
+{
+	RBtree<T, C> *res;
+	RBtree<T, C> *red = NULL;
+
+	erased = true;
+	res = rac->search(rac, key, comp);
+	if (res == NULL)
+	{
+		erased = false;
+		return (rac);
+	}
+
+	if (getpar(res) == NULL && !(res->right != NULL && res->left != NULL))
+		return (vanishRoot(res, Alloc));
+
+	if (res->color == 1)
+		red = res;
+	res = rac->tovanish(res, Alloc);
+
+	if (res->left == NULL && res->right == NULL)
+	{
+		if (res->color == 1)
+		{
+			rac->supress(res, Alloc);
+			return (getrac(rac));
+		}
+		rac = reparevanish(rac, res);
+		rac->supress(res, Alloc);
+		return (getrac(rac));
+	}
+
+	if (red != NULL && red == res->parent)
+		return (vanishRed(rac, res, Alloc));
+
+	return (vanishDefault(rac, res, Alloc));
 }
 
 template<class T, class C>

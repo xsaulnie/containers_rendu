@@ -40,6 +40,7 @@ class RBTree
 		RBTree<T, V, C> *vanish(RBTree<T, V, C> *rac, const T &key, bool &erased, C &comp, alloc_t &Alloc);
 		RBTree<T, V, C> *vanishRoot(RBTree<T, V, C> *res, alloc_t &Alloc);
 		RBTree<T, V, C> *vanishRed(RBTree<T, V, C> *rac, RBTree<T, V, C> *res, alloc_t &Alloc);
+		RBTree<T, V, C> *vanishDefault(RBTree<T, V, C> *rac, RBTree<T, V, C> *res, alloc_t &Alloc);
 		RBTree<T, V, C> *tovanish(RBTree<T, V, C> *start, alloc_t &Alloc);
 		RBTree<T, V, C> *reparevanish(RBTree<T, V, C> *rac, RBTree<T, V, C> *n);
 		RBTree<T, V, C> *getrac(RBTree<T, V, C> *n);
@@ -425,6 +426,38 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanishRed(RBTree<T, V, C> *rac, RBTree<T, V, C
 		return (NULL);
 }
 
+template<class T, class V, class C>
+RBTree<T, V, C> *RBTree<T, V, C>::vanishDefault(RBTree<T, V, C> *rac, RBTree<T, V, C> *res, typename RBTree<T, V, C>::alloc_t &Alloc)
+{
+	if (res->right != NULL)
+	{
+		if (res->color == 0)
+			rac = reparevanish(rac, res);
+		if (res == getpar(res)->right)
+			getpar(res)->right = res->right;
+		else
+			getpar(res)->left = res->right;
+		res->right->parent = getpar(res);
+		Alloc.deallocate(res->p, 1);
+		delete res;
+		return (getrac(rac));
+	}
+	if (res->left != NULL)
+	{
+		if (res->color == 0)
+			rac = reparevanish(rac, res);
+		if (res == getpar(res)->right)
+			getpar(res)->right = res->left;
+		else
+			getpar(res)->left = res->left;
+		res->left->parent = getpar(res);
+		Alloc.deallocate(res->p, 1);
+		delete res;
+		return (getrac(rac));
+	}
+	return (getrac(rac));
+}
+
 template <class T, class V, class C>
 RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, bool &erased, C &comp, typename RBTree<T, V, C>::alloc_t &Alloc)
 {
@@ -462,34 +495,7 @@ RBTree<T, V, C> *RBTree<T, V, C>::vanish(RBTree<T, V, C> *rac, const T &key, boo
 	if (red != NULL && red == res->parent)
 		return (vanishRed(rac, res, Alloc));
 
-	if (res->right != NULL)
-	{
-		if (res->color == 0)
-			rac = reparevanish(rac, res);
-		if (res == getpar(res)->right)
-			getpar(res)->right = res->right;
-		else
-			getpar(res)->left = res->right;
-		res->right->parent = getpar(res);
-		Alloc.deallocate(res->p, 1);
-		delete res;
-		return (getrac(rac));
-	}
-
-	if (res->left != NULL)
-	{
-		if (res->color == 0)
-			rac = reparevanish(rac, res);
-		if (res == getpar(res)->right)
-			getpar(res)->right = res->left;
-		else
-			getpar(res)->left = res->left;
-		res->left->parent = getpar(res);
-		Alloc.deallocate(res->p, 1);
-		delete res;
-		return (getrac(rac));
-	}
-	return (getrac(rac));
+	return (vanishDefault(rac, res, Alloc));
 }
 
 template<class T, class V, class C>
@@ -623,7 +629,6 @@ void RBTree<T, V, C>::new_element(RBTree<T, V, C> *rac, RBTree<T, V, C> *n, C &c
 	n->left = NULL;
 	n->right = NULL;
 	n->color = 1;
-	
 }
 
 template<class T, class V, class C>

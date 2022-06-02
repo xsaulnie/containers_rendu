@@ -25,9 +25,9 @@ $(OBJB):
 	$(CC) -c $(FLAGS) -D ns=std $(SRCB)
 
 ${NAME}: $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o std_containers
+	$(CC) $(FLAGS) $(OBJS) -o $(addprefix std_, $(NAME))
 	$(CC) -c $(FLAGS) -D ns=ft $(SRCS)
-	$(CC) $(FLAGS) $(OBJS) -o ft_containers
+	$(CC) $(FLAGS) $(OBJS) -o $(addprefix ft_, $(NAME))
 
 ft: clean
 	$(CC) -c $(FLAGS) -D ns=ft $(SRCS)

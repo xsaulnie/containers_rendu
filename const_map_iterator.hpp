@@ -40,7 +40,7 @@ class const_map_iterator
 		const ft::pair<const T, V> &operator*() const;
 		RBTree<T, V, C> *getcur() const;
 		bool getsen() const;
-		class Badoperation : public std::exception // le vrai ne segault pas
+		class Badoperation : public std::exception
 		{
 			public:
 				virtual const char *what() const throw()
