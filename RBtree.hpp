@@ -174,8 +174,6 @@ bool RBtree<T, C>::blackNephews(RBtree<T, C> *n)
 		return (false);
 	if (brother(n)->right != NULL && brother(n)->right->color == 1)
 		return (false);
-	if (brother(n)->right == NULL && brother(n)->left == NULL)
-		return (false);
 	return (true);
 }
 
@@ -202,7 +200,7 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 			rot_left(brother(n));
 		else
 			rot_right(brother(n));
-		reparevanish(rac, n);
+		return (reparevanish(rac, n));
 	}
 
 	//cas 3
@@ -210,7 +208,26 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 	if (brother(n) && brother(n)->color == 0 && getpar(n)->color == 0 && blackNephews(n))
 	{
 		brother(n)->color = 1;
-		reparevanish(rac, getpar(n));
+		if (getpar(n)->parent == NULL)
+		{
+			if (n == getpar(n)->right)
+			{
+				if (n->right != NULL && n->left == NULL && brother(n)->left == NULL && brother(n)->right == NULL)
+				{
+					brother(n)->color = 0;
+					n->right->color = 0;
+				}
+			}
+			else
+			{
+				if (n->left != NULL && n->right == NULL && brother(n)->left == NULL && brother(n)->right == NULL)
+				{
+					brother(n)->color = 0;
+					n->left->color = 0;
+				}			
+			}
+		}
+		return(reparevanish(rac, getpar(n)));
 	}
 
 	//cas 4
@@ -224,8 +241,6 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 
 	//cas 5
 
-	if (getpar(n)->color == 0)
-	{
 	if (n == getpar(n)->left)
 	{
 	if (brother(n) && brother(n)->color == 0 && brother(n)->left && brother(n)->left->color == 1 && (brother(n)->right == NULL || brother(n)->right->color == 0))
@@ -235,9 +250,7 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 		if (brother(n) == rac)
 			rac = brother(n)->left;
 		rot_right(brother(n)->left);
-		if (getpar(n)->color != 1)
-			reparevanish(rac, n);
-		return (rac);
+			return(reparevanish(rac, n));
 	}
 	}
 	else
@@ -249,43 +262,42 @@ RBtree<T, C> *RBtree<T, C>::reparevanish(RBtree<T, C> *rac, RBtree<T, C> *n)
 		if (brother(n) == rac)
 			rac = brother(n)->right;
 		rot_left(brother(n)->right);
-		if (getpar(n)->color != 1)
-			reparevanish(rac, n);
-		return (rac);
+		return(reparevanish(rac, n));
 	}
 	}
-	}
+
 
 	//cas 6
 
 	if (n == getpar(n)->left)
 	{
-	if (brother(n) && brother(n)->color == 0 && brother(n)->right && brother(n)->right->color == 1)
-	{
-		if (rac == getpar(n))
-			rac = brother(n);
-		brother(n)->right->color = 0;
-		brother(n)->color = getpar(n)->color;
-		getpar(n)->color = 0;
-		rot_left(brother(n));
-		getpar(n)->color = 0;
-		return (rac);
-	}
+		if (brother(n) && brother(n)->color == 0 && brother(n)->right && brother(n)->right->color == 1)
+		{
+			if (rac == getpar(n))
+				rac = brother(n);
+			brother(n)->right->color = 0;
+			brother(n)->color = getpar(n)->color;
+			getpar(n)->color = 0;
+			rot_left(brother(n));
+			getpar(n)->color = 0;
+			return (rac);
+		}
 	}
 	else
 	{
-	if (brother(n) && brother(n)->color == 0 && brother(n)->left && brother(n)->left->color == 1)
-	{
-		if (rac == getpar(n))
-			rac = brother(n);
+		if (brother(n) && brother(n)->color == 0 && brother(n)->left && brother(n)->left->color == 1)
+		{
+			if (rac == getpar(n))
+				rac = brother(n);
 
-		brother(n)->left->color = 0;
-		brother(n)->color = getpar(n)->color;
-		getpar(n)->color = 0;
-		rot_right(brother(n));
-		return (rac);
+			brother(n)->left->color = 0;
+			brother(n)->color = getpar(n)->color;
+			getpar(n)->color = 0;
+			rot_right(brother(n));
+			return (rac);
+		}
 	}
-	}
+
 	if (n->left != NULL)
 		n->left->color = 0;
 	if (n->right != NULL)
@@ -390,12 +402,6 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 
 	res = rac->tovanish(res, Alloc);
 
-	
-	if (res == rac)
-	{
-		rac->supress(res, Alloc);
-		return (NULL);
-	}
 
 	if (res->left == NULL && res->right == NULL)
 	{
@@ -411,7 +417,7 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 
 	if (red != NULL)
 	{
-		if (res->right != NULL)
+		if (res->parent == red && res->right != NULL)
 		{
 			if (getpar(res)->color == 1 && res->right->color == 1)
 				res->right->color = 0;
@@ -424,7 +430,7 @@ RBtree<T, C> *RBtree<T, C>::vanish(RBtree<T, C> *rac, const T &key, bool &erased
 			delete res;
 			return (getrac(rac));
 		}
-		if (res->left != NULL)
+		if (res->parent == red && res->left != NULL)
 		{
 			if (getpar(res)->color == 1 && res->left->color == 1)
 				res->left->color = 0;

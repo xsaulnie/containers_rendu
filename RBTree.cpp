@@ -15,7 +15,7 @@ void test_big()
 	for (int i = 0 ; i < 1000 ; i++)
 	{
 		ini = 0;
-		nb = rand() % 10000;
+		nb = rand() % 100000;
 		if (ins->search(ins, nb, comp) == NULL)
 		{
 			ins = ins->insert(ins, RBpair<int, int, std::less<int> >(nb, 0, allo), comp);
@@ -31,12 +31,12 @@ void test_big()
 	disp_tree(ins);
 
 	rm = 0;
-	for (int i = 0 ; i < 10000 ; i++)
+	for (int i = 0 ; i < 100000 ; i++)
 	{
 		//disp_tree(ins);
 		ini = 0;
 		err = false;
-		nb = rand() % 10000;
+		nb = rand() % 100000;
 		ins = ins->vanish(ins, nb, err, comp, allo);
 		if (err == true)
 			rm++;
