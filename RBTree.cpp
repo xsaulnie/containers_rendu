@@ -2,6 +2,8 @@
 #include "RBtest.hpp"
 #include <vector>
 
+void print_title(std::string msg);
+
 void test_big()
 {
 	std::allocator<ft::pair<const int, int> > allo;
@@ -15,7 +17,7 @@ void test_big()
 	for (int i = 0 ; i < 1000 ; i++)
 	{
 		ini = 0;
-		nb = rand() % 100000;
+		nb = rand() % 1000;
 		if (ins->search(ins, nb, comp) == NULL)
 		{
 			ins = ins->insert(ins, RBpair<int, int, std::less<int> >(nb, 0, allo), comp);
@@ -28,15 +30,14 @@ void test_big()
 			exit(1);
 		}
 	}
-	disp_tree(ins);
+	//disp_tree(ins);
 
 	rm = 0;
-	for (int i = 0 ; i < 100000 ; i++)
+	for (int i = 0 ; i < 10000 ; i++)
 	{
-		//disp_tree(ins);
 		ini = 0;
 		err = false;
-		nb = rand() % 100000;
+		nb = rand() % 10000;
 		ins = ins->vanish(ins, nb, err, comp, allo);
 		if (err == true)
 			rm++;
@@ -107,127 +108,38 @@ void test_RBTree()
 	bool res;
 	srand(time(NULL));
 
-	std::cout << "Test insertion" << std::endl;
+	print_title("INSERTION TEST");
 
 	RBTree<int, int> *ins = NULL;
 
-/*
-		//MTWO
-		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(3, 0, allo), comp);
-		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(5, 0, allo), comp);
-		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(0, 0, allo), comp);
-		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(8, 0, allo), comp);
-		disp_tree(ins);
-		ins = ins->vanish(ins, 3, res, comp, allo);
-		disp_tree(ins);
-		ins->clear(ins, allo);
-		return ;
-
-*/
-
-/*
-
-		// MONE
-		RBTree<int, int> *ins1 = NULL;
-		ins1 = ins->insert(ins1, RBpair<int, int, std::less<int> >(6, 0, allo), comp);
-		ins1 = ins->insert(ins1, RBpair<int, int, std::less<int> >(9, 0, allo), comp);
-		ins1 = ins->insert(ins1, RBpair<int, int, std::less<int> >(1, 0, allo), comp);
-		ins1 = ins->insert(ins1, RBpair<int, int, std::less<int> >(2, 0, allo), comp);
-		ins1 = ins->vanish(ins1, 6, res, comp, allo);
-		disp_tree(ins1);
-		ins1 = ins1->vanish(ins1, 2, res, comp, allo);
-		disp_tree(ins1);
-		ins1->clear(ins1, allo);
-	
-
-		// ZERO
-		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(6, 0, allo), comp);
-		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(10, 0, allo), comp);
-		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(1, 0, allo), comp);
-		ins = ins->insert(ins, RBpair<int, int, std::less<int> >(4, 0, allo), comp);
-		disp_tree(ins);
-		ins = ins->vanish(ins, 6, res, comp, allo);
-		disp_tree(ins);
-		ins->clear(ins, allo);
-		return ;
-
-*/
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(3, 0, allo), comp);
-	disp_tree(ins); std::cout << "3 inserted" << std::endl;
+	std::cout << "3 inserted" << std::endl; disp_tree(ins);
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(6, 0, allo), comp);
-	disp_tree(ins); std::cout << "6 inserted" << std::endl;
+	std::cout << "6 inserted" << std::endl; disp_tree(ins);
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(9, 0, allo), comp);
-	disp_tree(ins); std::cout << "9 inserted" << std::endl;
+	std::cout << "9 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(12, 0, allo), comp);
-	disp_tree(ins); std::cout << "12 inserted" << std::endl;
+	std::cout << "12 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(2, 0, allo), comp);
-	disp_tree(ins); std::cout << "2 inserted" << std::endl;
+	std::cout << "2 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(8, 0, allo), comp);
-	disp_tree(ins); std::cout << "8 inserted" << std::endl;
+	std::cout << "8 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(4, 0, allo), comp);
-	disp_tree(ins); std::cout << "4 inserted" << std::endl;
+	std::cout << "4 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(1, 0, allo), comp);
-	disp_tree(ins); std::cout << "1 inserted" << std::endl;
+	std::cout << "1 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(7, 0, allo), comp);
-	disp_tree(ins); std::cout << "7 inserted" << std::endl;
+	std::cout << "7 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(10, 0, allo), comp);
-	disp_tree(ins); std::cout << "10 inserted" << std::endl;
+	std::cout << "10 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(0, 0, allo), comp);
-	disp_tree(ins); std::cout << "0 inserted" << std::endl;
+	std::cout << "0 inserted" << std::endl; disp_tree(ins); 
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(11, 0, allo), comp);
-	disp_tree(ins); std::cout << "11 inserted" << std::endl;
+	std::cout << "11 inserted" << std::endl; disp_tree(ins);
 	ins = ins->insert(ins, RBpair<int, int, std::less<int> >(5, 0, allo), comp);
-	disp_tree(ins); std::cout << "5 inserted" << std::endl;
+	std::cout << "5 inserted" << std::endl; disp_tree(ins); 
 
-
-	//ONE
-	/*
-	ins = ins->vanish(ins, 7, res, comp, allo);
-	ins = ins->vanish(ins, 12, res, comp, allo);
-	ins = ins->vanish(ins, 5, res, comp, allo);
-	ins = ins->vanish(ins, 11, res, comp, allo);
-	ins = ins->vanish(ins, 0, res, comp, allo);
-	disp_tree(ins);
-	std::cout << std::endl;
-	ins = ins->vanish(ins, 9, res, comp, allo);
-
-	disp_tree(ins);
-	ins->clear(ins, allo);
-	return ;
-	*/
-
-/*
-
-	//TWO
-	
-	ins = ins->vanish(ins, 6, res, comp, allo);
-	disp_tree(ins);
-	ins = ins->vanish(ins, 8, res, comp, allo);
-	disp_tree(ins);
-	ins = ins->vanish(ins, 12, res, comp, allo);
-	disp_tree(ins);
-	ins->clear(ins, allo);
-
-	return ;
-*/
-
-/*
-	//THREE
-	ins = ins->vanish(ins, 3, res, comp, allo);
-	ins = ins->vanish(ins, 8, res, comp, allo);
-	ins = ins->vanish(ins, 7, res, comp, allo);
-	ins = ins->vanish(ins, 11, res, comp, allo);
-	ins = ins->vanish(ins, 9, res, comp, allo);
-	disp_tree(ins);
-	ins = ins->vanish(ins, 6, res, comp, allo);
-	disp_tree(ins);
-
-	ins->clear(ins, allo);
-
-
-	return ;
-*/
-	std::cout << "Test delete\n";
+	print_title("DELETE TEST");
 
 	std::vector<int> elem;
 	int nb;
@@ -245,7 +157,7 @@ void test_RBTree()
 		disp_tree(ins);
 	}
 	ins->clear(ins, allo);
-	std::cout << "Mixed test" << std::endl;
+	print_title("MIXED TEST");
 
 	RBTree<int, int> *mix = NULL;
 
@@ -255,7 +167,7 @@ void test_RBTree()
 		disp_tree(mix);
 	}
 	mix->clear(mix, allo);
-	std::cout << "Big test" << std::endl;
+	print_title("BIG TEST");
 	test_big();
 	return ;
 }

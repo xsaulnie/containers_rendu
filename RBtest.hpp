@@ -2,6 +2,7 @@
 #define RBtest_HPP
 #include <iostream>
 #include <vector>
+#include <string>
 #include "RBTree.hpp"
 
 template <class T, class V>
@@ -47,10 +48,8 @@ void load_count(std::vector<int> &res, RBTree<T, V> *rac, int lvl)
     if (rac == NULL)
     {
         res.push_back(lvl);
-    //    std::cout << lvl<< " pushed"<<std::endl;
         return ;
     }
-    //std::cout << rac->p->first << std::endl;
     if (rac->color == 0)
         add = 1;
     load_count(res, rac->left, lvl + add);
@@ -106,6 +105,7 @@ template<class T, class V, class C>
 void disp_tree(RBTree<T, V, C> *n)
 {
 	RBTree<T, V, C> *rac;
+	std::allocator<ft::pair<const T, V> > allo;
 	rac = n;
 	while (n->getpar(rac) != NULL)
 		rac = n->getpar(rac);
@@ -118,6 +118,7 @@ void disp_tree(RBTree<T, V, C> *n)
 	else
 	{
 		std::cout << "Wrong tree" << std::endl;
+		n->clear(n, allo);
 		exit(1);
 	}
 	}
